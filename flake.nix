@@ -10,7 +10,7 @@
       in { 
         devShell = with pkgs; mkShell {
           buildInputs = [
-            adoptopenjdk-openj9-bin-16
+            adoptopenjdk-openj9-bin-11
           ];
         };
       }
