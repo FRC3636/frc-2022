@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "wpilibsuite.vscode-wpilib",
+        "vscjava.vscode-gradle",
+        "vscjava.vscode-java-pack",
+    ]
+}
