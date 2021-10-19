@@ -1,20 +1,17 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 
 public class ArcadeDriveCommand extends CommandBase {
 
-    private final DriveTrainSubsystem m_driveTrainSubsystem;
+    private final DriveTrainSubsystem driveTrain;
 
-    public ArcadeDriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
-        // each subsystem used by the command must be passed into the addRequirements() method (which takes a vararg of Subsystem)
-        this.m_driveTrainSubsystem = driveTrainSubsystem;
-        addRequirements(driveTrainSubsystem);
+    public ArcadeDriveCommand(DriveTrainSubsystem driveTrain) {
+        this.driveTrain = driveTrain;
+        addRequirements(driveTrain);
     }
 
     @Override
@@ -27,7 +24,7 @@ public class ArcadeDriveCommand extends CommandBase {
         double speed = RobotContainer.leftJoystick.getY();
         double turn = RobotContainer.rightJoystick.getX();
 
-        m_driveTrainSubsystem.runMotors((speed * Math.abs(speed)) + turn, (speed * Math.abs(speed)) - turn);
+        driveTrain.arcadeDrive(-speed, turn);
     }
 
     @Override
@@ -38,6 +35,6 @@ public class ArcadeDriveCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_driveTrainSubsystem.runMotors(0, 0);
+        driveTrain.stop();
     }
 }

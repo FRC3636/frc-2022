@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -9,6 +10,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     private final Spark motorLeft = new Spark(Constants.MOTOR_LEFT);
     private final Spark motorRight = new Spark(Constants.MOTOR_RIGHT);
+
+    private final DifferentialDrive drive = new DifferentialDrive(motorLeft, motorRight);
 
     public DriveTrainSubsystem() {}
 
@@ -22,9 +25,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     }
 
-    public void runMotors(double leftMotorSpeed, double rightMotorSpeed) {
-        motorLeft.setSpeed(-leftMotorSpeed);
-        motorRight.setSpeed(rightMotorSpeed);
+    public void stop() {
+        drive.stopMotor();
+    }
+
+    public void arcadeDrive(double xSpeed, double zRotation) {
+        drive.arcadeDrive(xSpeed, zRotation);
     }
 }
 
