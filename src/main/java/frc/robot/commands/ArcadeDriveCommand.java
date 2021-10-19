@@ -21,8 +21,8 @@ public class ArcadeDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = RobotContainer.leftJoystick.getY();
-        double turn = RobotContainer.rightJoystick.getX();
+        double speed = RobotContainer.joystickLeft.getY();
+        double turn = RobotContainer.joystickRight.getX();
 
         driveTrain.arcadeDrive(-speed, turn);
     }

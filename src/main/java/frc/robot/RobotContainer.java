@@ -22,18 +22,18 @@ import java.util.Set;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static Joystick leftJoystick;
-  public static Joystick rightJoystick;
-  private final DriveTrainSubsystem m_driveTrainSubsystem = new DriveTrainSubsystem();
+  public static Joystick joystickLeft;
+  public static Joystick joystickRight;
+  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 
-  private final ArcadeDriveCommand m_arcadeDriveCommand = new ArcadeDriveCommand(m_driveTrainSubsystem);
+  private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_driveTrainSubsystem.setDefaultCommand(m_arcadeDriveCommand);
+    driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
   }
 
   /**
@@ -43,8 +43,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    leftJoystick = new Joystick(Constants.LEFT_JOYSTICK);
-    rightJoystick = new Joystick(Constants.RIGHT_JOYSTICK);
+    joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
+    joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
   }
 
   /**
