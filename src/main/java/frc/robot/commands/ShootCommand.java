@@ -16,23 +16,7 @@ public class ShootCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
-    }
-
-    @Override
-    public void execute() {
-        if(RobotContainer.controller.getAButton()) {
-            shooterSubsystem.spin(0.5);
-        }
-        else {
-            shooterSubsystem.spin(0);
-        }
-    }
-
-    @Override
-    public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        shooterSubsystem.spin(0.5);
     }
 
     @Override

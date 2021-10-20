@@ -26,56 +26,59 @@ import java.util.Set;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  public static Joystick joystickLeft;
-  public static Joystick joystickRight;
-  public static XboxController controller;
+    // The robot's subsystems and commands are defined here...
+    public static Joystick joystickLeft;
+    public static Joystick joystickRight;
+    public static XboxController controller;
 
-  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
-  private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
-  private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
-  private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem);
+    private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
+    private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
+    private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the button bindings
+        configureButtonBindings();
 
-    driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
-    shooterSubsystem.setDefaultCommand(shootCommand);
+        driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+        shooterSubsystem.setDefaultCommand(shootCommand);
 
-  }
+    }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
-    joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
-    controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
+    /**
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
+        joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
+        controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
-    new Button(() -> controller.getYButton()).whileHeld(intakeCommand);
-  }
+        new Button(() -> controller.getYButton()).whileHeld(intakeCommand);
+        new Button(() -> controller.getAButton()).whileHeld(shootCommand);
+    }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new Command() {
-      @Override
-      public Set<Subsystem> getRequirements() {
-        return null;
-      }
-    };
-  }
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+        return new Command() {
+            @Override
+            public Set<Subsystem> getRequirements() {
+                return null;
+            }
+        };
+    }
 }
