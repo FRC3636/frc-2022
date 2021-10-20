@@ -9,8 +9,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.Set;
 
@@ -25,9 +28,12 @@ public class RobotContainer {
   public static Joystick joystickLeft;
   public static Joystick joystickRight;
   public static XboxController controller;
+
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
+  private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -48,6 +54,8 @@ public class RobotContainer {
     joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
     joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
     controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
+
+    new Button(() -> controller.getYButton()).whileHeld(intakeCommand);
   }
 
   /**
