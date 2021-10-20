@@ -35,14 +35,10 @@ public final class Constants {
 
     public static final class Shooter {
         public static final int MOTOR_LEFT = 6;
-        public static final int MOTOR_RIGHT = 7;
+        public static final int Motor_RIGHT = 7;
     }
 
     public static final class StorageBelts {
         public static final int BELT_MOTOR = 5;
-    }
-
-    public static final class climb {
-        public static final int CLIMB_MOTOR = 8;
     }
 }
