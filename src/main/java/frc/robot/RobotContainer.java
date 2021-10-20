@@ -24,6 +24,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Joystick joystickLeft;
   public static Joystick joystickRight;
+  public static XboxController controller;
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
@@ -38,6 +39,7 @@ public class RobotContainer {
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
+   * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
@@ -45,6 +47,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
     joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
+    controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
   }
 
   /**
