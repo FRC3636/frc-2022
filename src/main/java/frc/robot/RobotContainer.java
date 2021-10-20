@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.ShootCommand;
+import frc.robot.commands.SpinFlywheelsCommand;
 import frc.robot.commands.StorageBeltsCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -40,7 +40,6 @@ public class RobotContainer {
 
     private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
     private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
-    private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem);
     private final StorageBeltsCommand storageBeltsCommand = new StorageBeltsCommand(storageBeltsSubsystem);
 
     /**
@@ -66,7 +65,9 @@ public class RobotContainer {
         controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
         new Button(() -> controller.getYButton()).whileHeld(intakeCommand);
-        new Button(() -> controller.getAButton()).whileHeld(shootCommand);
+        new Button(() -> controller.getAButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.5));
+        new Button(() -> controller.getXButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.75));
+        new Button(() -> controller.getBButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
         new Button(() -> joystickRight.getTrigger()).whileHeld(storageBeltsCommand);
     }
 

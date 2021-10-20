@@ -1,21 +1,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShootCommand extends CommandBase {
+public class SpinFlywheelsCommand extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
+    private final double speed;
 
-    public ShootCommand(ShooterSubsystem shooterSubsystem) {
+    public SpinFlywheelsCommand(ShooterSubsystem shooterSubsystem, double speed) {
+        this.speed = speed;
         this.shooterSubsystem = shooterSubsystem;
         addRequirements(this.shooterSubsystem);
     }
 
     @Override
     public void initialize() {
-        shooterSubsystem.spin(0.5);
+        shooterSubsystem.spin(speed);
     }
 
     @Override
