@@ -14,7 +14,11 @@ public class StorageBeltsSubsystem extends SubsystemBase {
     }
 
     public void runBelts() {
-        beltMotor.set(0.5);
+        beltMotor.set(1);
+    }
+
+    public void stopBelts() {
+        beltMotor.set(0);
     }
 }
 

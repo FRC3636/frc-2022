@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.StorageBeltsCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.StorageBeltsSubsystem;
 
 import java.util.Set;
 
@@ -34,10 +36,12 @@ public class RobotContainer {
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final StorageBeltsSubsystem storageBeltsSubsystem = new StorageBeltsSubsystem();
 
     private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
     private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
     private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem);
+    private final StorageBeltsCommand storageBeltsCommand = new StorageBeltsCommand(storageBeltsSubsystem);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -63,6 +67,7 @@ public class RobotContainer {
 
         new Button(() -> controller.getYButton()).whileHeld(intakeCommand);
         new Button(() -> controller.getAButton()).whileHeld(shootCommand);
+        new Button(() -> joystickRight.getTrigger()).whileHeld(storageBeltsCommand);
     }
 
     /**

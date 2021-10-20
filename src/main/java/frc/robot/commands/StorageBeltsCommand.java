@@ -18,12 +18,12 @@ public  class StorageBeltsCommand extends CommandBase {
     @Override
     public void initialize()
     {
-
+        storageBeltsSubsystem.runBelts();
     }
 
     @Override
     public void end(boolean interrupted)
     {
-
+        storageBeltsSubsystem.stopBelts();
     }
 }
