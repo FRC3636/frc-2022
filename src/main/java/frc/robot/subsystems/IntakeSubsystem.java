@@ -12,6 +12,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void setRunning(boolean running) {
-        motor.set(running ? 1 : 0);
+        motor.set(running ? 0.5 : 0);
     }
 }
