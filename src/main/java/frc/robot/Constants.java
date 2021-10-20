@@ -14,6 +14,7 @@ package frc.robot;
  */
 public final class Constants {
     public static final class Controls {
+
         public static final int JOYSTICK_LEFT = 0;
         public static final int JOYSTICK_RIGHT = 1;
         public static final int XBOX_CONTROLLER = 2;
@@ -22,9 +23,11 @@ public final class Constants {
         public static final int JOYSTICK_X_AXIS = 0;
         public static final int JOYSTICK_Y_AXIS = 1;
     }
-
     public static final class Drivetrain {
+
         public static final int MOTOR_RIGHT = 0;
         public static final int MOTOR_LEFT = 1;
     }
+    public static final int LEFT_SHOOTER_MOTOR = 6;
+    public static final int RIGHT_SHOOTER_MOTOR = 7;
 }

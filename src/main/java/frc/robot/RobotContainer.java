@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import java.util.Set;
 
@@ -26,8 +28,10 @@ public class RobotContainer {
   public static Joystick joystickRight;
   public static XboxController controller;
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
+  private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -35,6 +39,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+    shooterSubsystem.setDefaultCommand(shootCommand);
+
   }
 
   /**
