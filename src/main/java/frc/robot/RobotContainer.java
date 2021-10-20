@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -34,11 +36,13 @@ public class RobotContainer {
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
     private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
     private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
     private final ShootCommand shootCommand = new ShootCommand(shooterSubsystem);
-
+    private final ClimbCommand climbCommand = new ClimbCommand(climbSubsystem);
+    
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -47,6 +51,7 @@ public class RobotContainer {
         configureButtonBindings();
 
         driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+        climbSubsystem.setDefaultCommand(climbCommand);
     }
 
     /**
