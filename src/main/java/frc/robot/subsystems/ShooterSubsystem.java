@@ -10,7 +10,7 @@ public class ShooterSubsystem extends SubsystemBase {
     PWMVictorSPX rightMotor = new PWMVictorSPX(Constants.RIGHT_SHOOTER_MOTOR);
 
     public ShooterSubsystem() {
-        leftMotor.setInverted(true);
+        rightMotor.setInverted(true);
     }
 
     public void spin(double speed) {

@@ -24,6 +24,9 @@ public class ShootCommand extends CommandBase {
         if(RobotContainer.controller.getAButton()) {
             shooterSubsystem.spin(0.5);
         }
+        else {
+            shooterSubsystem.spin(0);
+        }
     }
 
     @Override
