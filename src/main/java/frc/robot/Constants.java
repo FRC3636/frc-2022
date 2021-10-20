@@ -31,4 +31,9 @@ public final class Constants {
     public static final class Intake {
         public static final int MOTOR = 4;
     }
+
+    public static final class Shooter {
+        public static final int MOTOR_LEFT = 6;
+        public static final int MOTOR_RIGHT = 7;
+    }
 }

@@ -10,7 +10,6 @@ public class ShootCommand extends CommandBase {
 
     public ShootCommand(ShooterSubsystem shooterSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
-        // each subsystem used by the command must be passed into the addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(this.shooterSubsystem);
     }
 

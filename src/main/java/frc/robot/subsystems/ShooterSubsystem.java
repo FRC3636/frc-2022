@@ -6,15 +6,15 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    PWMVictorSPX leftMotor = new PWMVictorSPX(Constants.LEFT_SHOOTER_MOTOR);
-    PWMVictorSPX rightMotor = new PWMVictorSPX(Constants.RIGHT_SHOOTER_MOTOR);
+    PWMVictorSPX motorLeft = new PWMVictorSPX(Constants.Shooter.MOTOR_LEFT);
+    PWMVictorSPX motorRight = new PWMVictorSPX(Constants.Shooter.MOTOR_RIGHT);
 
     public ShooterSubsystem() {
-        rightMotor.setInverted(true);
+        motorRight.setInverted(true);
     }
 
     public void spin(double speed) {
-        leftMotor.set(speed);
-        rightMotor.set(speed);
+        motorLeft.set(speed);
+        motorRight.set(speed);
     }
 }
