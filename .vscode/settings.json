@@ -1,6 +1,13 @@
 {
+  "[java]": {
+    "spotlessGradle.format.enable": true,
+    "spotlessGradle.diagnostics.enable": true,
+    "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle"
+  },
+
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
+
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -14,5 +21,6 @@
     "**/.factorypath": true,
     "**/*~": true
   },
+
   "nixEnvSelector.nixFile": "${workspaceRoot}/flake.nix"
 }

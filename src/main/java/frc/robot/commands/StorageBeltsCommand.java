@@ -6,22 +6,20 @@ import frc.robot.subsystems.StorageBeltsSubsystem;
 
 public class StorageBeltsCommand extends CommandBase {
 
-  private final StorageBeltsSubsystem storageBeltsSubsystem;
+  private final StorageBeltsSubsystem storageBelts;
 
-  public StorageBeltsCommand(StorageBeltsSubsystem storageBeltsSubsystem) {
-    this.storageBeltsSubsystem = storageBeltsSubsystem;
-    // each subsystem used by the command must be passed into the addRequirements() method (which
-    // takes a vararg of Subsystem)
-    addRequirements(this.storageBeltsSubsystem);
+  public StorageBeltsCommand(StorageBeltsSubsystem storageBelts) {
+    this.storageBelts = storageBelts;
+    addRequirements(this.storageBelts);
   }
 
   @Override
   public void initialize() {
-    storageBeltsSubsystem.runBelts();
+    storageBelts.runBelts();
   }
 
   @Override
   public void end(boolean interrupted) {
-    storageBeltsSubsystem.stopBelts();
+    storageBelts.stopBelts();
   }
 }

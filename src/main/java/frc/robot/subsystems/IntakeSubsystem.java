@@ -13,11 +13,20 @@ public class IntakeSubsystem extends SubsystemBase {
     motor.setInverted(true);
   }
 
-  public void setRunning(boolean intake) {
-    motor.set(intake ? 0.5 : -0.5);
+  public void setRunning(Direction direction) {
+    motor.set((direction == Direction.In ? 1 : -1) * 0.5);
+  }
+
+  public void setMotorSpeed(double speed) {
+    motor.set(speed);
   }
 
   public void stop() {
     motor.set(0);
+  }
+
+  public enum Direction {
+    In,
+    Out,
   }
 }

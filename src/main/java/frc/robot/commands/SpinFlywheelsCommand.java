@@ -6,22 +6,22 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class SpinFlywheelsCommand extends CommandBase {
 
-  private final ShooterSubsystem shooterSubsystem;
+  private final ShooterSubsystem shooter;
   private final double speed;
 
-  public SpinFlywheelsCommand(ShooterSubsystem shooterSubsystem, double speed) {
+  public SpinFlywheelsCommand(ShooterSubsystem shooter, double speed) {
+    this.shooter = shooter;
     this.speed = speed;
-    this.shooterSubsystem = shooterSubsystem;
-    addRequirements(this.shooterSubsystem);
+    addRequirements(this.shooter);
   }
 
   @Override
   public void initialize() {
-    shooterSubsystem.spin(speed);
+    shooter.spin(speed);
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.spin(0);
+    shooter.spin(0);
   }
 }

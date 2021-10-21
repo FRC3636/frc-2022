@@ -7,28 +7,20 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimbCommand extends CommandBase {
 
-  private final ClimbSubsystem climbSubsystem;
+  private final ClimbSubsystem climb;
 
-  public ClimbCommand(ClimbSubsystem climbSubsystem) {
-    this.climbSubsystem = climbSubsystem;
-    addRequirements(this.climbSubsystem);
+  public ClimbCommand(ClimbSubsystem climb) {
+    this.climb = climb;
+    addRequirements(this.climb);
   }
 
   @Override
-  public void initialize() {}
-
-  @Override
   public void execute() {
-    climbSubsystem.extend(RobotContainer.controller.getY() * 0.5);
+    climb.extend(RobotContainer.controller.getY() * 0.5);
   }
 
   @Override
   public void end(boolean interrupted) {
-    climbSubsystem.stop();
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
+    climb.stop();
   }
 }
