@@ -10,12 +10,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.commands.SpinFlywheelsCommand;
-import frc.robot.commands.StorageBeltsCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -55,6 +51,8 @@ public class RobotContainer {
 
         driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
         climbSubsystem.setDefaultCommand(climbCommand);
+
+        new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged).schedule();
     }
 
     /**
@@ -73,6 +71,8 @@ public class RobotContainer {
         new Button(() -> controller.getAButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.5));
         new Button(() -> controller.getXButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.75));
         new Button(() -> controller.getBButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
+        new Button(() -> controller.getBumper(GenericHID.Hand.kRight)).whenPressed(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Released)).whenReleased(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged));
+
         new Button(() -> joystickRight.getTrigger()).whileHeld(storageBeltsCommand);
     }
 

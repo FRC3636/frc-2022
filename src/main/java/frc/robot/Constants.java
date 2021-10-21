@@ -42,7 +42,14 @@ public final class Constants {
         public static final int BELT_MOTOR = 5;
     }
 
-    public static final class climb {
+    public static final class Climb {
         public static final int CLIMB_MOTOR = 8;
+        public static final int BRAKE_MOTOR = 3;
+
+        public static final double BRAKE_SPEED = 0.75;
+
+        public static final int BRAKE_POWER = 8;
+        public static final double BRAKE_TIMEOUT = 0.5;
+        public static final double BRAKE_OVERDRAW_THRESHOLD = 7.5;
     }
 }
