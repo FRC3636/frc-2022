@@ -1,7 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
+/* (C) 2021 Grant Generals, FRC Team 3636 */
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -16,7 +13,6 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageBeltsSubsystem;
-
 import java.util.Set;
 
 /**
@@ -26,69 +22,75 @@ import java.util.Set;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
-    public static Joystick joystickLeft;
-    public static Joystick joystickRight;
-    public static XboxController controller;
 
-    private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-    private final StorageBeltsSubsystem storageBeltsSubsystem = new StorageBeltsSubsystem();
-    private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  // The robot's subsystems and commands are defined here...
+  public static Joystick joystickLeft;
+  public static Joystick joystickRight;
+  public static XboxController controller;
 
-    private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
-    private final StorageBeltsCommand storageBeltsCommand = new StorageBeltsCommand(storageBeltsSubsystem);
-    private final ClimbCommand climbCommand = new ClimbCommand(climbSubsystem);
+  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final StorageBeltsSubsystem storageBeltsSubsystem = new StorageBeltsSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        // Configure the button bindings
-        configureButtonBindings();
+  private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
+  private final StorageBeltsCommand storageBeltsCommand =
+      new StorageBeltsCommand(storageBeltsSubsystem);
+  private final ClimbCommand climbCommand = new ClimbCommand(climbSubsystem);
 
-        driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
-        climbSubsystem.setDefaultCommand(climbCommand);
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    // Configure the button bindings
+    configureButtonBindings();
 
-        new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged).schedule();
-    }
+    driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+    climbSubsystem.setDefaultCommand(climbCommand);
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be created by
-     * Use this method to define your button->command mappings. Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
-        joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
-        joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
+    new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged).schedule();
+  }
 
-        controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
+  /**
+   * Use this method to define your button->command mappings. Buttons can be created by Use this
+   * method to define your button->command mappings. Buttons can be created by instantiating a
+   * {@link GenericHID} or one of its subclasses ({@link edu.wpi.first.wpilibj.Joystick} or {@link
+   * XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
+  private void configureButtonBindings() {
+    joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
+    joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
 
-        new Button(() -> controller.getYButton()).whileHeld(new IntakeCommand(intakeSubsystem, true));
-        new Button(() -> controller.getBumper(GenericHID.Hand.kLeft)).whileHeld(new IntakeCommand(intakeSubsystem, false));
-        new Button(() -> controller.getAButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.5));
-        new Button(() -> controller.getXButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.75));
-        new Button(() -> controller.getBButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
-        new Button(() -> controller.getBumper(GenericHID.Hand.kRight)).whenPressed(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Released)).whenReleased(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged));
+    controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
-        new Button(() -> joystickRight.getTrigger()).whileHeld(storageBeltsCommand);
-    }
+    new Button(() -> controller.getYButton()).whileHeld(new IntakeCommand(intakeSubsystem, true));
+    new Button(() -> controller.getBumper(GenericHID.Hand.kLeft))
+        .whileHeld(new IntakeCommand(intakeSubsystem, false));
+    new Button(() -> controller.getAButton())
+        .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.5));
+    new Button(() -> controller.getXButton())
+        .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.75));
+    new Button(() -> controller.getBButton())
+        .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
+    new Button(() -> controller.getBumper(GenericHID.Hand.kRight))
+        .whenPressed(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Released))
+        .whenReleased(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged));
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return new Command() {
-            @Override
-            public Set<Subsystem> getRequirements() {
-                return null;
-            }
-        };
-    }
+    new Button(() -> joystickRight.getTrigger()).whileHeld(storageBeltsCommand);
+  }
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return new Command() {
+      @Override
+      public Set<Subsystem> getRequirements() {
+        return null;
+      }
+    };
+  }
 }
