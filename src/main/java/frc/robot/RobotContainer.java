@@ -38,7 +38,6 @@ public class RobotContainer {
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
     private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
-    private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
     private final StorageBeltsCommand storageBeltsCommand = new StorageBeltsCommand(storageBeltsSubsystem);
     private final ClimbCommand climbCommand = new ClimbCommand(climbSubsystem);
 
@@ -65,9 +64,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
         joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
+
         controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
-        new Button(() -> controller.getYButton()).whileHeld(intakeCommand);
+        new Button(() -> controller.getYButton()).whileHeld(new IntakeCommand(intakeSubsystem, true));
+        new Button(() -> controller.getBumper(GenericHID.Hand.kLeft)).whileHeld(new IntakeCommand(intakeSubsystem, false));
         new Button(() -> controller.getAButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.5));
         new Button(() -> controller.getXButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.75));
         new Button(() -> controller.getBButton()).whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));

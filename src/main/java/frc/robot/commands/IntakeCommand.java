@@ -6,19 +6,21 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCommand extends CommandBase {
     private final IntakeSubsystem intakeSubsystem;
+    private final boolean intake;
 
-    public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+    public IntakeCommand(IntakeSubsystem intakeSubsystem, boolean intake) {
         this.intakeSubsystem = intakeSubsystem;
+        this.intake = intake;
         addRequirements(this.intakeSubsystem);
     }
 
     @Override
     public void initialize() {
-        intakeSubsystem.setRunning(true);
+        intakeSubsystem.setRunning(intake);
     }
 
     @Override
     public void end(boolean interrupted) {
-        intakeSubsystem.setRunning(false);
+        intakeSubsystem.stop();
     }
 }
