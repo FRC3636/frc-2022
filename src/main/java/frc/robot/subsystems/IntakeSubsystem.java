@@ -14,7 +14,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setRunning(Direction direction) {
-    motor.set((direction == Direction.In ? 1 : -1) * 0.5);
+    motor.set((direction == Direction.In ? 1 : -1) * 0.7);
   }
 
   public void setMotorSpeed(double speed) {
