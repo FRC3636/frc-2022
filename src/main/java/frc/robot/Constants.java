@@ -55,4 +55,11 @@ public final class Constants {
     public static final double BRAKE_TIMEOUT = 0.5;
     public static final double BRAKE_OVERDRAW_THRESHOLD = 7.5;
   }
+
+  public static final class Autonomous {
+    public static final double SHOOT_DIST = 160;
+    public static final double SHOOT_DIST_ERROR = 10;
+
+    public static final double ANGLE_ERROR = 5;
+  }
 }

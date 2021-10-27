@@ -12,6 +12,7 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageBeltsSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,6 +32,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final StorageBeltsSubsystem storageBeltsSubsystem = new StorageBeltsSubsystem();
   private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  private final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
   private final StorageBeltsCommand storageBeltsCommand =
@@ -66,6 +68,8 @@ public class RobotContainer {
     new Button(() -> controller.getBumper(GenericHID.Hand.kRight))
         .whenPressed(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Released))
         .whenReleased(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged));
+    new Button(() -> controller.getStickButton(GenericHID.Hand.kRight))
+        .whenPressed(new AutoShootCommand(driveTrainSubsystem, visionSubsystem));
   }
 
   public Command getAutonomousCommand() {
