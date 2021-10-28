@@ -59,7 +59,7 @@ public class RobotContainer {
     new Button(() -> controller.getBButton())
         .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
     new Button(() -> joystickRight.getTrigger()).whenHeld(new StorageBeltsCommand(storageBeltsSubsystem,
-        Direction.Backward));
+        Direction.Forward));
     new Button(() -> joystickLeft.getTrigger()).whenHeld(new StorageBeltsCommand(storageBeltsSubsystem,
         Direction.Backward));
     new Button(() -> controller.getBackButton())
