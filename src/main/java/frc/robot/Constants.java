@@ -57,6 +57,8 @@ public final class Constants {
   }
 
   public static final class Autonomous {
+    public static final int AUTO_COMMAND_BUTTON = 2;
+
     public static final double SHOOT_DIST = 160;
     public static final double SHOOT_DIST_ERROR = 10;
 
