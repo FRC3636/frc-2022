@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.Constants.Autonomous;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.StorageBeltsSubsystem.Direction;
@@ -65,8 +66,8 @@ public class RobotContainer {
     new Button(() -> controller.getBackButton())
         .whenPressed(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Released))
         .whenReleased(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged));
-    new Button(() -> joystickRight.getRawButton(Constants.Autonomous.AUTO_COMMAND_BUTTON))
-        .whenPressed(new AutoShootCommand(driveTrainSubsystem, visionSubsystem));
+    new Button(() -> joystickRight.getRawButton(Autonomous.AUTO_COMMAND_BUTTON))
+        .whenHeld(new AutoShootCommand(driveTrainSubsystem, visionSubsystem));
   }
 
   public Command getAutonomousCommand() {
