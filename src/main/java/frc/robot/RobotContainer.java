@@ -7,12 +7,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.StorageBeltsSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -65,7 +60,7 @@ public class RobotContainer {
     new Button(() -> controller.getBButton())
         .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
     new Button(() -> joystickRight.getTrigger()).whileHeld(storageBeltsCommand);
-    new Button(() -> controller.getBumper(GenericHID.Hand.kRight))
+    new Button(() -> controller.getBackButton())
         .whenPressed(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Released))
         .whenReleased(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged));
     new Button(() -> controller.getStickButton(GenericHID.Hand.kRight))

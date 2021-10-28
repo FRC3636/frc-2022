@@ -16,7 +16,7 @@ public class ClimbCommand extends CommandBase {
 
   @Override
   public void execute() {
-    climb.extend(RobotContainer.controller.getY() * 0.5);
+    climb.extend(RobotContainer.controller.getY());
   }
 
   @Override
