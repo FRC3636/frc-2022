@@ -9,13 +9,19 @@ public class StorageBeltsSubsystem extends SubsystemBase {
 
   private final PWMVictorSPX beltMotor = new PWMVictorSPX(Constants.StorageBelts.BELT_MOTOR);
 
-  public StorageBeltsSubsystem() {}
+  public StorageBeltsSubsystem() {
+  }
 
-  public void runBelts() {
-    beltMotor.set(1);
+  public void runBelts(Direction direction) {
+    beltMotor.set(direction == Direction.Forward ? 1 : -1);
   }
 
   public void stopBelts() {
     beltMotor.set(0);
+  }
+
+  public enum Direction {
+    Forward,
+    Backward
   }
 }

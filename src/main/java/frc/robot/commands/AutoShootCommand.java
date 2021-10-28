@@ -18,7 +18,7 @@ public class AutoShootCommand extends CommandBase {
 
   public void periodic() {
     driveTrain.arcadeDrive(
-        responseFactor(vision.getDistance()), responseFactor(vision.getAngle() / 360) * 2);
+        responseFactor(vision.getDistance() / 7), responseFactor(vision.getAngle() * 2));
   }
 
   public boolean isFinished() {
@@ -32,6 +32,7 @@ public class AutoShootCommand extends CommandBase {
   }
 
   private double responseFactor(double delta) {
-    return (delta >= 0 ? -1 : 1) / (Math.pow(delta, 2) + 1) + 1;
+//    return (delta >= 0 ? -1 : 1) / (Math.pow(delta, 2) + 1) + 1;
+    return (1 / (1 * Math.pow(1.1, -delta))) + 0.5;
   }
 }

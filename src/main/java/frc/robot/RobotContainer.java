@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.StorageBeltsSubsystem.Direction;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,8 +31,6 @@ public class RobotContainer {
   private final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
-  private final StorageBeltsCommand storageBeltsCommand =
-      new StorageBeltsCommand(storageBeltsSubsystem);
   private final ClimbCommand climbCommand = new ClimbCommand(climbSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -59,11 +58,14 @@ public class RobotContainer {
         .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.75));
     new Button(() -> controller.getBButton())
         .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
-    new Button(() -> joystickRight.getTrigger()).whileHeld(storageBeltsCommand);
+    new Button(() -> joystickRight.getTrigger()).whenHeld(new StorageBeltsCommand(storageBeltsSubsystem,
+        Direction.Backward));
+    new Button(() -> joystickLeft.getTrigger()).whenHeld(new StorageBeltsCommand(storageBeltsSubsystem,
+        Direction.Backward));
     new Button(() -> controller.getBackButton())
         .whenPressed(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Released))
         .whenReleased(new ClimbBrakeCommand(climbSubsystem, ClimbSubsystem.BrakeState.Engaged));
-    new Button(() -> controller.getStickButton(GenericHID.Hand.kRight))
+    new Button(() -> joystickRight.getRawButton(Constants.Autonomous.AUTO_COMMAND_BUTTON))
         .whenPressed(new AutoShootCommand(driveTrainSubsystem, visionSubsystem));
   }
 
