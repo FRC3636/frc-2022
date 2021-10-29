@@ -60,8 +60,9 @@ public final class Constants {
     public static final int AUTO_COMMAND_BUTTON = 2;
 
     public static final double SHOOT_DIST = 180;
-    public static final double SHOOT_DIST_ERROR = 10;
+    public static final double SHOOT_DIST_ERROR = 5;
 
-    public static final double ANGLE_ERROR = 5;
+    public static final double ANGLE_ERROR = 4;
+    public static final int READING_LENGTH = 20;
   }
 }
