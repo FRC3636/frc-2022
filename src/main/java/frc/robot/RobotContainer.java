@@ -30,8 +30,7 @@ public class RobotContainer {
   private final StorageBeltsSubsystem storageBeltsSubsystem = new StorageBeltsSubsystem();
   private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private final VisionSubsystem visionSubsystem = new VisionSubsystem();
- 
-  private final UnloadBallsCommand unloadBallsCommand = new UnloadBallsCommand(shooterSubsystem);
+
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
   private final ClimbCommand climbCommand = new ClimbCommand(climbSubsystem);
 
@@ -72,6 +71,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    return new AutoCommandGroup(driveTrainSubsystem, visionSubsystem, shooterSubsystem, storageBeltsSubsystem);
   }
 }

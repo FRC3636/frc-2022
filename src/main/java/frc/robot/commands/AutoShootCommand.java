@@ -41,25 +41,28 @@ public class AutoShootCommand extends CommandBase {
     // get the average distance and angle from the readings list
     int distMean = 0;
     int angleMean = 0;
-    for(double[] reading : lastReadings) {
+    for (double[] reading : lastReadings) {
       distMean += reading[0];
       angleMean += reading[1];
     }
-    distMean = distMean/lastReadings.size();
-    angleMean = angleMean/lastReadings.size();
+    distMean = distMean / lastReadings.size();
+    angleMean = angleMean / lastReadings.size();
 
     // get the variance of the readings  Formula: s^2 = Sum(list - listMean) / lengthList
     int distVariance = 0;
     int angleVariance = 0;
-    for(double[] reading : lastReadings) {
-      distVariance += Math.pow(reading[0]-distMean, 2);
-      angleVariance += Math.pow(reading[1]-angleMean, 2);
+    for (double[] reading : lastReadings) {
+      distVariance += Math.pow(reading[0] - distMean, 2);
+      angleVariance += Math.pow(reading[1] - angleMean, 2);
     }
-    distVariance = distVariance/lastReadings.size();
-    angleVariance = angleVariance/lastReadings.size();
+    distVariance = distVariance / lastReadings.size();
+    angleVariance = angleVariance / lastReadings.size();
 
     // note the variance is the square of the average distance from the mean
-    return (Math.sqrt(distVariance) <= Autonomous.SHOOT_DIST_ERROR) && (Math.sqrt(angleVariance) <= Autonomous.ANGLE_ERROR);
+    return (Math.sqrt(distVariance) <= Autonomous.SHOOT_DIST_CHANGE_ERROR) && (
+        Math.sqrt(angleVariance) <= Autonomous.ANGLE_CHANGE_ERROR)
+        && Math.abs(vision.getDistance() - Autonomous.SHOOT_DIST) <= Autonomous.SHOOT_DIST_ERROR
+        && Math.abs(vision.getAngle()) <= Autonomous.ANGLE_ERROR;
   }
 
   public void end() {

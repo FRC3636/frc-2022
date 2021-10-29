@@ -31,19 +31,20 @@ public class UnloadBallsCommand extends CommandBase {
   @Override
   public void execute() {
     shooter.spin(Constants.Autonomous.AUTO_SHOOT_SPEED);
-    if (timer.get() > 1){
-    belt.runBelts(Direction.Forward);
+    if (timer.get() > 2){
+      belt.runBelts(Direction.Forward);
     }
     
   }
   @Override
   public boolean isFinished() {
-    return timer.get() > 8;
+    return timer.get() > 7;
   }
 
 
   @Override
   public void end(boolean interrupted) {
     shooter.spin(0);
+    belt.stopBelts();
   }
 }
