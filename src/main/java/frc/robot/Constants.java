@@ -59,14 +59,14 @@ public final class Constants {
   public static final class Autonomous {
     public static final int AUTO_COMMAND_BUTTON = 2;
 
-    public static final double SHOOT_DIST = 180;
+    public static final double SHOOT_DIST = 210;
     public static final double SHOOT_DIST_CHANGE_ERROR = 5;
     public static final double SHOOT_DIST_ERROR = 10;
 
 
     public static final double ANGLE_CHANGE_ERROR = 1;
     public static final double ANGLE_ERROR = 4;
-    public static final int READING_LENGTH = 10;
-    public static final double AUTO_SHOOT_SPEED = 0.75;
+    public static final int READING_LENGTH = 20;
+    public static final double AUTO_SHOOT_SPEED = 0.7;
   }
 }

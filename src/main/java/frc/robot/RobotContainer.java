@@ -56,7 +56,7 @@ public class RobotContainer {
     new Button(() -> controller.getAButton())
         .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.5));
     new Button(() -> controller.getXButton())
-        .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.75));
+        .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 0.7));
     new Button(() -> controller.getBButton())
         .whileHeld(new SpinFlywheelsCommand(shooterSubsystem, 1));
     new Button(() -> joystickRight.getTrigger()).whenHeld(new StorageBeltsCommand(storageBeltsSubsystem,
