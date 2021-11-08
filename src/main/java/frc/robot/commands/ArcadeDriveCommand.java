@@ -15,14 +15,19 @@ public class ArcadeDriveCommand extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    driveTrain.zeroEncoders();
+  }
 
   @Override
   public void execute() {
+    driveTrain.getDistance();
     double speed = RobotContainer.joystickLeft.getY();
     double turn = RobotContainer.joystickRight.getX();
 
-    driveTrain.arcadeDrive(-speed, turn);
+//    driveTrain.arcadeDrive(speed, turn);
+
+    driveTrain.arcadeDrive(speed, turn);
   }
 
   @Override
