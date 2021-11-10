@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Drivetrain;
 import frc.robot.Constants.Telemetry;
+import frc.robot.telemetry.Odometry;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
@@ -21,14 +22,17 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   private final DifferentialDrive drive = new DifferentialDrive(motorLeft, motorRight);
 
+  private final Odometry odometry = new Odometry(leftEncoder, rightEncoder);
+
   public DriveTrainSubsystem() {
     leftEncoder.setDistancePerPulse(Telemetry.WHEEL_CIRCUMFERENCE / Telemetry.PULSES_PER_ROTATION);
     rightEncoder.setDistancePerPulse(Telemetry.WHEEL_CIRCUMFERENCE / Telemetry.PULSES_PER_ROTATION);
-//    motorRight.setInverted(true);
   }
 
   @Override
   public void periodic() {
+    odometry.updateOdometry();
+    System.out.println("Heading: " + odometry.getCurrentAngle() + ", Pos: (" + odometry.getCurrentPos().x + ", " + odometry.getCurrentPos().y + ")");
   }
 
   @Override
@@ -40,11 +44,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double xSpeed, double zRotation) {
-    drive.arcadeDrive(xSpeed, zRotation);
+    drive.arcadeDrive(-xSpeed, zRotation);
   }
 
   public double getDistance() {
-    System.out.println("Left Encoder: " + leftEncoder.getDistance() + ", Right Encoder: " + rightEncoder.getDistance());
     return rightEncoder.getDistance();
   }
 
@@ -61,8 +64,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void zeroEncoders(){
-    leftEncoder.reset();
-    rightEncoder.reset();
+    odometry.zero();
   }
 
 }

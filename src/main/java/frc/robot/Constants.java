@@ -31,5 +31,7 @@ public final class Constants {
   public static final class Telemetry {
     public static final int PULSES_PER_ROTATION = 1024;
     public static final double WHEEL_CIRCUMFERENCE = 47.8536;
+
+    public static final double DRIVE_TRAIN_WIDTH = 55.245;
   }
 }
