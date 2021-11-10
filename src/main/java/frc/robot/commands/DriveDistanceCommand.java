@@ -7,7 +7,7 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveDistanceCommand extends CommandBase {
 
-  private final PIDController controller = new PIDController(0.005, 0.0005, 0.0001);
+  private final PIDController controller = new PIDController(0.2, 0.1, 0.02);
   private final DriveTrainSubsystem driveTrain;
   private final double distance;
 
