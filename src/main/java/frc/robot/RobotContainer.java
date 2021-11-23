@@ -24,9 +24,7 @@ public class RobotContainer {
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /* The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
 
@@ -37,10 +35,9 @@ public class RobotContainer {
     joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
     joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
     controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
-
   }
 
   public Command getAutonomousCommand() {
-    return new DriveDistanceCommand(driveTrainSubsystem, 200.0);
+    return null;
   }
 }
