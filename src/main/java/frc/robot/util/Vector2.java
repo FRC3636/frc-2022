@@ -1,7 +1,5 @@
 package frc.robot.util;
 
-import edu.wpi.first.wpilibj.drive.Vector2d;
-
 public class Vector2 {
   public double x;
   public double y;
