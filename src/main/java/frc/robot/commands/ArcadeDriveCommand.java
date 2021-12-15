@@ -16,7 +16,7 @@ public class ArcadeDriveCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    driveTrain.zeroEncoders();
+    driveTrain.resetEncoders();
   }
 
   @Override
