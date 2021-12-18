@@ -57,6 +57,15 @@ public final class Constants {
   }
 
   public static final class Intake {
+    public static final int MOTOR = 2;
+  }
+
+  public static final class Arm {
     public static final int MOTOR = 3;
+    public static final int ENCODER = 0;
+
+    public static final double P = 0.0;
+    public static final double I = 0.0;
+    public static final double D = 0.0;
   }
 }
