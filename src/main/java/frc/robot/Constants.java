@@ -24,8 +24,8 @@ public final class Constants {
   }
 
   public static final class Drivetrain {
-    public static final int MOTOR_LEFT = 0;
-    public static final int MOTOR_RIGHT = 1;
+    public static final int MOTOR_RIGHT = 0;
+    public static final int MOTOR_LEFT = 1;
 
     public static final int RIGHT_ENCODER_PORT_1 = 2;
     public static final int RIGHT_ENCODER_PORT_2 = 3;
@@ -57,6 +57,6 @@ public final class Constants {
   }
 
   public static final class Intake {
-    public static final int MOTOR = 3;
+    public static final int MOTOR = 2;
   }
 }
