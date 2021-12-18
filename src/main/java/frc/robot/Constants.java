@@ -55,4 +55,8 @@ public final class Constants {
                 new DifferentialDriveVoltageConstraint(
                     new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 10));
   }
+
+  public static final class Intake {
+    public static final int MOTOR = 3;
+  }
 }
