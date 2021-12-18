@@ -27,10 +27,10 @@ public final class Constants {
     public static final int MOTOR_RIGHT = 0;
     public static final int MOTOR_LEFT = 1;
 
-    public static final int RIGHT_ENCODER_PORT_1 = 2;
-    public static final int RIGHT_ENCODER_PORT_2 = 3;
-    public static final int LEFT_ENCODER_PORT_1 = 4;
-    public static final int LEFT_ENCODER_PORT_2 = 5;
+    public static final int RIGHT_ENCODER_PORT_1 = 0;
+    public static final int RIGHT_ENCODER_PORT_2 = 1;
+    public static final int LEFT_ENCODER_PORT_1 = 2;
+    public static final int LEFT_ENCODER_PORT_2 = 3;
 
     public static final double TRACK_WIDTH = 55.245;
     public static final DifferentialDriveKinematics KINEMATICS =
@@ -62,10 +62,5 @@ public final class Constants {
 
   public static final class Arm {
     public static final int MOTOR = 3;
-    public static final int ENCODER = 0;
-
-    public static final double P = 0.0;
-    public static final double I = 0.0;
-    public static final double D = 0.0;
   }
 }

@@ -39,8 +39,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     odometry.update(gyro.getRotation2d(), encoderLeft.getDistance(), encoderRight.getDistance());
 
     Pose2d pose = odometry.getPoseMeters();
-    System.out.println(
-        "Heading: " + pose.getRotation() + ", Pos: (" + pose.getX() + ", " + pose.getY() + ")");
+//    System.out.println(
+//        "Heading: " + pose.getRotation() + ", Pos: (" + pose.getX() + ", " + pose.getY() + ")");
   }
 
   public void stop() {
@@ -58,7 +58,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void tankDrive(double left, double right) {
-    drive.tankDrive(left, right);
+    drive.tankDrive(Math.copySign(left * left, left), Math.copySign(right * right * right, right));
   }
 
   public Pose2d getPose() {

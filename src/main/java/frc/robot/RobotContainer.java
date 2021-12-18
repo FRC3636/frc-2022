@@ -25,13 +25,16 @@ public class RobotContainer {
 
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
+  private final ArmControlCommand armControlCommand = new ArmControlCommand(armSubsystem);
 
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
-    driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+     driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+     armSubsystem.setDefaultCommand(armControlCommand);
   }
 
   private void configureButtonBindings() {
