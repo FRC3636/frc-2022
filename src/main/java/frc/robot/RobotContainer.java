@@ -26,6 +26,7 @@ public class RobotContainer {
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final WaterGunSubsystem waterGunSubsystem = new WaterGunSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
   private final ArmControlCommand armControlCommand = new ArmControlCommand(armSubsystem);
@@ -34,7 +35,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
      driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
-     armSubsystem.setDefaultCommand(armControlCommand);
+     armSubsystem.setDefaultCommand( armControlCommand);
   }
 
   private void configureButtonBindings() {
@@ -46,6 +47,10 @@ public class RobotContainer {
         Direction.IN));
     new Button(() -> controller.getYButton()).whileHeld(new IntakeCommand(intakeSubsystem,
         Direction.OUT));
+//    new Button(() -> controller.getAButton()).whileHeld(new WaterGunCommand(waterGunSubsystem, true));
+//    new Button(() -> controller.getBButton()).whileHeld(new WaterGunCommand(waterGunSubsystem, false));
+//    new Button(() -> controller.getBumperPressed(Hand.kRight)).whileHeld(new ArmControlCommand(armSubsystem, true));
+//    new Button(() -> controller.getBumperPressed(Hand.kLeft)).whileHeld(new ArmControlCommand(armSubsystem, false));
   }
 
   public Command getAutonomousCommand() {

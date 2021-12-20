@@ -48,6 +48,9 @@ public final class Constants {
     public static final double RAMSETE_B = 0.0;
     public static final double RAMSETE_ZETA = 0.0;
 
+    public static final int PULSES_PER_ROTATION = 1024;
+    public static final double WHEEL_CIRCUMFERENCE = 0.478536;
+
     public static final TrajectoryConfig TRAJECTORY_CONFIG =
         new TrajectoryConfig(MAX_VELOCITY, MAX_ACCELERATION)
             .setKinematics(KINEMATICS)
@@ -62,5 +65,9 @@ public final class Constants {
 
   public static final class Arm {
     public static final int MOTOR = 3;
+  }
+
+  public static final class WaterGun {
+    public static final int CHANNEL = 0;
   }
 }

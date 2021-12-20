@@ -30,14 +30,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
       new DifferentialDriveOdometry(gyro.getRotation2d());
 
   public DriveTrainSubsystem() {
-    // FIXME: set distance per pulse
+    encoderLeft.setDistancePerPulse(Drivetrain.WHEEL_CIRCUMFERENCE / Drivetrain.PULSES_PER_ROTATION);
+    encoderRight.setDistancePerPulse(Drivetrain.WHEEL_CIRCUMFERENCE / Drivetrain.PULSES_PER_ROTATION);
     resetEncoders();
   }
 
   @Override
   public void periodic() {
     odometry.update(gyro.getRotation2d(), encoderLeft.getDistance(), encoderRight.getDistance());
-
     Pose2d pose = odometry.getPoseMeters();
 //    System.out.println(
 //        "Heading: " + pose.getRotation() + ", Pos: (" + pose.getX() + ", " + pose.getY() + ")");

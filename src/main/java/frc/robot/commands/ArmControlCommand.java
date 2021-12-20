@@ -9,21 +9,29 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ArmControlCommand extends CommandBase {
 
   private final ArmSubsystem armSubsystem;
+//  private final boolean up;
 
   public ArmControlCommand(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
+//    this.up = up;
     // each subsystem used by the command must be passed into the addRequirements() method (which takes a vararg of Subsystem)
     addRequirements(this.armSubsystem);
   }
 
-  /**
-   * The main body of a command.  Called repeatedly while the command is scheduled. (That is, it is
-   * called repeatedly until {@link #isFinished()}) returns true.)
-   */
+//  @Override
+//  public void initialize() {
+//    armSubsystem.set(up? 1 : -1);
+//  }
+//
+//  @Override
+//  public void end(boolean interrupted) {
+//    armSubsystem.set(0);
+//  }
+
   @Override
   public void execute() {
-    double speed = RobotContainer.controller.getY(Hand.kLeft) * 0.25;
-    System.out.println(speed);
+    double speed = -Math.copySign(Math.pow(RobotContainer.controller.getY(Hand.kLeft), 2), RobotContainer.controller.getY(Hand.kLeft) * 0.75);
+    System.out.println("Speed: " + speed);
     armSubsystem.set(speed);
   }
 }

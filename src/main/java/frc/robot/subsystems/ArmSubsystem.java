@@ -8,11 +8,18 @@ import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
   private final Spark motor = new Spark(Constants.Arm.MOTOR);
+  private double speed = 0;
 
   public ArmSubsystem() {
   }
 
-  public void set(double speed) {
+  @Override
+  public void periodic() {
+    System.out.println("speed: " + speed);
     motor.set(speed);
+  }
+
+  public void set(double speed) {
+    this.speed = speed;
   }
 }
