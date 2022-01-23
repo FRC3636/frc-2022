@@ -24,7 +24,10 @@ public class ArcadeDriveCommand extends CommandBase {
         double speed = RobotContainer.joystickLeft.getY();
         double turn = RobotContainer.joystickRight.getX();
 
-        driveTrain.arcadeDrive(-speed, turn);
+        double speedSensitivity = RobotContainer.joystickLeft.getZ() + 2;
+        double turnSensitivity = RobotContainer.joystickRight.getZ() + 2;
+
+        driveTrain.arcadeDrive(speed / speedSensitivity, turn / turnSensitivity);
     }
 
     @Override

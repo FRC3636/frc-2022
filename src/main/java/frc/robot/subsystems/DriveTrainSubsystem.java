@@ -1,18 +1,23 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
-    private final Spark motorLeft = new Spark(Constants.Drivetrain.MOTOR_LEFT);
-    private final Spark motorRight = new Spark(Constants.Drivetrain.MOTOR_RIGHT);
+    private final TalonFX leftMotor, rightMotor;
 
-    private final DifferentialDrive drive = new DifferentialDrive(motorLeft, motorRight);
+    public DriveTrainSubsystem() {
+        leftMotor = new TalonFX(Constants.Drivetrain.MOTOR_LEFT);
+        rightMotor = new TalonFX(Constants.Drivetrain.MOTOR_RIGHT);
 
-    public DriveTrainSubsystem() {}
+        leftMotor.setInverted(true);
+    }
 
     @Override
     public void periodic() {
@@ -25,11 +30,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        drive.stopMotor();
+        leftMotor.set(ControlMode.PercentOutput, 0);
+        rightMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {
-        drive.arcadeDrive(xSpeed, zRotation);
+        double leftMotorOutput = Math.copySign(Math.pow(xSpeed, 2), xSpeed) + Math.copySign(Math.pow(zRotation, 2), zRotation);
+        double rightMotorOutput = Math.copySign(Math.pow(xSpeed, 2), xSpeed) - Math.copySign(Math.pow(zRotation, 2), zRotation);
+
+        leftMotor.set(ControlMode.PercentOutput, leftMotorOutput);
+        rightMotor.set(ControlMode.PercentOutput, rightMotorOutput);
     }
 }
 

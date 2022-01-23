@@ -23,7 +23,7 @@ public final class Constants {
     }
 
     public static final class Drivetrain {
-        public static final int MOTOR_RIGHT = 0;
+        public static final int MOTOR_RIGHT = 2;
         public static final int MOTOR_LEFT = 1;
     }
 }
