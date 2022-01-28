@@ -16,14 +16,24 @@ public final class Constants {
     public static final class Controls {
         public static final int JOYSTICK_LEFT = 0;
         public static final int JOYSTICK_RIGHT = 1;
-
-        public static final int JOYSTICK_SCROLL_WHEEL = 2;
-        public static final int JOYSTICK_X_AXIS = 0;
-        public static final int JOYSTICK_Y_AXIS = 1;
+        public static final int XBOX_CONTROLLER = 2;
     }
 
     public static final class Drivetrain {
         public static final int MOTOR_RIGHT = 2;
         public static final int MOTOR_LEFT = 1;
+    }
+
+    public static final class Shooter {
+        public static final int BOTTOM = 8;
+        public static final int TOP = 9;
+    }
+
+    public static final class Intake {
+        public static final int MOTOR = 7;
+    }
+
+    public static final class Conveyor {
+        public static final int MOTOR = 0;
     }
 }
