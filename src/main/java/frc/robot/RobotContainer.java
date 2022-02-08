@@ -14,14 +14,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.DriveConveyorCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.RunShooterCommand;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,11 +31,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Joystick joystickLeft;
   public static Joystick joystickRight;
-  private static XboxController controller;
+  public static XboxController controller;
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
 
@@ -69,7 +64,7 @@ public class RobotContainer {
     joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
     controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
-    new Button(() -> controller.getYButton())
+    new Button(() -> controller.getBumper(GenericHID.Hand.kRight))
             .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In));
     new Button(() -> controller.getBumper(GenericHID.Hand.kLeft))
             .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
@@ -77,6 +72,8 @@ public class RobotContainer {
 
     new Button(() -> joystickRight.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
     new Button(() -> joystickLeft.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
+
+    new Button(() -> controller.getYButton()).whileHeld(new ClimbCommand(climbSubsystem));
   }
 
   /**

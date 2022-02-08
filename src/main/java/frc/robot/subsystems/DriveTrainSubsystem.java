@@ -35,12 +35,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {
-        double turnDiff = Math.copySign(Math.pow(zRotation, 2), zRotation) / ((Math.pow(xSpeed, 2) / 2) + 0.5);
+        double turnDiff = Math.copySign(Math.pow(zRotation, 2), zRotation) / ((Math.pow(xSpeed, 2) / 3) + 0.5);
         double leftMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) - turnDiff;
         double rightMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) + turnDiff;
 
-         leftMotor.set(ControlMode.PercentOutput, leftMotorOutput);
-         rightMotor.set(ControlMode.PercentOutput, rightMotorOutput);
+        leftMotor.set(ControlMode.PercentOutput, leftMotorOutput);
+        rightMotor.set(ControlMode.PercentOutput, rightMotorOutput);
     }
 }
 

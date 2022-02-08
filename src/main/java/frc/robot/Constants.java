@@ -36,4 +36,8 @@ public final class Constants {
     public static final class Conveyor {
         public static final int MOTOR = 0;
     }
+
+    public static final class Climb {
+        public static final int MOTOR = 5;
+    }
 }
