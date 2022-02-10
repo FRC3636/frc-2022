@@ -90,4 +90,8 @@ public class RobotContainer {
       }
     };
   }
+
+  public void setDriveEnabled(boolean enabled) {
+    driveTrainSubsystem.setEnabled(enabled);
+  }
 }

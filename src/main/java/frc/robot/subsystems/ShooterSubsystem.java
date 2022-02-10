@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import java.sql.SQLOutput;
+
 public class ShooterSubsystem extends SubsystemBase {
 
     private final TalonFX bottomMotor, topMotor;
@@ -16,6 +18,18 @@ public class ShooterSubsystem extends SubsystemBase {
         bottomMotor = new TalonFX(Constants.Shooter.BOTTOM);
         topMotor = new TalonFX(Constants.Shooter.TOP);
         bottomMotor.setInverted(true);
+
+        topMotor.config_kP(0, 0.0195);
+        topMotor.config_kI(0, 0);
+        topMotor.config_kD(0, 0);
+        topMotor.config_kF(0, 0);
+        bottomMotor.config_kP(0, 0.0197);
+        bottomMotor.config_kI(0, 0);
+        bottomMotor.config_kD(0, 0);
+        bottomMotor.config_kF(0, 0);
+
+        bottomMotor.selectProfileSlot(0, 0);
+        topMotor.selectProfileSlot(0, 0);
 //        System.out.println(topMotor.getSelectedSensorVelocity() / 2048);
     }
 
@@ -25,8 +39,10 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void run(double bottomShooterSpeed, double topShooterSpeed) {
-        bottomMotor.set(ControlMode.PercentOutput, bottomShooterSpeed);
-        topMotor.set(ControlMode.PercentOutput, topShooterSpeed);
-        System.out.println(bottomMotor.getSelectedSensorVelocity() / 2048 + ", " + topMotor.getSelectedSensorVelocity() / 2048);
+
+        bottomMotor.set(ControlMode.Velocity, bottomShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
+        topMotor.set(ControlMode.Velocity, topShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
+//        System.out.println(bottomShooterSpeed * Constants.Shooter.VELOCITY_TO_RPM + ", " + topShooterSpeed * Constants.Shooter.VELOCITY_TO_RPM);
+        System.out.println(bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM + ", " + topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM);
     }
 }

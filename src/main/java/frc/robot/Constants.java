@@ -27,6 +27,7 @@ public final class Constants {
     public static final class Shooter {
         public static final int BOTTOM = 8;
         public static final int TOP = 9;
+        public static final float VELOCITY_TO_RPM = 600 / 2048f;
     }
 
     public static final class Intake {
