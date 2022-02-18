@@ -30,10 +30,6 @@ public class ArcadeDriveCommand extends CommandBase {
         double speedSensitivity = 1;
         double turnSensitivity = 2.889;
 
-        //fixme
-//        System.out.println("Bottom Shooter: " + ((RobotContainer.joystickLeft.getZ() + 1) / 2) + ", Top Shooter: " + ((RobotContainer.joystickRight.getZ() + 1) / 2));
-        // fixme
-        System.out.println("Bottom: " +  ((int)(((RobotContainer.joystickLeft.getZ() + 1) / 2) * 70)) * 100 + ", Top: " +  ((int)(((RobotContainer.joystickRight.getZ() + 1) / 2) * 70)) * 100);
         driveTrain.arcadeDrive(speed / speedSensitivity, turn / turnSensitivity);
     }
 

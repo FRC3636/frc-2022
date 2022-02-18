@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -19,14 +20,15 @@ public class ShooterSubsystem extends SubsystemBase {
         topMotor = new TalonFX(Constants.Shooter.TOP);
         bottomMotor.setInverted(true);
 
-        topMotor.config_kP(0, 0.0195);
-        topMotor.config_kI(0, 0);
-        topMotor.config_kD(0, 0);
-        topMotor.config_kF(0, 0);
-        bottomMotor.config_kP(0, 0.0197);
-        bottomMotor.config_kI(0, 0);
-        bottomMotor.config_kD(0, 0);
-        bottomMotor.config_kF(0, 0);
+        bottomMotor.config_kP(0, Constants.Shooter.BOTTOM_P);
+        bottomMotor.config_kI(0, Constants.Shooter.BOTTOM_I);
+        bottomMotor.config_kD(0, Constants.Shooter.BOTTOM_D);
+        bottomMotor.config_kF(0, Constants.Shooter.BOTTOM_F);
+        topMotor.config_kP(0, Constants.Shooter.TOP_P);
+        topMotor.config_kI(0, Constants.Shooter.TOP_I);
+        topMotor.config_kD(0, Constants.Shooter.TOP_D);
+        topMotor.config_kF(0, Constants.Shooter.TOP_F);
+
 
         bottomMotor.selectProfileSlot(0, 0);
         topMotor.selectProfileSlot(0, 0);
@@ -42,7 +44,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
         bottomMotor.set(ControlMode.Velocity, bottomShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
         topMotor.set(ControlMode.Velocity, topShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
-//        System.out.println(bottomShooterSpeed * Constants.Shooter.VELOCITY_TO_RPM + ", " + topShooterSpeed * Constants.Shooter.VELOCITY_TO_RPM);
-        System.out.println(bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM + ", " + topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM);
+//        bottomMotor.set(TalonFXControlMode.PercentOutput, 0.5);
+//        topMotor.set(TalonFXControlMode.PercentOutput, 0.5);
+        System.out.println("Bottom: " + bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM + ", Top: " + topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM);
+//        System.out.println(bottomMotor.getSelectedSensorVelocity()+ ", " + topMotor.getSelectedSensorVelocity());
+//        System.out.println(bottomMotor.getMotorOutputVoltage() + ", " + topMotor.getMotorOutputVoltage());
     }
 }

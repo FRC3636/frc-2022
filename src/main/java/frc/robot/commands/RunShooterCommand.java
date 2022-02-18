@@ -23,8 +23,8 @@ public class RunShooterCommand extends CommandBase {
     @Override
     public void execute() {
         shooter.run(
-                ((int)(((RobotContainer.joystickLeft.getZ() + 1) / 2) * 70)) * 100 / Shooter.VELOCITY_TO_RPM,
-                ((int)(((RobotContainer.joystickRight.getZ() + 1) / 2) * 70)) * 100 / Shooter.VELOCITY_TO_RPM);
+                bottomShooterSpeed.getDouble(0),
+                topShooterSpeed.getDouble(0));
     }
 
     @Override
