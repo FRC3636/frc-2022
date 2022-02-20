@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.Set;
 
 /**
@@ -64,11 +62,14 @@ public class RobotContainer {
     joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
     controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
-    new Button(() -> controller.getBumper(GenericHID.Hand.kRight))
+    new Button(() -> controller.getRightBumper())
             .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In));
-    new Button(() -> controller.getBumper(GenericHID.Hand.kLeft))
+    new Button(() -> controller.getLeftBumper())
             .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
+
+    // Shooter
     new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed));
+    new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, Constants.Shooter.LOW_GOAL_BOTTOM_FENDER_SPEED, Constants.Shooter.LOW_GOAL_TOP_FENDER_SPEED));
 
     new Button(() -> joystickRight.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
     new Button(() -> joystickLeft.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));

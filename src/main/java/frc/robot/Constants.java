@@ -29,14 +29,17 @@ public final class Constants {
         public static final int TOP = 9;
         public static final float VELOCITY_TO_RPM = 600 / 2048f;
 
-        public static final float TOP_P = 0.005f;
-        public static final float TOP_I = 0f;
+        public static final float TOP_P = 0.025f;
+        public static final float TOP_I = 0.0001f;
         public static final float TOP_D = 0f;
         public static final double TOP_F =  ((0.5 * 1023) / 20000.0);
-        public static final float BOTTOM_P = 0.005f;
-        public static final float BOTTOM_I = 0f;
+        public static final float BOTTOM_P = 0.025f;
+        public static final float BOTTOM_I = 0.0001f;
         public static final float BOTTOM_D = 0f;
         public static final double BOTTOM_F = ((0.5 * 1023) / 20000.0);
+
+        public static final int LOW_GOAL_BOTTOM_FENDER_SPEED = 800;
+        public static final int LOW_GOAL_TOP_FENDER_SPEED = 2000;
 
     }
 

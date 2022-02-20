@@ -1,15 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import java.sql.SQLOutput;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -49,5 +43,12 @@ public class ShooterSubsystem extends SubsystemBase {
         System.out.println("Bottom: " + bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM + ", Top: " + topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM);
 //        System.out.println(bottomMotor.getSelectedSensorVelocity()+ ", " + topMotor.getSelectedSensorVelocity());
 //        System.out.println(bottomMotor.getMotorOutputVoltage() + ", " + topMotor.getMotorOutputVoltage());
+    }
+
+    public int[] getVelocity() {
+        return new int[]{
+                (int) (bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM),
+                (int) (topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM)
+        };
     }
 }

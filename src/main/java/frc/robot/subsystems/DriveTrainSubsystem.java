@@ -4,8 +4,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -13,11 +15,11 @@ import frc.robot.RobotContainer;
 public class DriveTrainSubsystem extends SubsystemBase {
     private final TalonFX leftMotor, rightMotor;
     private boolean enabled = false;
+    private final DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(new Rotation2d(), new Pose2d());
 
     public DriveTrainSubsystem() {
         leftMotor = new TalonFX(Constants.Drivetrain.MOTOR_LEFT);
         rightMotor = new TalonFX(Constants.Drivetrain.MOTOR_RIGHT);
-
         leftMotor.setInverted(true);
     }
 
@@ -26,6 +28,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
         if (!enabled) {
             stop();
         }
+//        driveOdometry.update();
     }
 
     @Override
