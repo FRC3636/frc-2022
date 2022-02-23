@@ -45,6 +45,7 @@ public final class Constants {
 
     public static final class Intake {
         public static final int MOTOR = 7;
+        public static final int WINCH_MOTOR = 1;
     }
 
     public static final class Conveyor {
@@ -52,6 +53,7 @@ public final class Constants {
     }
 
     public static final class Climb {
-        public static final int MOTOR = 5;
+        public static final int TELESCOPING_MOTOR = 5;
+        public static final int PIVOTING_MOTOR = 6;
     }
 }
