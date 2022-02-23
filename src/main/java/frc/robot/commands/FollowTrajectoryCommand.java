@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.Constants;
 
-public class FollowTrajectory extends RamseteCommand {
+public class FollowTrajectoryCommand extends RamseteCommand {
     private final DriveTrainSubsystem driveTrain;
 
-    public FollowTrajectory(DriveTrainSubsystem driveTrain, Trajectory trajectory) {
+    public FollowTrajectoryCommand(DriveTrainSubsystem driveTrain, Trajectory trajectory) {
         super(
             trajectory,
             driveTrain::getPose,

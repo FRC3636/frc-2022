@@ -19,6 +19,8 @@ import frc.robot.subsystems.*;
 
 import java.util.Set;
 
+import com.pathplanner.lib.PathPlanner;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -83,12 +85,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new Command() {
-      @Override
-      public Set<Subsystem> getRequirements() {
-        return null;
-      }
-    };
+    return new FollowTrajectoryCommand(driveTrainSubsystem, PathPlanner.loadPath("test", 3, 3));
   }
 }
