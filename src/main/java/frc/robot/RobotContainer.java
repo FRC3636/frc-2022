@@ -76,7 +76,10 @@ public class RobotContainer {
     new Button(() -> joystickRight.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
     new Button(() -> joystickLeft.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
 
-    new Button(() -> controller.getYButton()).whileHeld(new ClimbCommand(climbSubsystem));
+    new Button(() -> controller.getYButton()).toggleWhenPressed(new ClimbCommand(climbSubsystem));
+
+    new Button(() -> controller.getPOV() >= 315 || (controller.getPOV() <= 45 && controller.getPOV()>= 0)).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Up));
+    new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Down));
   }
 
   /**
