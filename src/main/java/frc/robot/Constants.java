@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 /**
@@ -24,8 +22,11 @@ public final class Constants {
     }
 
     public static final class Drivetrain {
-        public static final int MOTOR_RIGHT = 2;
-        public static final int MOTOR_LEFT = 1;
+        public static final int MOTOR_LEFT_1 = 1;
+        public static final int MOTOR_LEFT_2 = 2;
+        public static final int MOTOR_RIGHT_1 = 3;
+        public static final int MOTOR_RIGHT_2 = 4;
+
 
         public static final double SENSOR_UNITS_PER_REV = 2048;
         public static final double WHEEL_DIAMETER = 6;
@@ -74,7 +75,9 @@ public final class Constants {
     }
 
     public static final class Climb {
-        public static final int TELESCOPING_MOTOR = 5;
-        public static final int PIVOTING_MOTOR = 6;
+        public static final int RIGHT_TELESCOPING_MOTOR = 5;
+        public static final int LEFT_TELESCOPING_MOTOR = 6;
+        public static final int RIGHT_PIVOT_MOTOR = 10;
+        public static final int LEFT_PIVOT_MOTOR = 11;
     }
 }

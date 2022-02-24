@@ -15,15 +15,18 @@ import frc.robot.Constants.Drivetrain.*;
 import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
-    private final TalonFX leftMotor, rightMotor;
+    private final TalonFX leftMotor1, leftMotor2, rightMotor1, rightMotor2;
 
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(new Rotation2d(), new Pose2d());
     private final AHRS ahrs = new AHRS();
 
     public DriveTrainSubsystem() {
-        leftMotor = new TalonFX(Constants.Drivetrain.MOTOR_LEFT);
-        rightMotor = new TalonFX(Constants.Drivetrain.MOTOR_RIGHT);
-        leftMotor.setInverted(true);
+        leftMotor1 = new TalonFX(Constants.Drivetrain.MOTOR_LEFT_1);
+        leftMotor2 = new TalonFX(Constants.Drivetrain.MOTOR_LEFT_2);
+        rightMotor1 = new TalonFX(Constants.Drivetrain.MOTOR_RIGHT_1);
+        rightMotor2 = new TalonFX(Constants.Drivetrain.MOTOR_RIGHT_2);
+        leftMotor1.setInverted(true);
+        leftMotor2.setInverted(true);
         resetEncoders();
     }
 
@@ -31,8 +34,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     public void periodic() {
        odometry.update(
             ahrs.getRotation2d(),
-            leftMotor.getSelectedSensorPosition() * Constants.Drivetrain.SENSOR_UNITS_PER_METER,
-            rightMotor.getSelectedSensorPosition() * Constants.Drivetrain.SENSOR_UNITS_PER_METER
+            leftMotor1.getSelectedSensorPosition() * Constants.Drivetrain.SENSOR_UNITS_PER_METER,
+               rightMotor1.getSelectedSensorPosition() * Constants.Drivetrain.SENSOR_UNITS_PER_METER
         );
     }
 
@@ -42,14 +45,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-            leftMotor.getSelectedSensorVelocity() * Constants.Drivetrain.SENSOR_UNITS_PER_METER,
-            rightMotor.getSelectedSensorVelocity() * Constants.Drivetrain.SENSOR_UNITS_PER_METER
+                leftMotor1.getSelectedSensorVelocity() * Constants.Drivetrain.SENSOR_UNITS_PER_METER,
+                rightMotor1.getSelectedSensorVelocity() * Constants.Drivetrain.SENSOR_UNITS_PER_METER
         );
     }
 
     public void resetEncoders() {
-        leftMotor.setSelectedSensorPosition(0);
-        rightMotor.setSelectedSensorPosition(0);
+        leftMotor1.setSelectedSensorPosition(0);
+        rightMotor1.setSelectedSensorPosition(0);
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -58,13 +61,17 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void tankDriveVolts(double left, double right) {
-        leftMotor.set(ControlMode.PercentOutput, left / RobotController.getBatteryVoltage());
-        rightMotor.set(ControlMode.PercentOutput, right / RobotController.getBatteryVoltage());
+        leftMotor1.set(ControlMode.PercentOutput, left / RobotController.getBatteryVoltage());
+        rightMotor1.set(ControlMode.PercentOutput, right / RobotController.getBatteryVoltage());
+        leftMotor2.set(ControlMode.PercentOutput, left / RobotController.getBatteryVoltage());
+        rightMotor2.set(ControlMode.PercentOutput, right / RobotController.getBatteryVoltage());
     }
 
     public void stop() {
-        leftMotor.set(ControlMode.PercentOutput, 0);
-        rightMotor.set(ControlMode.PercentOutput, 0);
+        leftMotor1.set(ControlMode.PercentOutput, 0);
+        rightMotor1.set(ControlMode.PercentOutput, 0);
+        leftMotor2.set(ControlMode.PercentOutput, 0);
+        rightMotor2.set(ControlMode.PercentOutput, 0);
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {
@@ -72,8 +79,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
         double leftMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) - turnDiff;
         double rightMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) + turnDiff;
 
-        leftMotor.set(ControlMode.PercentOutput, leftMotorOutput);
-        rightMotor.set(ControlMode.PercentOutput, rightMotorOutput);
+        leftMotor1.set(ControlMode.PercentOutput, leftMotorOutput);
+        rightMotor1.set(ControlMode.PercentOutput, rightMotorOutput);
+        leftMotor2.set(ControlMode.PercentOutput, leftMotorOutput);
+        rightMotor2.set(ControlMode.PercentOutput, rightMotorOutput);
     }
 }
 
