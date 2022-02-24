@@ -32,7 +32,7 @@ public final class Constants {
         public static final double GEAR_RATIO = 10.71;
         public static final double SENSOR_UNITS_PER_METER = SENSOR_UNITS_PER_REV / GEAR_RATIO * (Math.PI * WHEEL_DIAMETER * 0.0254);
 
-        public static final double DRIVE_VELOCITY_KP = 0;
+        public static final double DRIVE_VELOCITY_KP = 3.645;
 
         public static final double TRACK_WIDTH = 19 * 0.0254;
         public static final DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
@@ -40,9 +40,9 @@ public final class Constants {
         public static final double RAMSETE_B = 2;
         public static final double RAMSETE_ZETA = 0.7;
 
-        public static final double FEED_FORWARD_KS = 0;
-        public static final double FEED_FORWARD_KV = 0;
-        public static final double FEED_FORWARD_KA = 0;
+        public static final double FEED_FORWARD_KS = 0.52584;
+        public static final double FEED_FORWARD_KV = 2.5152;
+        public static final double FEED_FORWARD_KA = 0.55487;
     }
 
     public static final class Shooter {
