@@ -20,14 +20,14 @@ public class ClimbSubsystem extends SubsystemBase {
         rightTelescopingMotor.setNeutralMode(NeutralMode.Brake);
         leftTelescopingMotor.setNeutralMode(NeutralMode.Brake);
 
-        leftPivotMotor.follow(rightPivotMotor, false);
+
     }
     public double EPSILON = 0.1;
     public void runClimb(double telescopeSpeed, double pivotSpeed) {
         rightTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
         leftTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
         rightPivotMotor.set(Math.abs(pivotSpeed) < EPSILON ? 0 : pivotSpeed);
-
+        leftPivotMotor.set(Math.abs(pivotSpeed) < EPSILON ? 0 : -pivotSpeed);
     }
 
     public void stop() {
