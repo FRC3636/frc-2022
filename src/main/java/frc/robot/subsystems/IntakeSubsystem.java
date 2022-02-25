@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -9,12 +11,12 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
     private final TalonFX intakeMotor;
-    private final Spark winchMotor;
+    private final CANSparkMax winchMotor;
 
 
     public IntakeSubsystem() {
         intakeMotor = new TalonFX(Constants.Intake.MOTOR);
-        winchMotor = new Spark(Constants.Intake.WINCH_MOTOR);
+        winchMotor = new CANSparkMax(Constants.Intake.WINCH_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
     }
 
     public void run(Direction direction) {

@@ -17,16 +17,17 @@ public class ClimbSubsystem extends SubsystemBase {
     private final CANSparkMax leftPivotMotor = new CANSparkMax(Constants.Climb.LEFT_PIVOT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     public ClimbSubsystem() {
-        leftPivotMotor.follow(rightPivotMotor, true);
-        leftTelescopingMotor.follow(rightTelescopingMotor);
-
         rightTelescopingMotor.setNeutralMode(NeutralMode.Brake);
         leftTelescopingMotor.setNeutralMode(NeutralMode.Brake);
+
+        leftPivotMotor.follow(rightPivotMotor, false);
     }
     public double EPSILON = 0.1;
     public void runClimb(double telescopeSpeed, double pivotSpeed) {
-        rightTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed );
-        rightPivotMotor.set(Math.abs(pivotSpeed) < EPSILON ? 0 : pivotSpeed );
+        rightTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
+        leftTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
+        rightPivotMotor.set(Math.abs(pivotSpeed) < EPSILON ? 0 : pivotSpeed);
+
     }
 
     public void stop() {
