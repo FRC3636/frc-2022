@@ -11,7 +11,7 @@ import frc.robot.Constants;
 public class ClimbSubsystem extends SubsystemBase {
 
     private final TalonFX rightTelescopingMotor = new TalonFX(Constants.Climb.RIGHT_TELESCOPING_MOTOR);
-    private final TalonFX leftTelescopingMotor = new TalonFX(Constants.Climb.RIGHT_TELESCOPING_MOTOR);
+    private final TalonFX leftTelescopingMotor = new TalonFX(Constants.Climb.LEFT_TELESCOPING_MOTOR);
 
     private final CANSparkMax rightPivotMotor = new CANSparkMax(Constants.Climb.RIGHT_PIVOT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax leftPivotMotor = new CANSparkMax(Constants.Climb.LEFT_PIVOT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -27,7 +27,7 @@ public class ClimbSubsystem extends SubsystemBase {
         rightTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
         leftTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
         rightPivotMotor.set(Math.abs(pivotSpeed) < EPSILON ? 0 : pivotSpeed);
-        leftPivotMotor.set(Math.abs(pivotSpeed) < EPSILON ? 0 : pivotSpeed);
+        leftPivotMotor.set(Math.abs(pivotSpeed) < EPSILON ? 0 : -pivotSpeed);
     }
 
     public void stop() {
