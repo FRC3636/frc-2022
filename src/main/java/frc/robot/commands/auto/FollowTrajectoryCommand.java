@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -32,6 +32,12 @@ public class FollowTrajectoryCommand extends RamseteCommand {
         driveTrain.resetOdometry(trajectory.getInitialPose());
 
         this.driveTrain = driveTrain;
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+
     }
 
     @Override

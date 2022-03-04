@@ -12,14 +12,10 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutoCommand;
 import frc.robot.subsystems.*;
-
-import java.util.Set;
-
-import com.pathplanner.lib.PathPlanner;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -73,8 +69,8 @@ public class RobotContainer {
     new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed));
     new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, Constants.Shooter.LOW_GOAL_BOTTOM_FENDER_SPEED, Constants.Shooter.LOW_GOAL_TOP_FENDER_SPEED));
 
-    new Button(() -> joystickRight.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
-    new Button(() -> joystickLeft.getTrigger()).whileHeld(new DriveConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
+    new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
+    new Button(() -> joystickLeft.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
 
     new Button(() -> controller.getYButton()).toggleWhenPressed(new ClimbCommand(climbSubsystem));
 
@@ -88,6 +84,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FollowTrajectoryCommand(driveTrainSubsystem, PathPlanner.loadPath("test", 3, 3));
+    return new AutoCommand(driveTrainSubsystem, intakeSubsystem, conveyorSubsystem, shooterSubsystem);
   }
 }

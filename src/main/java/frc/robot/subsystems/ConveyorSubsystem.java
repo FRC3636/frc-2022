@@ -1,19 +1,22 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ConveyorSubsystem extends SubsystemBase {
 
-    private final Spark conveyorMotor;
+    private final CANSparkMax conveyorMotor;
 
     public ConveyorSubsystem() {
-        conveyorMotor = new Spark(Constants.Conveyor.MOTOR);
+        conveyorMotor = new CANSparkMax(Constants.Conveyor.MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        conveyorMotor.setSmartCurrentLimit(20);
     }
 
     public void run(Direction direction) {
-        conveyorMotor.set(direction == Direction.Up ? -1 : 1);
+        conveyorMotor.set(direction == Direction.Up ? 1 : -1);
     }
 
     public void stop() {

@@ -25,18 +25,23 @@ public class DriveTrainSubsystem extends SubsystemBase {
         leftMotor2 = new TalonFX(Constants.Drivetrain.MOTOR_LEFT_2);
         rightMotor1 = new TalonFX(Constants.Drivetrain.MOTOR_RIGHT_1);
         rightMotor2 = new TalonFX(Constants.Drivetrain.MOTOR_RIGHT_2);
-        leftMotor1.setInverted(true);
-        leftMotor2.setInverted(true);
+        rightMotor1.setInverted(true);
+        rightMotor2.setInverted(true);
+        leftMotor1.setInverted(false);
+        leftMotor2.setInverted(false);
         resetEncoders();
+        resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+
     }
 
     @Override
     public void periodic() {
        odometry.update(
-            ahrs.getRotation2d(),
-            leftMotor1.getSelectedSensorPosition() * Constants.Drivetrain.SENSOR_UNITS_PER_METER,
-               rightMotor1.getSelectedSensorPosition() * Constants.Drivetrain.SENSOR_UNITS_PER_METER
+            Rotation2d.fromDegrees(-ahrs.getRotation2d().getDegrees()),
+            leftMotor1.getSelectedSensorPosition() / Constants.Drivetrain.SENSOR_UNITS_PER_METER,
+               rightMotor1.getSelectedSensorPosition() / Constants.Drivetrain.SENSOR_UNITS_PER_METER
         );
+        System.out.println(odometry.getPoseMeters());
     }
 
     public Pose2d getPose() {
@@ -45,14 +50,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-                leftMotor1.getSelectedSensorVelocity() * Constants.Drivetrain.SENSOR_UNITS_PER_METER,
-                rightMotor1.getSelectedSensorVelocity() * Constants.Drivetrain.SENSOR_UNITS_PER_METER
+                leftMotor1.getSelectedSensorVelocity() / Constants.Drivetrain.SENSOR_UNITS_PER_METER,
+                rightMotor1.getSelectedSensorVelocity() / Constants.Drivetrain.SENSOR_UNITS_PER_METER
         );
     }
 
     public void resetEncoders() {
         leftMotor1.setSelectedSensorPosition(0);
         rightMotor1.setSelectedSensorPosition(0);
+        ahrs.reset();
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -76,8 +82,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     public void arcadeDrive(double xSpeed, double zRotation) {
         double turnDiff = Math.copySign(Math.pow(zRotation, 2), zRotation) / ((Math.pow(xSpeed, 2) / 3) + 0.5);
-        double leftMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) - turnDiff;
-        double rightMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) + turnDiff;
+        double leftMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) + turnDiff;
+        double rightMotorOutput = Math.copySign(Math.pow(xSpeed, 2), -xSpeed) - turnDiff;
 
         leftMotor1.set(ControlMode.PercentOutput, leftMotorOutput);
         rightMotor1.set(ControlMode.PercentOutput, rightMotorOutput);

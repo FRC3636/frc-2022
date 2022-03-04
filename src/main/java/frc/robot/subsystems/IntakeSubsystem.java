@@ -17,6 +17,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
         intakeMotor = new TalonFX(Constants.Intake.MOTOR);
         winchMotor = new CANSparkMax(Constants.Intake.WINCH_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        winchMotor.setSmartCurrentLimit(20);
     }
 
     public void run(Direction direction) {

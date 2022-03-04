@@ -27,7 +27,8 @@ public class RunShooterPresetCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(shooter.getVelocity()[0] - bottomShooterSpeed) < 50 && Math.abs(shooter.getVelocity()[1] - topShooterSpeed) < 50;
+//        return Math.abs(shooter.getVelocity()[0] - bottomShooterSpeed) < 50 && Math.abs(shooter.getVelocity()[1] - topShooterSpeed) < 50;
+        return false;
     }
 
     @Override
