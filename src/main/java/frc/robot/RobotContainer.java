@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.AutoCommand;
+import frc.robot.commands.auto.FollowTrajectoryCommand;
 import frc.robot.subsystems.*;
 
 /**
@@ -84,6 +85,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoCommand(driveTrainSubsystem, intakeSubsystem, conveyorSubsystem, shooterSubsystem);
+    FollowTrajectoryCommand command = new FollowTrajectoryCommand(driveTrainSubsystem, PathPlanner.load("test", 2.0, 2.0));
+
+    return command;
   }
 }
