@@ -80,5 +80,6 @@ public final class Constants {
         public static final int LEFT_TELESCOPING_MOTOR = 6;
         public static final int RIGHT_PIVOT_MOTOR = 10;
         public static final int LEFT_PIVOT_MOTOR = 11;
+        public static final int PIVOT_LIMIT_SWITCH = 0;
     }
 }
