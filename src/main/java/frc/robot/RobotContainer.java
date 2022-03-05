@@ -85,7 +85,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    FollowTrajectoryCommand command = new FollowTrajectoryCommand(driveTrainSubsystem, PathPlanner.load("test", 2.0, 2.0));
+    FollowTrajectoryCommand command = new FollowTrajectoryCommand(driveTrainSubsystem, PathPlanner.loadPath("test", 2.0, 2.0));
 
     return command;
   }
