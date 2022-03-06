@@ -107,6 +107,7 @@ public class RobotContainer {
           new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
         );
       
+      case 3:
         return new SequentialCommandGroup(
           new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball"),
           new AutoShootCommand(shooterSubsystem, conveyorSubsystem),
