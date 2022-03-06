@@ -68,10 +68,15 @@ public class FollowTrajectoryCommand extends RamseteCommand {
     @Override
     public void end(boolean interrupted) {
         driveTrain.stop();
+
+        for (PositionedCommand<Command> command : positionedCommands) {
+            command.end(interrupted);
+        }
+
         super.end(interrupted);
     }
 
-    public class PositionedCommand<C extends Command> {
+    public static class PositionedCommand<C extends Command> {
         private final C command;
         private final Pose2d start;
         private final Pose2d end;
@@ -90,12 +95,12 @@ public class FollowTrajectoryCommand extends RamseteCommand {
         }
 
         public void executeAt(Pose2d pose) {
-            if (transformLength(start.minus(pose)) < tolerance) {
+            if (start != null && transformLength(start.minus(pose)) < tolerance) {
                 running = true;
                 command.initialize();
             }
 
-            if (transformLength(end.minus(pose)) < tolerance) {
+            if (end != null && transformLength(end.minus(pose)) < tolerance) {
                 running = false;
                 command.end(true);
             }
@@ -103,6 +108,10 @@ public class FollowTrajectoryCommand extends RamseteCommand {
             if (running) {
                 command.execute();
             }
+        }
+
+        public void end(boolean interrupted) {
+            command.end(interrupted);
         }
 
         double transformLength(Transform2d transform) {

@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.FollowTrajectoryCommand;
 import frc.robot.commands.auto.AutoShootCommand;
+import frc.robot.commands.auto.FollowTrajectoryCommand;
 import frc.robot.commands.auto.IntakePathFollowingCommand;
 import frc.robot.subsystems.*;
 
@@ -37,6 +37,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
 
   private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
 
@@ -70,7 +71,7 @@ public class RobotContainer {
             .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
 
     // Shooter
-    new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed));
+    new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed, cameraSubsystem));
     new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, Constants.Shooter.LOW_GOAL_BOTTOM_FENDER_SPEED, Constants.Shooter.LOW_GOAL_TOP_FENDER_SPEED));
 
     new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));

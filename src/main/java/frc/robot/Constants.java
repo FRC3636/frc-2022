@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -81,5 +82,17 @@ public final class Constants {
         public static final int RIGHT_PIVOT_MOTOR = 10;
         public static final int LEFT_PIVOT_MOTOR = 11;
         public static final int PIVOT_LIMIT_SWITCH = 0;
+    }
+
+    public static final class Camera {
+        public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(29.3);
+        public static final double GOAL_HEIGHT_METERS = 2.643;
+        public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(45);
+    }
+
+    public static final class Autonomous {
+        public static final double TURN_KP = 0;
+        public static final double TURN_KI = 0;
+        public static final double TURN_KD = 0;
     }
 }
