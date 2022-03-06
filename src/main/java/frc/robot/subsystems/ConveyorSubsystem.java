@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.sound.sampled.SourceDataLine;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
@@ -10,6 +12,9 @@ import frc.robot.Constants;
 public class ConveyorSubsystem extends SubsystemBase {
     private final CANSparkMax conveyorMotor;
     DigitalInput input = new DigitalInput(0);
+
+    private boolean autoIndexing = true;
+    
     public ConveyorSubsystem() {
         conveyorMotor = new CANSparkMax(Constants.Conveyor.MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
         conveyorMotor.setSmartCurrentLimit(20);
@@ -31,9 +36,24 @@ public class ConveyorSubsystem extends SubsystemBase {
         Down
     }
 
+    public void disableAutoIndex() {
+        autoIndexing = false;
+    }
+
+    public void enableAutoIndexing() {
+        autoIndexing = true;
+    }
+
     @Override
     public void periodic(){
-        System.out.println(input.get());
+        if (autoIndexing){
+            if(!input.get()) {
+                run(Direction.Up);
+            }
+            else {
+                stop();
+            }
+        }
     }
     
 }

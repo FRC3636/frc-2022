@@ -18,10 +18,12 @@ public class RunConveyorCommand extends CommandBase {
     @Override
     public void initialize() {
         conveyor.run(direction);
+        conveyor.disableAutoIndex();
     }
 
     @Override
     public void end(boolean interrupted) {
         conveyor.stop();
+        conveyor.enableAutoIndexing();
     }
 }
