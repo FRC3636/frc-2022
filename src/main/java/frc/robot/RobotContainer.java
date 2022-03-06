@@ -13,9 +13,15 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
+<<<<<<< HEAD
 import frc.robot.commands.auto.FollowTrajectoryCommand;
+=======
+import frc.robot.commands.auto.AutoShootCommand;
+import frc.robot.commands.auto.IntakePathFollowingCommand;
+>>>>>>> 6e83400038945a8ed73303a0a2a349d7d40919c0
 import frc.robot.subsystems.*;
 
 /**
@@ -85,8 +91,32 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+<<<<<<< HEAD
     FollowTrajectoryCommand command = new FollowTrajectoryCommand(driveTrainSubsystem, PathPlanner.loadPath("test", 2.0, 2.0));
 
     return command;
+=======
+    int balls = 2;
+    switch (balls) {
+      case 1:
+        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem);
+
+      case 2:
+        return new SequentialCommandGroup(
+          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball"),
+          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
+        );
+      
+        return new SequentialCommandGroup(
+          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball"),
+          new AutoShootCommand(shooterSubsystem, conveyorSubsystem),
+          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "three_ball"),
+          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
+        );
+
+      default:
+        return null;
+    }
+>>>>>>> 6e83400038945a8ed73303a0a2a349d7d40919c0
   }
 }
