@@ -11,7 +11,7 @@ import frc.robot.Constants;
 
 public class ConveyorSubsystem extends SubsystemBase {
     private final CANSparkMax conveyorMotor;
-    DigitalInput input = new DigitalInput(0);
+    DigitalInput beamBreakSensor = new DigitalInput(0);
 
     private boolean autoIndexing = true;
     
@@ -22,9 +22,6 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     public void run(Direction direction) {
         conveyorMotor.set(direction == Direction.Up ? 1 : -1);
-    }
-    public boolean checkBeam (){
-        return(input.get());
     }
 
     public void stop() {
@@ -47,7 +44,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         if (autoIndexing){
-            if(!input.get()) {
+            if(!beamBreakSensor.get()) {
                 run(Direction.Up);
             }
             else {

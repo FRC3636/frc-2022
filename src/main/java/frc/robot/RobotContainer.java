@@ -72,7 +72,8 @@ public class RobotContainer {
 
     // Shooter
     new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed, cameraSubsystem));
-    new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, Constants.Shooter.LOW_GOAL_BOTTOM_FENDER_SPEED, Constants.Shooter.LOW_GOAL_TOP_FENDER_SPEED));
+    new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1200, 700)); // low hub from fender
+    new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 75)); // high hub from fender
 
     new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
     new Button(() -> joystickLeft.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
@@ -89,23 +90,23 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    int balls = 2;
+    int balls = 4;
     switch (balls) {
       case 1:
         return new AutoShootCommand(shooterSubsystem, conveyorSubsystem);
 
       case 2:
         return new SequentialCommandGroup(
-          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball"),
+          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
           new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
         );
 
-      case 3:
+      case 4:
         return new SequentialCommandGroup(
-          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball"),
-          new AutoShootCommand(shooterSubsystem, conveyorSubsystem),
-          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "three_ball"),
-          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
+          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
+          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem),
+          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "four_ball")
+          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
         );
 
       default:

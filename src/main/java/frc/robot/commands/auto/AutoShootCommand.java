@@ -8,8 +8,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class AutoShootCommand extends ParallelDeadlineGroup {
     public AutoShootCommand(ShooterSubsystem shooter, ConveyorSubsystem conveyor) {
         super(
-                new RunConveyorForSetTime(conveyor, ConveyorSubsystem.Direction.Up, 1, 5),
-                new RunShooterPresetCommand(shooter, 3200, 500)
+                new RunConveyorForSetTime(conveyor, ConveyorSubsystem.Direction.Up, 2, 5),
+                new RunShooterPresetCommand(shooter, 3200, 200)
         );
     }
 }
