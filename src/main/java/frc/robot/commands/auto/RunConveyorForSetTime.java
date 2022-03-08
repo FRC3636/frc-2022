@@ -30,6 +30,7 @@ public class RunConveyorForSetTime extends CommandBase {
     public void execute() {
         if(timer.hasElapsed(delay)) {
             conveyor.run(direction);
+            conveyor.disableAutoIndex();
         }
     }
 
@@ -37,6 +38,7 @@ public class RunConveyorForSetTime extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         conveyor.stop();
+        conveyor.enableAutoIndexing();
     }
 
     @Override
