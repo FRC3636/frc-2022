@@ -17,8 +17,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     private final CANSparkMax rightPivotMotor = new CANSparkMax(Constants.Climb.RIGHT_PIVOT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax leftPivotMotor = new CANSparkMax(Constants.Climb.LEFT_PIVOT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final DigitalInput pivotLimitSwitchOut = new DigitalInput(Constants.Climb.PIVOT_LIMIT_SWITCH_OUT);
-    private final DigitalInput pivotLimitSwitchIn = new DigitalInput(Constants.Climb.PIVOT_LIMIT_SWITCH_IN);
+    private final DigitalInput pivotLimitSwitch = new DigitalInput(Constants.Climb.PIVOT_LIMIT_SWITCH);
 
     public ClimbSubsystem() {
         rightTelescopingMotor.setNeutralMode(NeutralMode.Brake);
@@ -30,7 +29,7 @@ public class ClimbSubsystem extends SubsystemBase {
         rightTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
         leftTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
 
-        if ((pivotSpeed > 0 && !pivotLimitSwitchOut.get()) || (pivotSpeed < 0 && !pivotLimitSwitchIn.get())) {
+        if (pivotSpeed < 0 && pivotLimitSwitch.get()) {
             rightPivotMotor.set(0);
             leftPivotMotor.set(0);
         } else {

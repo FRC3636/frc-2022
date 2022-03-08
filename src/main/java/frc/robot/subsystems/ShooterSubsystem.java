@@ -26,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         bottomMotor.selectProfileSlot(0, 0);
         topMotor.selectProfileSlot(0, 0);
+//        System.out.println(topMotor.getSelectedSensorVelocity() / 2048);
     }
 
     public void stop() {
@@ -34,10 +35,14 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void run(double bottomShooterSpeed, double topShooterSpeed) {
+
         bottomMotor.set(ControlMode.Velocity, bottomShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
         topMotor.set(ControlMode.Velocity, topShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
-
+//        bottomMotor.set(TalonFXControlMode.PercentOutput, 0.5);
+//        topMotor.set(TalonFXControlMode.PercentOutput, 0.5);
         System.out.println("Bottom: " + bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM + ", Top: " + topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM);
+//        System.out.println(bottomMotor.getSelectedSensorVelocity()+ ", " + topMotor.getSelectedSensorVelocity());
+//        System.out.println(bottomMotor.getMotorOutputVoltage() + ", " + topMotor.getMotorOutputVoltage());
     }
 
     public int[] getVelocity() {
