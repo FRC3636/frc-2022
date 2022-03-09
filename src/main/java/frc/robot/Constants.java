@@ -34,7 +34,7 @@ public final class Constants {
         public static final double WHEEL_CIRCUMFERENCE = (Math.PI * WHEEL_DIAMETER * 0.0254);
         public static final double SENSOR_UNITS_PER_METER = (SENSOR_UNITS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
 
-        public static final double DRIVE_VELOCITY_KP = 1.825;
+        public static final double DRIVE_VELOCITY_KP = 0.5;
 
         public static final double TRACK_WIDTH = 19 * 0.0254;
         public static final DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
@@ -42,9 +42,9 @@ public final class Constants {
         public static final double RAMSETE_B = 2;
         public static final double RAMSETE_ZETA = 0.7;
 
-        public static final double FEED_FORWARD_KS = 0.70759;
-        public static final double FEED_FORWARD_KV = 2.3316;
-        public static final double FEED_FORWARD_KA = 0.30187;
+        public static final double FEED_FORWARD_KS = 0.75495;
+        public static final double FEED_FORWARD_KV = 2.3071;
+        public static final double FEED_FORWARD_KA = 0.40615;
     }
 
     public static final class Shooter {
@@ -69,6 +69,10 @@ public final class Constants {
     public static final class Intake {
         public static final int MOTOR = 7;
         public static final int WINCH_MOTOR = 12;
+
+        public static final int WINCH_LIMIT_SWITCH = 5;
+        public static final float WINCH_MOTOR_GEAR_RATIO = 16;
+        public static final int WINCH_MAX_REVOLUTIONS = 7;
     }
 
     public static final class Conveyor {
@@ -81,5 +85,17 @@ public final class Constants {
         public static final int RIGHT_PIVOT_MOTOR = 10;
         public static final int LEFT_PIVOT_MOTOR = 11;
         public static final int PIVOT_LIMIT_SWITCH = 0;
+    }
+
+    public static final class Camera {
+        public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(29.3);
+        public static final double GOAL_HEIGHT_METERS = 2.643;
+        public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(45);
+    }
+
+    public static final class Autonomous {
+        public static final double TURN_KP = 0;
+        public static final double TURN_KI = 0;
+        public static final double TURN_KD = 0;
     }
 }

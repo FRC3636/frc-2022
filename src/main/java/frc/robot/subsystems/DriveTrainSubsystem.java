@@ -90,5 +90,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
         leftMotor2.set(ControlMode.PercentOutput, leftMotorOutput);
         rightMotor2.set(ControlMode.PercentOutput, rightMotorOutput);
     }
+
+    public void tankDrive(double left, double right) {
+        leftMotor1.set(ControlMode.PercentOutput, left);
+        leftMotor2.set(ControlMode.PercentOutput, left);
+        rightMotor1.set(ControlMode.PercentOutput, right);
+        rightMotor2.set(ControlMode.PercentOutput, right);
+    }
 }
 

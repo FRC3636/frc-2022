@@ -13,7 +13,7 @@
   "Window": {
     "###Analyzer": {
       "Collapsed": "0",
-      "Pos": "926,25",
+      "Pos": "925,47",
       "Size": "360,550"
     },
     "###Generator": {
@@ -43,12 +43,12 @@
     },
     "Deploy Status": {
       "Collapsed": "0",
-      "Pos": "500,106",
+      "Pos": "503,106",
       "Size": "960,846"
     },
     "Diagnostic Plots": {
       "Collapsed": "0",
-      "Pos": "1292,29",
+      "Pos": "1317,52",
       "Size": "590,690"
     },
     "Exception Caught!": {
@@ -63,7 +63,7 @@
     },
     "Warning": {
       "Collapsed": "0",
-      "Pos": "987,3",
+      "Pos": "993,3",
       "Size": "393,1052"
     }
   }

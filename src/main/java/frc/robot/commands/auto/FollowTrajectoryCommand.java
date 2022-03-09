@@ -16,6 +16,7 @@ import frc.robot.Constants;
 public class FollowTrajectoryCommand extends RamseteCommand {
     private final DriveTrainSubsystem driveTrain;
     private final ArrayList<PositionedCommand<Command>> positionedCommands;
+    private final Trajectory trajectory;
 
     public FollowTrajectoryCommand(DriveTrainSubsystem driveTrain, Trajectory trajectory, ArrayList<PositionedCommand<Command>> positionedCommands) {
         super(
@@ -35,7 +36,9 @@ public class FollowTrajectoryCommand extends RamseteCommand {
             driveTrain
         );
 
-        driveTrain.resetOdometry(trajectory.getInitialPose());
+        this.trajectory = trajectory;
+
+//        driveTrain.resetOdometry(trajectory.getInitialPose());
 
         this.driveTrain = driveTrain;
         this.positionedCommands = positionedCommands;
@@ -51,6 +54,7 @@ public class FollowTrajectoryCommand extends RamseteCommand {
 
     @Override
     public void initialize() {
+        driveTrain.resetOdometry(trajectory.getInitialPose());
         super.initialize();
     }
 

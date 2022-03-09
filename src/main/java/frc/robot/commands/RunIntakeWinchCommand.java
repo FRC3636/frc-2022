@@ -6,17 +6,17 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class RunIntakeWinchCommand extends CommandBase {
 
     private final IntakeSubsystem intake;
-    private final IntakeSubsystem.Position position;
+    private final IntakeSubsystem.WinchDirection winchDirection;
 
-    public RunIntakeWinchCommand(IntakeSubsystem intake, IntakeSubsystem.Position position) {
+    public RunIntakeWinchCommand(IntakeSubsystem intake, IntakeSubsystem.WinchDirection winchDirection) {
         this.intake = intake;
-        this.position = position;
+        this.winchDirection = winchDirection;
         addRequirements(intake);
     }
 
     @Override
-    public void initialize() {
-        intake.winch(position);
+    public void execute() {
+        intake.winch(winchDirection);
     }
 
     @Override
