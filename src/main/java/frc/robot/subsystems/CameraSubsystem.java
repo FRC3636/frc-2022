@@ -10,7 +10,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 public class CameraSubsystem extends SubsystemBase {
 
-    private final PhotonCamera camera = new PhotonCamera("photonvision");
+    private final PhotonCamera camera = new PhotonCamera("goalvision");
     private double distanceToGoal = 0;
 
     private double angleToGoal = 0;

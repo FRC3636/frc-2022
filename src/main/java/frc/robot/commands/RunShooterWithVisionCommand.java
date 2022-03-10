@@ -6,24 +6,25 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class RunShooterCommand extends CommandBase {
-
-    NetworkTableEntry topShooterSpeed, bottomShooterSpeed;
-
+public class RunShooterWithVisionCommand extends CommandBase {
     private final ShooterSubsystem shooter;
 
-    public RunShooterCommand(ShooterSubsystem shooter, NetworkTableEntry bottomShooterSpeed, NetworkTableEntry topShooterSpeed) {
+    private final CameraSubsystem camera;
+
+    public RunShooterWithVisionCommand(ShooterSubsystem shooter, NetworkTableEntry bottomShooterSpeed, NetworkTableEntry topShooterSpeed, CameraSubsystem camera) {
         this.shooter = shooter;
-        addRequirements(shooter);
-        this.bottomShooterSpeed = bottomShooterSpeed;
-        this.topShooterSpeed = topShooterSpeed;
+        this.camera = camera;
+        addRequirements(shooter, camera);
+        camera.turnOnLight();
     }
 
     @Override
     public void execute() {
-        shooter.run(
-                bottomShooterSpeed.getDouble(0),
-                topShooterSpeed.getDouble(0));
+        double distance = Units.metersToFeet(camera.getDistanceToGoal());
+
+        shooter.run(getBottomSpeedFromDist(distance), getTopSpeedFromDist(distance));
+
+        System.out.println(camera.getDistanceToGoal());
     }
 
     public double getBottomSpeedFromDist(Double distance) {
@@ -38,5 +39,6 @@ public class RunShooterCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         shooter.stop();
+        camera.turnOffLight();
     }
 }

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -60,10 +61,6 @@ public final class Constants {
         public static final double BOTTOM_I = 0.0001f;
         public static final double BOTTOM_D = 0f;
         public static final double BOTTOM_F = ((0.5 * 1023) / 20000.0);
-
-        public static final int LOW_GOAL_BOTTOM_FENDER_SPEED = 800;
-        public static final int LOW_GOAL_TOP_FENDER_SPEED = 2000;
-
     }
 
     public static final class Intake {
@@ -72,7 +69,7 @@ public final class Constants {
 
         public static final int WINCH_LIMIT_SWITCH = 5;
         public static final float WINCH_MOTOR_GEAR_RATIO = 16;
-        public static final int WINCH_MAX_REVOLUTIONS = 7;
+        public static final int WINCH_MAX_REVOLUTIONS = 8;
     }
 
     public static final class Conveyor {
@@ -84,7 +81,9 @@ public final class Constants {
         public static final int LEFT_TELESCOPING_MOTOR = 6;
         public static final int RIGHT_PIVOT_MOTOR = 10;
         public static final int LEFT_PIVOT_MOTOR = 11;
-        public static final int PIVOT_LIMIT_SWITCH = 0;
+
+        public static final int PIVOT_LIMIT_SWITCH_OUT = 3;
+        public static final int PIVOT_LIMIT_SWITCH_IN = 4;
     }
 
     public static final class Camera {

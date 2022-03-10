@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import java.sql.SQLOutput;
-
 public class IntakeSubsystem extends SubsystemBase {
 
     private final TalonFX intakeMotor = new TalonFX(Constants.Intake.MOTOR);
@@ -18,9 +16,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private final DigitalInput winchLimitSwitch = new DigitalInput(Constants.Intake.WINCH_LIMIT_SWITCH);
 
+    private Position winchPosition = Position.Up;
+
 
     public IntakeSubsystem() {
-//        winchMotor.setSmartCurrentLimit(20);
+        winchMotor.setSmartCurrentLimit(20);
         winchMotor.getEncoder().setPosition(0);
     }
 
@@ -33,21 +33,34 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(TalonFXControlMode.PercentOutput, direction == Direction.In ? 1 : -1);
     }
 
-    public void winch(WinchDirection winchDirection) {
-        if (!winchLimitSwitch.get() && winchDirection.equals(WinchDirection.Up)) {
+    public void winch(Position winchDirection) {
+        if (!winchLimitSwitch.get() && winchDirection.equals(Position.Up)) {
             winchMotor.getEncoder().setPosition(0);
             stopWinch();
         }
         else if (
                 (winchMotor.getEncoder().getPosition() * 1.8) / Constants.Intake.WINCH_MOTOR_GEAR_RATIO > Constants.Intake.WINCH_MAX_REVOLUTIONS &&
-                        winchDirection.equals(WinchDirection.Down)
+                        winchDirection.equals(Position.Down)
         ){
             stopWinch();
         }
         else {
-            winchMotor.set(winchDirection.equals(WinchDirection.Down) ? 0.5 : -0.5);
+            winchMotor.set(winchDirection.equals(Position.Down) ? 0.5 : -0.5);
         }
     }
+
+    @Override
+    public void periodic() {
+//        winch(winchPosition);
+    }
+
+    public void winchUp() {
+        winchPosition = Position.Up;
+    }
+    public void winchDown() {
+        winchPosition = Position.Down;
+    }
+
 
     public void stopWinch() {
         winchMotor.set(0);
@@ -58,7 +71,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(TalonFXControlMode.PercentOutput, 0);
     }
 
-    public enum WinchDirection {
+    public enum Position {
         Up,
         Down
     }

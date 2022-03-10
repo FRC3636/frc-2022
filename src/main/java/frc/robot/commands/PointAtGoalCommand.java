@@ -10,23 +10,29 @@ public class PointAtGoalCommand extends CommandBase {
     private final CameraSubsystem camera;
     private final DriveTrainSubsystem driveTrain;
 
-    private PIDController pidController;
+    private final PIDController pidController;
 
     public PointAtGoalCommand(DriveTrainSubsystem driveTrain, CameraSubsystem camera) {
         this.driveTrain = driveTrain;
         this.camera = camera;
-        pidController = new PIDController(0, 0, 0);
+        pidController = new PIDController(0.009, 0, 0);
         addRequirements(driveTrain);
     }
 
     @Override
     public void execute() {
-        turn = pidController.calculate(camera.getAngleToGoalDegrees(), 0)
+        double fakeAngle = (20 / (1 + Math.pow(1.7, -camera.getAngleToGoalDegrees()))) - 10;
+
+        System.out.println("Angle: " + camera.getAngleToGoalDegrees() + ", Fake Angle: " + fakeAngle);
+
+        double turn = pidController.calculate(fakeAngle, 0);
+
+        driveTrain.tankDrive(-turn, turn);
     }
 
     @Override
     public boolean isFinished() {
-        return(camera.getAngleToGoalDegrees() < 3 &&
+        return(camera.getAngleToGoalDegrees() < 1 &&
                 Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.001 &&
                 Math.abs(driveTrain.getWheelSpeeds().rightMetersPerSecond) < 0.001
         );

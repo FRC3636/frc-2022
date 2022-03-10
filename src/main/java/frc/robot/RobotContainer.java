@@ -12,11 +12,8 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.AutoShootCommand;
-import frc.robot.commands.auto.IntakePathFollowingCommand;
 import frc.robot.subsystems.*;
 
 /**
@@ -70,18 +67,17 @@ public class RobotContainer {
         new Button(() -> controller.getLeftBumper())
                 .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
 
-    // Shooter
-    new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed, cameraSubsystem));
-    new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1200, 700)); // low hub from fender
-    new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 75)); // high hub from fender
+        new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed));
+        new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1200, 700)); // low hub from fender
+        new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 75)); // high hub from fender
 
         new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
         new Button(() -> joystickLeft.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
 
         new Button(() -> controller.getYButton()).toggleWhenPressed(new ClimbCommand(climbSubsystem));
 
-        new Button(() -> controller.getPOV() >= 315 || (controller.getPOV() <= 45 && controller.getPOV() >= 0)).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.WinchDirection.Up));
-        new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.WinchDirection.Down));
+        new Button(() -> controller.getPOV() >= 315 || (controller.getPOV() <= 45 && controller.getPOV() >= 0)).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Up));
+        new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Down));
 
         new Button(() -> joystickRight.getRawButton(2)).whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));
     }
@@ -92,27 +88,27 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    int balls = 4;
-    switch (balls) {
-      case 1:
-        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem);
-
-      case 2:
-        return new SequentialCommandGroup(
-          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
-          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
-        );
-
-      case 4:
-        return new SequentialCommandGroup(
-          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
-          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem),
-          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "four_ball")
-          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
-        );
-
-      default:
+//    int balls = 4;
+//    switch (balls) {
+//      case 1:
+//        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem);
+//
+//      case 2:
+//        return new SequentialCommandGroup(
+//          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
+//          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
+//        );
+//
+//      case 4:
+//        return new SequentialCommandGroup(
+//          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
+//          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem),
+//          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "four_ball")
+//          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
+//        );
+//
+//      default:
         return null;
-    }
+//    }
   }
 }

@@ -11,20 +11,17 @@ import frc.robot.Constants;
 
 public class ConveyorSubsystem extends SubsystemBase {
     private final CANSparkMax conveyorMotor;
-    DigitalInput input = new DigitalInput(0);
+    DigitalInput input = new DigitalInput(1);
 
     private boolean autoIndexing = true;
     
     public ConveyorSubsystem() {
         conveyorMotor = new CANSparkMax(Constants.Conveyor.MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-        conveyorMotor.setSmartCurrentLimit(20);
+        conveyorMotor.setSmartCurrentLimit(10);
     }
 
     public void run(Direction direction) {
         conveyorMotor.set(direction == Direction.Up ? 1 : -1);
-    }
-    public boolean checkBeam (){
-        return(input.get());
     }
 
     public void stop() {

@@ -41,7 +41,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
             leftMotor1.getSelectedSensorPosition() / Constants.Drivetrain.SENSOR_UNITS_PER_METER,
                rightMotor1.getSelectedSensorPosition() / Constants.Drivetrain.SENSOR_UNITS_PER_METER
         );
-        System.out.println(odometry.getPoseMeters());
+//        System.out.println(odometry.getPoseMeters());
     }
 
     public Pose2d getPose() {
