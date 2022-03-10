@@ -11,9 +11,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutoShootCommand;
+import frc.robot.commands.auto.IntakePathFollowingCommand;
 import frc.robot.subsystems.*;
 
 /**
@@ -36,19 +40,33 @@ public class RobotContainer {
 
     private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
 
-    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
+    private ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
+    private NetworkTableEntry bottomShooterSpeed = shooterTab.add("Bottom Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    private NetworkTableEntry topShooterSpeed = shooterTab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
 
-    private NetworkTableEntry bottomShooterSpeed = tab.add("Bottom Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    private NetworkTableEntry topShooterSpeed = tab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    private ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
+    private SendableChooser<String> startingPositionChooser;
+    private SendableChooser<String> autoModeChooser;
 
     /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
+     * The container for the robot. Contains subsystems, I/O devices, and commands.
      */
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
 
         driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+
+        startingPositionChooser = new SendableChooser<String>();
+        startingPositionChooser.addOption("Left", "left");
+        startingPositionChooser.addOption("Middle", "left");
+        startingPositionChooser.addOption("Right", "right");
+        autoTab.add("Starting Position", startingPositionChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+
+        autoModeChooser = new SendableChooser<String>();
+        autoModeChooser.addOption("One Ball", "one_ball");
+        autoModeChooser.addOption("Two Balls", "two_ball");
+        autoTab.add("Mode", autoModeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
     }
 
     /**
@@ -58,28 +76,28 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
-        joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
-        controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
+      joystickLeft = new Joystick(Constants.Controls.JOYSTICK_LEFT);
+      joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
+      controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
-        new Button(() -> controller.getRightBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In));
-        new Button(() -> controller.getLeftBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
+      new Button(() -> controller.getRightBumper())
+              .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In));
+      new Button(() -> controller.getLeftBumper())
+              .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
 
         new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed));
         new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1200, 700)); // low hub from fender
         new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 75)); // high hub from fender
 
-        new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
-        new Button(() -> joystickLeft.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
+      new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
+      new Button(() -> joystickLeft.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
 
-        new Button(() -> controller.getYButton()).toggleWhenPressed(new ClimbCommand(climbSubsystem));
+      new Button(() -> controller.getYButton()).toggleWhenPressed(new ClimbCommand(climbSubsystem));
 
         new Button(() -> controller.getPOV() >= 315 || (controller.getPOV() <= 45 && controller.getPOV() >= 0)).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Up));
         new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Down));
 
-        new Button(() -> joystickRight.getRawButton(2)).whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));
+      new Button(() -> joystickRight.getRawButton(2)).whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));
     }
 
   /**
@@ -88,27 +106,18 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-//    int balls = 4;
-//    switch (balls) {
-//      case 1:
-//        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem);
-//
-//      case 2:
-//        return new SequentialCommandGroup(
-//          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
-//          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
-//        );
-//
-//      case 4:
-//        return new SequentialCommandGroup(
-//          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "two_ball_middle"),
-//          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem),
-//          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "four_ball")
-//          // new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
-//        );
-//
-//      default:
+    switch (autoModeChooser.getSelected()) {
+      case "one_ball":
+        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem);
+
+      case "two_ball":
+        return new SequentialCommandGroup(
+          new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, String.format("two_ball.%s", startingPositionChooser.getSelected())),
+          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
+        );
+
+      default:
         return null;
-//    }
+    }
   }
 }
