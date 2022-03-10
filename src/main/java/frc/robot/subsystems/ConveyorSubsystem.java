@@ -33,7 +33,7 @@ public class ConveyorSubsystem extends SubsystemBase {
         Down
     }
 
-    public void disableAutoIndex() {
+    public void disableAutoIndexing() {
         autoIndexing = false;
     }
 
