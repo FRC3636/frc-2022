@@ -23,6 +23,8 @@ public class ClimbSubsystem extends SubsystemBase {
     public ClimbSubsystem() {
         rightTelescopingMotor.setNeutralMode(NeutralMode.Brake);
         leftTelescopingMotor.setNeutralMode(NeutralMode.Brake);
+
+
     }
 
     public double EPSILON = 0.1;
