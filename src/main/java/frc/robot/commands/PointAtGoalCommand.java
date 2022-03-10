@@ -15,17 +15,22 @@ public class PointAtGoalCommand extends CommandBase {
     public PointAtGoalCommand(DriveTrainSubsystem driveTrain, CameraSubsystem camera) {
         this.driveTrain = driveTrain;
         this.camera = camera;
-        pidController = new PIDController(0.009, 0, 0);
+        pidController = new PIDController(0.0079, 0.00001, 0.0003);
         addRequirements(driveTrain);
     }
 
     @Override
     public void execute() {
-        double fakeAngle = (20 / (1 + Math.pow(1.7, -camera.getAngleToGoalDegrees()))) - 10;
+//        double fakeAngle = (10 / (1 + Math.pow(1.6, -camera.getAngleToGoalDegrees()))) - 5;
+
+        double fakeAngle = Math.copySign(Math.abs(camera.getAngleToGoalDegrees()) < 10 ? camera.getAngleToGoalDegrees() : 10
+                , camera.getAngleToGoalDegrees());
 
         System.out.println("Angle: " + camera.getAngleToGoalDegrees() + ", Fake Angle: " + fakeAngle);
 
         double turn = pidController.calculate(fakeAngle, 0);
+
+        System.out.println("Output: " + turn);
 
         driveTrain.tankDrive(-turn, turn);
     }
