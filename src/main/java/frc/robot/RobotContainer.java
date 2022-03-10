@@ -85,17 +85,17 @@ public class RobotContainer {
       new Button(() -> controller.getLeftBumper())
               .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
 
-        new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, bottomShooterSpeed, topShooterSpeed));
-        new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1200, 700)); // low hub from fender
-        new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 75)); // high hub from fender
+      new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, cameraSubsystem));
+      new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1200, 700)); // low hub from fender
+      new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 75)); // high hub from fender
 
       new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
       new Button(() -> joystickLeft.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));
 
       new Button(() -> controller.getYButton()).toggleWhenPressed(new ClimbCommand(climbSubsystem));
 
-        new Button(() -> controller.getPOV() >= 315 || (controller.getPOV() <= 45 && controller.getPOV() >= 0)).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Up));
-        new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Down));
+      new Button(() -> controller.getPOV() >= 315 || (controller.getPOV() <= 45 && controller.getPOV() >= 0)).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Up));
+      new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135).whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Down));
 
       new Button(() -> joystickRight.getRawButton(2)).whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));
     }
@@ -108,12 +108,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     switch (autoModeChooser.getSelected()) {
       case "one_ball":
-        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem);
+        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem);
 
       case "two_ball":
         return new SequentialCommandGroup(
           new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, String.format("two_ball.%s", startingPositionChooser.getSelected())),
-          new AutoShootCommand(shooterSubsystem, conveyorSubsystem)
+          new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem)
         );
 
       default:

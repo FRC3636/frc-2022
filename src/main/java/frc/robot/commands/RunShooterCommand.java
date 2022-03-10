@@ -8,22 +8,21 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class RunShooterCommand extends CommandBase {
 
-    NetworkTableEntry topShooterSpeed, bottomShooterSpeed;
-
     private final ShooterSubsystem shooter;
+    private final CameraSubsystem camera;
 
-    public RunShooterCommand(ShooterSubsystem shooter, NetworkTableEntry bottomShooterSpeed, NetworkTableEntry topShooterSpeed) {
+    public RunShooterCommand(ShooterSubsystem shooter, CameraSubsystem camera) {
         this.shooter = shooter;
-        addRequirements(shooter);
-        this.bottomShooterSpeed = bottomShooterSpeed;
-        this.topShooterSpeed = topShooterSpeed;
+        this.camera = camera;
+        addRequirements(shooter, camera);
     }
 
     @Override
     public void execute() {
         shooter.run(
-                bottomShooterSpeed.getDouble(0),
-                topShooterSpeed.getDouble(0));
+            getBottomSpeedFromDist(camera.getDistanceToGoal()),
+            getTopSpeedFromDist(camera.getDistanceToGoal())
+        );
     }
 
     public double getBottomSpeedFromDist(Double distance) {
