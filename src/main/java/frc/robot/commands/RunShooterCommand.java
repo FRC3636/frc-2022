@@ -18,6 +18,11 @@ public class RunShooterCommand extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        camera.turnOnLight();
+    }
+
+    @Override
     public void execute() {
         shooter.run(
             getBottomSpeedFromDist(camera.getDistanceToGoal()),
@@ -37,5 +42,6 @@ public class RunShooterCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         shooter.stop();
+        camera.turnOffLight();
     }
 }

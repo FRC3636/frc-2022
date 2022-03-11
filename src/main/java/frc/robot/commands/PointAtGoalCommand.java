@@ -15,15 +15,20 @@ public class PointAtGoalCommand extends CommandBase {
     public PointAtGoalCommand(DriveTrainSubsystem driveTrain, CameraSubsystem camera) {
         this.driveTrain = driveTrain;
         this.camera = camera;
-        pidController = new PIDController(0.0079, 0.00001, 0.0003);
+        pidController = new PIDController(0.01, 0, 0.0004);
         addRequirements(driveTrain);
+    }
+
+    @Override
+    public void initialize() {
+        camera.turnOnLight();
     }
 
     @Override
     public void execute() {
 //        double fakeAngle = (10 / (1 + Math.pow(1.6, -camera.getAngleToGoalDegrees()))) - 5;
 
-        double fakeAngle = Math.copySign(Math.abs(camera.getAngleToGoalDegrees()) < 10 ? camera.getAngleToGoalDegrees() : 10
+        double fakeAngle = Math.copySign(Math.min(Math.abs(camera.getAngleToGoalDegrees()), 10)
                 , camera.getAngleToGoalDegrees());
 
         System.out.println("Angle: " + camera.getAngleToGoalDegrees() + ", Fake Angle: " + fakeAngle);
@@ -37,9 +42,9 @@ public class PointAtGoalCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return(camera.getAngleToGoalDegrees() < 1 &&
-                Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.001 &&
-                Math.abs(driveTrain.getWheelSpeeds().rightMetersPerSecond) < 0.001
+        return(Math.abs(camera.getAngleToGoalDegrees()) < 3 &&
+                Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.01 &&
+                Math.abs(driveTrain.getWheelSpeeds().rightMetersPerSecond) < 0.01
         );
     }
 }

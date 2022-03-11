@@ -108,12 +108,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     switch (autoModeChooser.getSelected()) {
       case "one_ball":
-        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem);
+        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem);
 
       case "two_ball":
         return new SequentialCommandGroup(
           new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, String.format("two_ball.%s", startingPositionChooser.getSelected())),
-          new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem)
+          new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem)
         );
 
       default:

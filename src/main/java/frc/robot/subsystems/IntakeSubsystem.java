@@ -42,15 +42,14 @@ public class IntakeSubsystem extends SubsystemBase {
         if (!winchLimitSwitch.get() && winchDirection.equals(Position.Up)) {
             winchMotor.getEncoder().setPosition(0);
             stopWinch();
-        } else if ((winchMotor.getEncoder().getPosition() * 1.8)
-                                / Constants.Intake.WINCH_MOTOR_GEAR_RATIO
+        } else if ((winchMotor.getEncoder().getPosition()) / Constants.Intake.WINCH_MOTOR_GEAR_RATIO
                         > Constants.Intake.WINCH_MAX_REVOLUTIONS
                 && winchDirection.equals(Position.Down)) {
             stopWinch();
         } else if (false) {
             stopWinch();
         } else {
-            winchMotor.set(winchDirection.equals(Position.Down) ? -0.5 : 0.5);
+            winchMotor.set(winchDirection.equals(Position.Down) ? 0.5 : -0.5);
         }
     }
 

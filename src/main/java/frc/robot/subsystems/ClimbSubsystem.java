@@ -1,14 +1,17 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class ClimbSubsystem extends SubsystemBase {
 
@@ -24,11 +27,18 @@ public class ClimbSubsystem extends SubsystemBase {
         rightTelescopingMotor.setNeutralMode(NeutralMode.Brake);
         leftTelescopingMotor.setNeutralMode(NeutralMode.Brake);
 
+        SupplyCurrentLimitConfiguration currentLimit = new SupplyCurrentLimitConfiguration(true, 60, 1, 1);
+
+        rightTelescopingMotor.configSupplyCurrentLimit(currentLimit);
+        leftTelescopingMotor.configSupplyCurrentLimit(currentLimit);
+
 
     }
 
+
     public double EPSILON = 0.1;
     public void runClimb(double telescopeSpeed, double pivotSpeed) {
+
         rightTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
         leftTelescopingMotor.set(TalonFXControlMode.PercentOutput, Math.abs(telescopeSpeed) < EPSILON ? 0 : telescopeSpeed);
 

@@ -41,6 +41,7 @@ public class CameraSubsystem extends SubsystemBase {
                     Constants.Camera.CAMERA_PITCH_RADIANS,
                     Units.degreesToRadians(result.getBestTarget().getPitch())
             );
+            System.out.println(distanceToGoal);
 
             angleToGoal = result.getBestTarget().getYaw();
         }
