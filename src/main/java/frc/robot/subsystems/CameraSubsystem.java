@@ -61,6 +61,7 @@ public class CameraSubsystem extends SubsystemBase {
     public void turnOnLight() {
         try {
             lightSocket.getOutputStream().write('1');
+            lightSocket.getOutputStream().flush();
         } catch (Exception e) {
             System.err.println("WARN: failed to turn on camera light");
         }
@@ -69,6 +70,7 @@ public class CameraSubsystem extends SubsystemBase {
     public void turnOffLight() {
         try {
             lightSocket.getOutputStream().write('0');
+            lightSocket.getOutputStream().flush();
         } catch (Exception e) {
             System.err.println("WARN: failed to turn off camera light");
         }
