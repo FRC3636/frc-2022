@@ -9,10 +9,13 @@ import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoShootCommand extends ParallelDeadlineGroup {
-    public AutoShootCommand(ShooterSubsystem shooter, ConveyorSubsystem conveyor, CameraSubsystem camera, DriveTrainSubsystem driveTrain) {
+public class AutoAimShootCommand extends ParallelDeadlineGroup {
+    public AutoAimShootCommand(ShooterSubsystem shooter, ConveyorSubsystem conveyor, CameraSubsystem camera, DriveTrainSubsystem driveTrain) {
         super(
-                new RunConveyorForSetTime(conveyor, ConveyorSubsystem.Direction.Up, 1,4),
+                new SequentialCommandGroup(
+                    new PointAtGoalCommand(driveTrain, camera),
+                    new RunConveyorForSetTime(conveyor, ConveyorSubsystem.Direction.Up, 1,4)
+                ),
                 new RunShooterCommand(shooter, camera)
         );
     }

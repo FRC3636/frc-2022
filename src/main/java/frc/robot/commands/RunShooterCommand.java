@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -28,6 +29,7 @@ public class RunShooterCommand extends CommandBase {
             getBottomSpeedFromDist(camera.getDistanceToGoal()),
             getTopSpeedFromDist(camera.getDistanceToGoal())
         );
+        RobotContainer.angleToGoal.setDouble(camera.getAngleToGoalDegrees());
     }
 
     public double getBottomSpeedFromDist(Double distance) {

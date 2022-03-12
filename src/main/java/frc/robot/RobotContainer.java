@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutoAimShootCommand;
 import frc.robot.commands.auto.AutoShootCommand;
 import frc.robot.commands.auto.IntakePathFollowingCommand;
 import frc.robot.subsystems.*;
@@ -38,15 +39,19 @@ public class RobotContainer {
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
     private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
 
+
+
     private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
 
-    private ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
+    private static ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
     private NetworkTableEntry bottomShooterSpeed = shooterTab.add("Bottom Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     private NetworkTableEntry topShooterSpeed = shooterTab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
 
-    private ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
+    public static ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     private SendableChooser<String> startingPositionChooser;
     private SendableChooser<String> autoModeChooser;
+
+    public static NetworkTableEntry angleToGoal = autoTab.add("Angle", 0).withWidget(BuiltInWidgets.kNumberBar).getEntry();
 
     /**
      * The container for the robot. Contains subsystems, I/O devices, and commands.
@@ -57,6 +62,8 @@ public class RobotContainer {
 
         driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
 
+
+
         startingPositionChooser = new SendableChooser<String>();
         startingPositionChooser.addOption("Left", "left");
         startingPositionChooser.addOption("Middle", "left");
@@ -66,6 +73,7 @@ public class RobotContainer {
         autoModeChooser = new SendableChooser<String>();
         autoModeChooser.addOption("One Ball", "one_ball");
         autoModeChooser.addOption("Two Balls", "two_ball");
+        autoModeChooser.addOption("Radial", "radial");
         autoTab.add("Mode", autoModeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
     }
 
@@ -108,12 +116,18 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     switch (autoModeChooser.getSelected()) {
       case "one_ball":
-        return new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem);
+        return new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem);
 
       case "two_ball":
         return new SequentialCommandGroup(
           new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, String.format("two_ball.%s", startingPositionChooser.getSelected())),
-          new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem)
+          new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem)
+        );
+
+    case "radial":
+        return new SequentialCommandGroup(
+                new IntakePathFollowingCommand(driveTrainSubsystem, intakeSubsystem, "radial"),
+                new AutoShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem)
         );
 
       default:
