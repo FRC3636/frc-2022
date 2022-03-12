@@ -86,8 +86,8 @@ public class RobotContainer {
               .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
 
       new Button(() -> controller.getAButton()).whileHeld(new RunShooterCommand(shooterSubsystem, cameraSubsystem));
-      new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1200, 700)); // low hub from fender
-      new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 75)); // high hub from fender
+      new Button(() -> controller.getBButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 1700, 700)); // low hub from fender
+      new Button(() -> controller.getXButton()).whileHeld(new RunShooterPresetCommand(shooterSubsystem, 3200, 500)); // high hub from fender
 
       new Button(() -> joystickRight.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
       new Button(() -> joystickLeft.getTrigger()).whileHeld(new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down));

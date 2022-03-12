@@ -15,20 +15,15 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 public class CameraSubsystem extends SubsystemBase {
 
-    private final PhotonCamera camera = new PhotonCamera("goalvision");
-    Socket lightSocket;
+    private PhotonCamera camera;
 
     private double distanceToGoal = 0;
     private double angleToGoal = 0;
+    private boolean hasResult = false;
 
     public CameraSubsystem() {
         super();
-
-        try {
-            lightSocket = new Socket("photonvision.local", 4000);
-        } catch (Exception e) {
-            System.err.println("ERROR: Could not connect to camera light server.");
-        }
+        camera = new PhotonCamera("goalvision");
     }
 
     @Override
@@ -41,13 +36,14 @@ public class CameraSubsystem extends SubsystemBase {
                     Constants.Camera.CAMERA_PITCH_RADIANS,
                     Units.degreesToRadians(result.getBestTarget().getPitch())
             );
-            System.out.println(distanceToGoal);
 
             angleToGoal = result.getBestTarget().getYaw();
+            hasResult = true;
         }
         else {
             distanceToGoal = 0;
             angleToGoal = 0;
+            hasResult = false;
         }
     }
 
@@ -59,21 +55,31 @@ public class CameraSubsystem extends SubsystemBase {
         return angleToGoal;
     }
 
+    public boolean hasResult() {
+        return hasResult;
+    };
+
     public void turnOnLight() {
-        try {
-            lightSocket.getOutputStream().write('1');
-            lightSocket.getOutputStream().flush();
-        } catch (Exception e) {
-            System.err.println("WARN: failed to turn on camera light");
-        }
+//        try {
+//            Socket lightSocket = new Socket("photonvision", 4000);
+//            lightSocket.getOutputStream().write('1');
+//            lightSocket.getOutputStream().flush();
+//            lightSocket.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println("WARN: failed to turn off camera light");
+//        }
     }
 
     public void turnOffLight() {
-        try {
-            lightSocket.getOutputStream().write('0');
-            lightSocket.getOutputStream().flush();
-        } catch (Exception e) {
-            System.err.println("WARN: failed to turn off camera light");
-        }
+//        try {
+//            Socket lightSocket = new Socket("photonvision", 4000);
+//            lightSocket.getOutputStream().write('0');
+//            lightSocket.getOutputStream().flush();
+//            lightSocket.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println("WARN: failed to turn off camera light");
+//        }
     }
 }

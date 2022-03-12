@@ -69,7 +69,7 @@ public final class Constants {
 
         public static final int WINCH_LIMIT_SWITCH = 5;
         public static final float WINCH_MOTOR_GEAR_RATIO = 16;
-        public static final int WINCH_MAX_REVOLUTIONS = 8;
+        public static final double WINCH_MAX_REVOLUTIONS = 2.3;
     }
 
     public static final class Conveyor {

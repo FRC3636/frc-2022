@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -15,7 +17,7 @@ public class PointAtGoalCommand extends CommandBase {
     public PointAtGoalCommand(DriveTrainSubsystem driveTrain, CameraSubsystem camera) {
         this.driveTrain = driveTrain;
         this.camera = camera;
-        pidController = new PIDController(0.01, 0, 0.0004);
+        pidController = new PIDController(0.009, 0.001, 0.0007);
         addRequirements(driveTrain);
     }
 
@@ -26,8 +28,6 @@ public class PointAtGoalCommand extends CommandBase {
 
     @Override
     public void execute() {
-//        double fakeAngle = (10 / (1 + Math.pow(1.6, -camera.getAngleToGoalDegrees()))) - 5;
-
         double fakeAngle = Math.copySign(Math.min(Math.abs(camera.getAngleToGoalDegrees()), 10)
                 , camera.getAngleToGoalDegrees());
 
@@ -42,9 +42,13 @@ public class PointAtGoalCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return(Math.abs(camera.getAngleToGoalDegrees()) < 3 &&
-                Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.01 &&
-                Math.abs(driveTrain.getWheelSpeeds().rightMetersPerSecond) < 0.01
-        );
+        if (!camera.hasResult()) return false;
+
+        boolean done = Math.abs(camera.getAngleToGoalDegrees()) < 3 &&
+                Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.001 &&
+                Math.abs(driveTrain.getWheelSpeeds().rightMetersPerSecond) < 0.001;
+        System.out.println(done);
+        return done;
+//        return false;
     }
 }

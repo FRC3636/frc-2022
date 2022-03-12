@@ -46,10 +46,8 @@ public class IntakeSubsystem extends SubsystemBase {
                         > Constants.Intake.WINCH_MAX_REVOLUTIONS
                 && winchDirection.equals(Position.Down)) {
             stopWinch();
-        } else if (false) {
-            stopWinch();
-        } else {
-            winchMotor.set(winchDirection.equals(Position.Down) ? 0.5 : -0.5);
+        }  else {
+            winchMotor.set(winchDirection.equals(Position.Down) ? 0.25 : -0.65);
         }
     }
 
