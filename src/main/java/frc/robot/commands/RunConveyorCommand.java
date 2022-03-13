@@ -1,6 +1,8 @@
+/* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ConveyorSubsystem;
 
 public class RunConveyorCommand extends CommandBase {
@@ -17,13 +19,17 @@ public class RunConveyorCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        RobotContainer.autoIndexCommand.setEnabled(false);
+    }
+
+    @Override
+    public void execute() {
         conveyor.run(direction);
-        conveyor.disableAutoIndexing();
     }
 
     @Override
     public void end(boolean interrupted) {
+        RobotContainer.autoIndexCommand.setEnabled(true);
         conveyor.stop();
-        conveyor.enableAutoIndexing();
     }
 }

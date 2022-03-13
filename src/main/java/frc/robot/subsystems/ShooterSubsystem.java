@@ -1,3 +1,4 @@
+/* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -9,7 +10,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private final TalonFX bottomMotor, topMotor;
 
-    public ShooterSubsystem () {
+    public ShooterSubsystem() {
         bottomMotor = new TalonFX(Constants.Shooter.BOTTOM);
         topMotor = new TalonFX(Constants.Shooter.TOP);
         bottomMotor.setInverted(true);
@@ -23,7 +24,6 @@ public class ShooterSubsystem extends SubsystemBase {
         topMotor.config_kD(0, Constants.Shooter.TOP_D);
         topMotor.config_kF(0, Constants.Shooter.TOP_F);
 
-
         bottomMotor.selectProfileSlot(0, 0);
         topMotor.selectProfileSlot(0, 0);
     }
@@ -34,16 +34,15 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void run(double bottomShooterSpeed, double topShooterSpeed) {
-        bottomMotor.set(ControlMode.Velocity, bottomShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
+        bottomMotor.set(
+                ControlMode.Velocity, bottomShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
         topMotor.set(ControlMode.Velocity, topShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
-
-        System.out.println("Bottom: " + bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM + ", Top: " + topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM);
     }
 
     public int[] getVelocity() {
-        return new int[]{
-                (int) (bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM),
-                (int) (topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM)
+        return new int[] {
+            (int) (bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM),
+            (int) (topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM)
         };
     }
 }

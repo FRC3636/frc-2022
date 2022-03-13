@@ -1,6 +1,5 @@
+/* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.auto;
-
-import java.util.ArrayList;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -8,42 +7,50 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.Constants;
+import frc.robot.subsystems.DriveTrainSubsystem;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 
 public class FollowTrajectoryCommand extends RamseteCommand {
     private final DriveTrainSubsystem driveTrain;
     private final ArrayList<PositionedCommand<Command>> positionedCommands;
     private final Trajectory trajectory;
 
-    public FollowTrajectoryCommand(DriveTrainSubsystem driveTrain, Trajectory trajectory, ArrayList<PositionedCommand<Command>> positionedCommands) {
+    public FollowTrajectoryCommand(
+            DriveTrainSubsystem driveTrain,
+            Trajectory trajectory,
+            ArrayList<PositionedCommand<Command>> positionedCommands) {
         super(
-            trajectory,
-            driveTrain::getPose,
-            new RamseteController(Constants.Drivetrain.RAMSETE_B, Constants.Drivetrain.RAMSETE_ZETA),
-            new SimpleMotorFeedforward(
-                Constants.Drivetrain.FEED_FORWARD_KS,
-                Constants.Drivetrain.FEED_FORWARD_KV,
-                Constants.Drivetrain.FEED_FORWARD_KA
-            ),
-            Constants.Drivetrain.KINEMATICS,
-            driveTrain::getWheelSpeeds,
-            new PIDController(Constants.Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
-            new PIDController(Constants.Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
-            driveTrain::tankDriveVolts,
-            driveTrain
-        );
+                trajectory,
+                driveTrain::getPose,
+                new RamseteController(
+                        Constants.Drivetrain.RAMSETE_B, Constants.Drivetrain.RAMSETE_ZETA),
+                new SimpleMotorFeedforward(
+                        Constants.Drivetrain.FEED_FORWARD_KS,
+                        Constants.Drivetrain.FEED_FORWARD_KV,
+                        Constants.Drivetrain.FEED_FORWARD_KA),
+                Constants.Drivetrain.KINEMATICS,
+                driveTrain::getWheelSpeeds,
+                new PIDController(Constants.Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
+                new PIDController(Constants.Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
+                driveTrain::tankDriveVolts,
+                driveTrain);
 
         this.trajectory = trajectory;
 
-//        driveTrain.resetOdometry(trajectory.getInitialPose());
+        //        driveTrain.resetOdometry(trajectory.getInitialPose());
 
         this.driveTrain = driveTrain;
         this.positionedCommands = positionedCommands;
     }
-    
+
     public FollowTrajectoryCommand(DriveTrainSubsystem driveTrain, Trajectory trajectory) {
         this(driveTrain, trajectory, new ArrayList<PositionedCommand<Command>>(0));
     }
@@ -56,12 +63,18 @@ public class FollowTrajectoryCommand extends RamseteCommand {
     public void initialize() {
         driveTrain.resetOdometry(trajectory.getInitialPose());
         super.initialize();
+
+        try {
+            Files.writeString(Paths.get("/home/lvuser/log.txt"), "", StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            DriverStation.reportError("unable to create logfile " + e, true);
+        }
     }
 
     @Override
     public void execute() {
         super.execute();
-        
+
         Pose2d pose = driveTrain.getPose();
 
         for (PositionedCommand<Command> command : positionedCommands) {
@@ -88,7 +101,7 @@ public class FollowTrajectoryCommand extends RamseteCommand {
             this.end = end;
             this.tolerance = tolerance;
         }
-        
+
         public PositionedCommand(C command, Pose2d start, Pose2d end) {
             this(command, start, end, 0.0);
         }
@@ -110,7 +123,9 @@ public class FollowTrajectoryCommand extends RamseteCommand {
         }
 
         double transformLength(Transform2d transform) {
-            return Math.sqrt(Math.pow(transform.getTranslation().getX(), 2) + Math.pow(transform.getTranslation().getY(), 2));
+            return Math.sqrt(
+                    Math.pow(transform.getTranslation().getX(), 2)
+                            + Math.pow(transform.getTranslation().getY(), 2));
         }
     }
 }

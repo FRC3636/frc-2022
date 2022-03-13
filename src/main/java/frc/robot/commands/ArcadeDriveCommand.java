@@ -1,3 +1,4 @@
+/* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -5,7 +6,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
-
 
 public class ArcadeDriveCommand extends CommandBase {
 
@@ -25,9 +25,6 @@ public class ArcadeDriveCommand extends CommandBase {
     public void execute() {
         double speed = RobotContainer.joystickLeft.getY();
         double turn = RobotContainer.joystickRight.getX();
-
-//        double speedSensitivity = RobotContainer.joystickLeft.getZ() + 2;
-//        double turnSensitivity = RobotContainer.joystickRight.getZ() + 2;
 
         double speedSensitivity = 1;
         double turnSensitivity = 2.889;

@@ -1,12 +1,9 @@
+/* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -24,7 +21,8 @@ public class PointAtGoalCommand extends CommandBase {
         this.camera = camera;
 
         pidController = new PIDController(0.0085, 0, 0.0004);
-//         RobotContainer.autoTab.add("Auto Aim PID", pidController).withWidget(BuiltInWidgets.kPIDController);
+        // RobotContainer.autoTab.add("Auto Aim PID",
+        // pidController).withWidget(BuiltInWidgets.kPIDController);
 
         addRequirements(driveTrain);
     }
@@ -38,16 +36,13 @@ public class PointAtGoalCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double fakeAngle = Math.copySign(Math.min(Math.abs(camera.getAngleToGoalDegrees()), 10)
-                , camera.getAngleToGoalDegrees());
-
-        System.out.println("PID: " + pidController.getP() + ", " + pidController.getI() + ", " + pidController.getD());
-
-        System.out.println("Angle: " + camera.getAngleToGoalDegrees() + ", Fake Angle: " + fakeAngle);
+        // Cap angle at 10
+        double fakeAngle =
+                Math.copySign(
+                        Math.min(Math.abs(camera.getAngleToGoalDegrees()), 10),
+                        camera.getAngleToGoalDegrees());
 
         double turn = pidController.calculate(fakeAngle, 0);
-
-        System.out.println("Output: " + turn);
 
         driveTrain.tankDrive(-turn, turn);
     }
@@ -55,15 +50,12 @@ public class PointAtGoalCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (!camera.hasResult()) return false;
-        if(timer.hasElapsed(4)) {
+        if (timer.hasElapsed(4)) {
             return true;
         }
-        boolean done = Math.abs(camera.getAngleToGoalDegrees()) < 3 &&
-                Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.001 &&
-                Math.abs(driveTrain.getWheelSpeeds().rightMetersPerSecond) < 0.001;
-        System.out.println(done);
 
-        return done;
-//        return false;
+        return Math.abs(camera.getAngleToGoalDegrees()) < 3
+                && Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.001
+                && Math.abs(driveTrain.getWheelSpeeds().rightMetersPerSecond) < 0.001;
     }
 }
