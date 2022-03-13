@@ -66,7 +66,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void stopWinch() {
         winchMotor.set(0);
-        System.out.println("stop");
     }
 
     public void stop() {

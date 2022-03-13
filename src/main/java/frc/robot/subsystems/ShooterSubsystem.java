@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -26,6 +27,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
         bottomMotor.selectProfileSlot(0, 0);
         topMotor.selectProfileSlot(0, 0);
+
+        RobotContainer.shooterTab.addNumber("Top Shooter Speed", this::getTopShooterSpeed);
+        RobotContainer.shooterTab.addNumber("Bottom Shooter Speed", this::getBottomShooterSpeed);
+
     }
 
     public void stop() {
@@ -39,10 +44,11 @@ public class ShooterSubsystem extends SubsystemBase {
         topMotor.set(ControlMode.Velocity, topShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
     }
 
-    public int[] getVelocity() {
-        return new int[] {
-            (int) (bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM),
-            (int) (topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM)
-        };
+    public double getBottomShooterSpeed() {
+        return bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM;
+    }
+
+    public double getTopShooterSpeed() {
+        return topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM;
     }
 }
