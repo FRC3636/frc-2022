@@ -74,6 +74,7 @@ public class RobotContainer {
         autoModeChooser.addOption("One Ball", "one_ball");
         autoModeChooser.addOption("Two Balls", "two_ball");
         autoModeChooser.addOption("Radial", "radial");
+        autoModeChooser.setDefaultOption("Radial", "radial");
         autoTab.add("Mode", autoModeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
     }
 
