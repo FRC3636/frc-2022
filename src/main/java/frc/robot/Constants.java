@@ -64,7 +64,7 @@ public final class Constants {
     }
 
     public static final class Intake {
-        public static final int MOTOR = 7;
+        public static final int MOTOR = 10;
         public static final int WINCH_MOTOR = 12;
 
         public static final int WINCH_LIMIT_SWITCH = 5;

@@ -27,22 +27,6 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
-    public static Joystick joystickLeft;
-    public static Joystick joystickRight;
-    public static XboxController controller;
-    private static final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-    private static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-    private static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private static final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
-    private static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-    private static final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-
-    public static AutoIndexCommand autoIndexCommand = new AutoIndexCommand(conveyorSubsystem);
-
-    private static final ArcadeDriveCommand arcadeDriveCommand =
-            new ArcadeDriveCommand(driveTrainSubsystem);
-
     // Shuffleboard tabs
     public static ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
     public static ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
@@ -55,6 +39,22 @@ public class RobotContainer {
 
     private static SendableChooser<String> startingPositionChooser;
     private static SendableChooser<String> autoModeChooser;
+
+    public static Joystick joystickLeft;
+    public static Joystick joystickRight;
+    public static XboxController controller;
+
+    private static final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+    private static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    private static final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+    private static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+    private static final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+
+    public static AutoIndexCommand autoIndexCommand = new AutoIndexCommand(conveyorSubsystem);
+
+    private static final ArcadeDriveCommand arcadeDriveCommand =
+            new ArcadeDriveCommand(driveTrainSubsystem);
 
     /** The container for the robot. Contains subsystems, I/O devices, and commands. */
     public RobotContainer() {
