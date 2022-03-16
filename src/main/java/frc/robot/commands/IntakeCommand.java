@@ -17,13 +17,11 @@ public class IntakeCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        intake.winchDown();
         intake.run(direction);
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.stop();
-        intake.winchUp();
     }
 }
