@@ -7,13 +7,21 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
     private final TalonFX intakeMotor = new TalonFX(Constants.Intake.MOTOR);
+
+    private final CANSparkMax actuationMotor =
+            new CANSparkMax(
+                    Constants.Intake.ACTUATION_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    private final DigitalInput limitSwitch =
+            new DigitalInput(Constants.Intake.ACTUATION_LIMIT_SWITCH);
+
+    private Position position = Position.Up;
 
     @Override
     public void initSendable(SendableBuilder builder) {
@@ -24,7 +32,35 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(TalonFXControlMode.PercentOutput, direction == Direction.In ? 1 : -1);
     }
 
+    @Override
+    public void periodic() {
+        if (position == Position.Up) {
+            if (!limitSwitch.get()) {
+                actuationMotor.getEncoder().setPosition(0);
+                actuationMotor.set(0);
+            } else {
+                actuationMotor.set(0.2);
+            }
+        } else if (position == Position.Down
+                && Math.abs(
+                                actuationMotor.getEncoder().getPosition()
+                                        / Constants.Intake.ACTUATION_MOTOR_GEAR_RATIO
+                                        * 360)
+                        < Constants.Intake.ACTUATION_DEGREES) {
+            actuationMotor.set(-0.2);
+        }
+        else {
+            actuationMotor.set(0);
+        }
+    }
 
+    public void setIntakeUp() {
+        position = Position.Up;
+    }
+
+    public void setIntakeDown() {
+        position = Position.Down;
+    }
 
     public void stop() {
         intakeMotor.set(TalonFXControlMode.PercentOutput, 0);

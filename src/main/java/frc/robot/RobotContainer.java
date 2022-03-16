@@ -62,6 +62,7 @@ public class RobotContainer {
 
         driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
 
+        // Auto choices
         startingPositionChooser = new SendableChooser<String>();
         startingPositionChooser.addOption("Left", "left");
         startingPositionChooser.addOption("Middle", "left");
@@ -88,11 +89,7 @@ public class RobotContainer {
         joystickRight = new Joystick(Constants.Controls.JOYSTICK_RIGHT);
         controller = new XboxController(Constants.Controls.XBOX_CONTROLLER);
 
-        new Button(() -> controller.getRightBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In));
-        new Button(() -> controller.getLeftBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
-
+        // Shooter
         new Button(() -> controller.getAButton())
                 .whileHeld(new RunShooterWithCameraCommand(shooterSubsystem, cameraSubsystem));
         new Button(() -> controller.getBButton())
@@ -104,6 +101,7 @@ public class RobotContainer {
                         new RunShooterPresetCommand(
                                 shooterSubsystem, 3200, 500)); // high hub from fender
 
+        // Conveyor
         new Button(() -> joystickRight.getTrigger())
                 .whileHeld(
                         new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
@@ -112,11 +110,28 @@ public class RobotContainer {
                         new RunConveyorCommand(
                                 conveyorSubsystem, ConveyorSubsystem.Direction.Down));
         new Button(() -> joystickLeft.getRawButton(6)).whenPressed(conveyorSubsystem::runAutoIndex);
-        new Button(() -> joystickLeft.getRawButton(7)).whenPressed(conveyorSubsystem::stopAutoIndex);
+        new Button(() -> joystickLeft.getRawButton(7))
+                .whenPressed(conveyorSubsystem::stopAutoIndex);
 
+        // Intake
+        new Button(() -> controller.getRightBumper())
+                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In));
+        new Button(() -> controller.getLeftBumper())
+                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
+        // Intake Actuation
+        new Button(
+                        () ->
+                                controller.getPOV() >= 315
+                                        || (controller.getPOV() <= 45 && controller.getPOV() >= 0))
+                .whileHeld(intakeSubsystem::setIntakeUp);
+        new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135)
+                .whileHeld(intakeSubsystem::setIntakeDown);
+
+        // Climb
         new Button(() -> controller.getYButton())
                 .toggleWhenPressed(new ClimbCommand(climbSubsystem));
 
+        // Auto Aiming
         new Button(() -> joystickRight.getRawButton(2))
                 .whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));
     }

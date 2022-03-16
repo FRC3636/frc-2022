@@ -59,6 +59,8 @@ public class ConveyorSubsystem extends SubsystemBase {
     public void runAutoIndex() {
         this.autoIndex = AutoIndex.Enabled;
     }
+
+
     public enum Direction {
         Up,
         Down

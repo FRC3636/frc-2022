@@ -1,7 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
+/* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
@@ -28,17 +25,18 @@ public final class Constants {
         public static final int MOTOR_LEFT_1 = 3;
         public static final int MOTOR_LEFT_2 = 4;
 
-
         public static final double SENSOR_UNITS_PER_REV = 2048;
         public static final double WHEEL_DIAMETER = 6;
         public static final double GEAR_RATIO = 10.71;
         public static final double WHEEL_CIRCUMFERENCE = (Math.PI * WHEEL_DIAMETER * 0.0254);
-        public static final double SENSOR_UNITS_PER_METER = (SENSOR_UNITS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
+        public static final double SENSOR_UNITS_PER_METER =
+                (SENSOR_UNITS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
 
         public static final double DRIVE_VELOCITY_KP = 0.5;
 
         public static final double TRACK_WIDTH = 19 * 0.0254;
-        public static final DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
+        public static final DifferentialDriveKinematics KINEMATICS =
+                new DifferentialDriveKinematics(TRACK_WIDTH);
 
         public static final double RAMSETE_B = 2;
         public static final double RAMSETE_ZETA = 0.7;
@@ -56,7 +54,7 @@ public final class Constants {
         public static final double TOP_P = 0.025f;
         public static final double TOP_I = 0.0001f;
         public static final double TOP_D = 0f;
-        public static final double TOP_F =  ((0.5 * 1023) / 20000.0);
+        public static final double TOP_F = ((0.5 * 1023) / 20000.0);
         public static final double BOTTOM_P = 0.025f;
         public static final double BOTTOM_I = 0.0001f;
         public static final double BOTTOM_D = 0f;
@@ -65,11 +63,11 @@ public final class Constants {
 
     public static final class Intake {
         public static final int MOTOR = 10;
-        public static final int WINCH_MOTOR = 12;
+        public static final int ACTUATION_MOTOR = 12;
 
-        public static final int WINCH_LIMIT_SWITCH = 5;
-        public static final float WINCH_MOTOR_GEAR_RATIO = 16;
-        public static final double WINCH_MAX_REVOLUTIONS = 2.3;
+        public static final int ACTUATION_LIMIT_SWITCH = 5;
+        public static final float ACTUATION_MOTOR_GEAR_RATIO = 9;
+        public static final double ACTUATION_DEGREES = 55;
     }
 
     public static final class Conveyor {
