@@ -10,6 +10,7 @@ public class AutoIndexCommand extends CommandBase {
     private boolean enabled = true;
 
     DigitalInput input = new DigitalInput(1);
+    private boolean lastInput = true;
 
     public boolean isEnabled() {
         return enabled;
@@ -25,9 +26,14 @@ public class AutoIndexCommand extends CommandBase {
     }
 
     public void execute() {
-        if (this.enabled && !input.get()) {
-            conveyor.run(ConveyorSubsystem.Direction.Up);
+        if (this.enabled) {
+            if (!input.get()) {
+                conveyor.run(ConveyorSubsystem.Direction.Up);
+            } else if (lastInput) {
+                conveyor.stop();
+            }
         }
+        lastInput = input.get();
     }
 
     public void end(boolean interrupted) {
