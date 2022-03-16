@@ -12,6 +12,7 @@ import java.net.Socket;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class CameraSubsystem extends SubsystemBase {
 
@@ -33,6 +34,12 @@ public class CameraSubsystem extends SubsystemBase {
     public void periodic() {
         PhotonPipelineResult result = camera.getLatestResult();
         if (result.hasTargets()) {
+            angleToGoal = 0;
+            for (PhotonTrackedTarget target : result.getTargets()) {
+                angleToGoal += target.getYaw();
+            }
+            angleToGoal /= result.getTargets().size();
+
             distanceToGoal =
                     PhotonUtils.calculateDistanceToTargetMeters(
                             Constants.Camera.CAMERA_HEIGHT_METERS,
@@ -40,7 +47,6 @@ public class CameraSubsystem extends SubsystemBase {
                             Constants.Camera.CAMERA_PITCH_RADIANS,
                             Units.degreesToRadians(result.getBestTarget().getPitch()));
 
-            angleToGoal = result.getBestTarget().getYaw();
             hasResult = true;
         } else {
             distanceToGoal = 0;
