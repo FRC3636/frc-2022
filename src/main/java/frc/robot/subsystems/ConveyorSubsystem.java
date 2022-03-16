@@ -31,12 +31,17 @@ public class ConveyorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (this.autoIndex == AutoIndex.Enabled) {
-            run(ConveyorSubsystem.Direction.Up);
+            if(!beamBreak.get()) {
+                run(ConveyorSubsystem.Direction.Up);
+            }
+            else {
+                stop();
+            }
         }
     }
 
     public void enableAutoIndex() {
-        if(autoIndex == AutoIndex.Stopped) {
+        if(autoIndex == AutoIndex.Disabled) {
             this.autoIndex = AutoIndex.Enabled;
         }
     }
