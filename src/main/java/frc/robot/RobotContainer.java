@@ -27,6 +27,13 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+    // Shuffleboard tabs
+    public static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
+    public static final ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
+    public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
+    public static final ShuffleboardTab cameraTab = Shuffleboard.getTab("Camera");
+
     // The robot's subsystems and commands are defined here...
     public static Joystick joystickLeft;
     public static Joystick joystickRight;
@@ -37,24 +44,17 @@ public class RobotContainer {
     private static final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
     private static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
     private static final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-
-    public static AutoIndexCommand autoIndexCommand = new AutoIndexCommand(conveyorSubsystem);
-
     private static final ArcadeDriveCommand arcadeDriveCommand =
             new ArcadeDriveCommand(driveTrainSubsystem);
 
-    // Shuffleboard tabs
-    public static ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
-    public static ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
-    public static ShuffleboardTab cameraTab = Shuffleboard.getTab("Camera");
 
     private static final NetworkTableEntry bottomShooterSpeed =
             shooterTab.add("Bottom Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     private static final NetworkTableEntry topShooterSpeed =
             shooterTab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
 
-    private static SendableChooser<String> startingPositionChooser;
     private static SendableChooser<String> autoModeChooser;
+    private static SendableChooser<String> startingPositionChooser;
 
     /** The container for the robot. Contains subsystems, I/O devices, and commands. */
     public RobotContainer() {
@@ -112,19 +112,11 @@ public class RobotContainer {
                 .whileHeld(
                         new RunConveyorCommand(
                                 conveyorSubsystem, ConveyorSubsystem.Direction.Down));
-        new Button(() -> joystickLeft.getRawButton(7)).toggleWhenPressed(autoIndexCommand);
+        new Button(() -> joystickLeft.getRawButton(6)).whenPressed(conveyorSubsystem::runAutoIndex);
+        new Button(() -> joystickLeft.getRawButton(7)).whenPressed(conveyorSubsystem::stopAutoIndex);
 
         new Button(() -> controller.getYButton())
                 .toggleWhenPressed(new ClimbCommand(climbSubsystem));
-
-        new Button(
-                        () ->
-                                controller.getPOV() >= 315
-                                        || (controller.getPOV() <= 45 && controller.getPOV() >= 0))
-                .whileHeld(new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Up));
-        new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135)
-                .whileHeld(
-                        new RunIntakeWinchCommand(intakeSubsystem, IntakeSubsystem.Position.Down));
 
         new Button(() -> joystickRight.getRawButton(2))
                 .whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));

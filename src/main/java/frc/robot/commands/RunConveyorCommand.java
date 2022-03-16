@@ -19,7 +19,7 @@ public class RunConveyorCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        RobotContainer.autoIndexCommand.setEnabled(false);
+        conveyor.disableAutoIndex();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RunConveyorCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.autoIndexCommand.setEnabled(true);
+        conveyor.enableAutoIndex();
         conveyor.stop();
     }
 }

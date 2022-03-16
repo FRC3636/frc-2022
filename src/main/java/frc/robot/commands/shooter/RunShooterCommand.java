@@ -1,7 +1,9 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class RunShooterCommand extends CommandBase {
