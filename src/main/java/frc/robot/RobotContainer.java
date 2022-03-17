@@ -18,6 +18,7 @@ import frc.robot.commands.auto.AutoShootCommand;
 import frc.robot.commands.auto.IntakePathFollowingCommand;
 import frc.robot.commands.shooter.RunShooterPresetCommand;
 import frc.robot.commands.shooter.RunShooterWithCameraCommand;
+import frc.robot.commands.shooter.RunShooterWithNetworkTablesCommand;
 import frc.robot.subsystems.*;
 
 /**
@@ -98,8 +99,8 @@ public class RobotContainer {
                                 shooterSubsystem, 1700, 700)); // low hub from fender
         new Button(() -> controller.getXButton())
                 .whileHeld(
-                        new RunShooterPresetCommand(
-                                shooterSubsystem, 3200, 500)); // high hub from fender
+                        new RunShooterWithNetworkTablesCommand(
+                                shooterSubsystem, bottomShooterSpeed, topShooterSpeed)); // high hub from fender
 
         // Conveyor
         new Button(() -> joystickRight.getTrigger())

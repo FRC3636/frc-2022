@@ -17,11 +17,6 @@ public class ArcadeDriveCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-        driveTrain.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
-    }
-
-    @Override
     public void execute() {
         double speed = RobotContainer.joystickLeft.getY();
         double turn = RobotContainer.joystickRight.getX();

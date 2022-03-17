@@ -5,7 +5,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class RunShooterPresetCommand extends RunShooterCommand {
 
-    int topShooterSpeed, bottomShooterSpeed;
+    protected double topShooterSpeed, bottomShooterSpeed;
 
     public RunShooterPresetCommand(
             ShooterSubsystem shooter, int bottomShooterSpeed, int topShooterSpeed) {

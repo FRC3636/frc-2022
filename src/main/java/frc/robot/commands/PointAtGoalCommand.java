@@ -18,6 +18,9 @@ public class PointAtGoalCommand extends CommandBase {
 
     private Timer timer;
 
+    private double startingAngle = Float.NaN;
+    private double startingGyroRotation = Float.NaN;
+
     public PointAtGoalCommand(DriveTrainSubsystem driveTrain, CameraSubsystem camera) {
         this.driveTrain = driveTrain;
         this.camera = camera;
@@ -26,6 +29,8 @@ public class PointAtGoalCommand extends CommandBase {
         RobotContainer.cameraTab.add("Auto Aim PID", pidController).withWidget(BuiltInWidgets.kPIDController);
 
         addRequirements(driveTrain);
+
+        RobotContainer.cameraTab.addNumber("Estimated Angle", this::getEstimatedAngle);
     }
 
     @Override
@@ -33,21 +38,29 @@ public class PointAtGoalCommand extends CommandBase {
         camera.turnOnLight();
         timer = new Timer();
         timer.start();
+        startingAngle = Float.NaN;
+        startingGyroRotation = Float.NaN;
+        System.out.println("init");
     }
+
+    private static final double MAX_OUTPUT = 0.2;
 
     @Override
     public void execute() {
-        // Cap angle at 10
-        // double fakeAngle =
-        //         Math.copySign(
-        //                 Math.min(Math.abs(camera.getAngleToGoalDegrees()), 10),
-        //                 camera.getAngleToGoalDegrees());
+        if (Double.isNaN(startingAngle) && camera.hasResult()) {
+            startingAngle = camera.getAngleToGoalDegrees();
+            startingGyroRotation = driveTrain.getPose().getRotation().getDegrees();
+        }
 
-        System.out.println(pidController.getP());
+        if (!Double.isNaN(startingAngle)) {
+            double turn = pidController.calculate(getEstimatedAngle(), 0) / 3;
+            turn = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(turn)), turn);
+            driveTrain.tankDrive(-turn, turn);
+        }
+    }
 
-        double turn = pidController.calculate(camera.getAngleToGoalDegrees(), 0) / 3;
-
-        driveTrain.tankDrive(-turn, turn);
+    public double getEstimatedAngle() {
+        return startingAngle + (driveTrain.getPose().getRotation().getDegrees() - startingGyroRotation);
     }
 
     @Override
