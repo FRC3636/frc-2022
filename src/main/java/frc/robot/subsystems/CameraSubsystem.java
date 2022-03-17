@@ -2,12 +2,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -21,6 +22,8 @@ public class CameraSubsystem extends SubsystemBase {
     private double distanceToGoal = 0;
     private double angleToGoal = 0;
     private boolean hasResult = false;
+
+    private Socket lightSocket = null;
 
     public CameraSubsystem() {
         super();
@@ -66,27 +69,32 @@ public class CameraSubsystem extends SubsystemBase {
     public boolean hasResult() {
         return hasResult;
     }
-    ;
+
+    public void initializeLight() throws UnknownHostException, IOException {
+        if (lightSocket != null) {
+            lightSocket = new Socket("photonvision", 4000);
+        }
+    }
 
     public void turnOnLight() {
-               try {
-                   Socket lightSocket = new Socket("photonvision", 4000);
-                   lightSocket.getOutputStream().write('1');
-                   lightSocket.close();
-               } catch (Exception e) {
-                   e.printStackTrace();
-                   System.err.println("WARN: failed to turn off camera light");
-               }
+        try {
+            initializeLight();
+            lightSocket.getOutputStream().write('0');
+            lightSocket.getOutputStream().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("WARN: failed to turn off camera light");
+        }
     }
 
     public void turnOffLight() {
-               try {
-                   Socket lightSocket = new Socket("photonvision", 4000);
-                   lightSocket.getOutputStream().write('0');
-                   lightSocket.close();
-               } catch (Exception e) {
-                   e.printStackTrace();
-                   System.err.println("WARN: failed to turn off camera light");
-               }
+        try {
+            initializeLight();
+            lightSocket.getOutputStream().write('0');
+            lightSocket.getOutputStream().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("WARN: failed to turn off camera light");
+        }
     }
 }
