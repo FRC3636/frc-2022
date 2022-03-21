@@ -39,6 +39,10 @@ public class RobotContainer {
     private static final NetworkTableEntry topShooterSpeed =
             shooterTab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
 
+    // Drive settings
+    public static final NetworkTableEntry controllerRumble = cameraTab.add("Rumble", true).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+
+
     private static SendableChooser<String> autoModeChooser;
     private static SendableChooser<String> startingPositionChooser;
 
