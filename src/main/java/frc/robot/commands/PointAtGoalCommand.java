@@ -28,7 +28,7 @@ public class PointAtGoalCommand extends CommandBase {
         pidController = new PIDController(0.0085, 0, 0.0004);
         RobotContainer.cameraTab.add("Auto Aim PID", pidController).withWidget(BuiltInWidgets.kPIDController);
 
-        addRequirements(driveTrain);
+        addRequirements(driveTrain, camera);
 
         RobotContainer.cameraTab.addNumber("Estimated Angle", this::getEstimatedAngle);
     }
@@ -40,7 +40,6 @@ public class PointAtGoalCommand extends CommandBase {
         timer.start();
         startingAngle = Float.NaN;
         startingGyroRotation = Float.NaN;
-        System.out.println("init");
     }
 
     private static final double MAX_OUTPUT = 0.2;
@@ -53,6 +52,10 @@ public class PointAtGoalCommand extends CommandBase {
         }
 
         if (!Double.isNaN(startingAngle)) {
+//            if(Math.abs(getEstimatedAngle() - camera.getAngleToGoalDegrees()) > 3) {
+//                startingAngle = camera.getAngleToGoalDegrees();
+//                startingGyroRotation = driveTrain.getPose().getRotation().getDegrees();
+//            }
             double turn = pidController.calculate(getEstimatedAngle(), 0) / 3;
             turn = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(turn)), turn);
             driveTrain.tankDrive(-turn, turn);
@@ -66,9 +69,9 @@ public class PointAtGoalCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (!camera.hasResult()) return false;
-        // if (timer.hasElapsed(4)) {
-            // return true;
-        // }
+//         if (timer.hasElapsed(4)) {
+//             return true;
+//         }
 
         return Math.abs(camera.getAngleToGoalDegrees()) < 3
                 && Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.001

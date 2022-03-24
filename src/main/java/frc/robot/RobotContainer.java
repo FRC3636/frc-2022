@@ -1,7 +1,9 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -33,6 +35,7 @@ public class RobotContainer {
     public static final ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     public static final ShuffleboardTab cameraTab = Shuffleboard.getTab("Camera");
+    public static final NetworkTable cameraTable = NetworkTableInstance.getDefault().getTable("Camera");
 
     private static final NetworkTableEntry bottomShooterSpeed =
             shooterTab.add("Bottom Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
@@ -40,7 +43,7 @@ public class RobotContainer {
             shooterTab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
 
     // Drive settings
-    public static final NetworkTableEntry controllerRumble = cameraTab.add("Rumble", true).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+    public static final NetworkTableEntry controllerRumble = driveSettings.add("Rumble", true).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
 
     private static SendableChooser<String> autoModeChooser;
@@ -70,7 +73,7 @@ public class RobotContainer {
         // Auto choices
         startingPositionChooser = new SendableChooser<String>();
         startingPositionChooser.addOption("Left", "left");
-        startingPositionChooser.addOption("Middle", "left");
+        startingPositionChooser.addOption("Middle", "middle");
         startingPositionChooser.addOption("Right", "right");
         autoTab.add("Starting Position", startingPositionChooser)
                 .withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -114,9 +117,7 @@ public class RobotContainer {
                 .whileHeld(
                         new RunConveyorCommand(
                                 conveyorSubsystem, ConveyorSubsystem.Direction.Down));
-        new Button(() -> joystickLeft.getRawButton(6)).whenPressed(conveyorSubsystem::runAutoIndex);
-        new Button(() -> joystickLeft.getRawButton(7))
-                .whenPressed(conveyorSubsystem::stopAutoIndex);
+        new Button(() -> joystickLeft.getRawButton(2)).whenPressed(conveyorSubsystem::toggleAutoIndex);
 
         // Intake
         new Button(() -> controller.getRightBumper())

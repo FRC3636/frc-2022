@@ -46,18 +46,14 @@ public class ConveyorSubsystem extends SubsystemBase {
         }
     }
 
-    public void stopAutoIndex() {
-        this.autoIndex = AutoIndex.Stopped;
-    }
-
     public void disableAutoIndex() {
         if(autoIndex == AutoIndex.Enabled) {
             this.autoIndex = AutoIndex.Disabled;
         }
     }
 
-    public void runAutoIndex() {
-        this.autoIndex = AutoIndex.Enabled;
+    public void toggleAutoIndex() {
+        this.autoIndex = autoIndex == AutoIndex.Enabled ? AutoIndex.Stopped : AutoIndex.Enabled;
     }
 
 

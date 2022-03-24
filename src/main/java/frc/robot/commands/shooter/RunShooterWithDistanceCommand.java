@@ -19,11 +19,16 @@ public class RunShooterWithDistanceCommand extends RunShooterCommand {
     }
 
     public double getBottomSpeedFromDist(Double distance) {
-        return (-355.5 * distance) + 3200;
+        double b = -200.17;
+        double a = 56.062;
+        double c = 3280.36;
+        return a * distance * distance + b * distance + c;
     }
 
     public double getTopSpeedFromDist(Double distance) {
-        double speed = (1200 * Math.pow(distance, 1.5)) + 500;
+        double m = 685.461;
+        double c = -242.857;
+        double speed = m * distance + c;
         return speed > 5700 ? 5700 : speed;
     }
 

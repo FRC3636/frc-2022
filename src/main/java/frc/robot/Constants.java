@@ -51,12 +51,12 @@ public final class Constants {
         public static final int TOP = 9;
         public static final double VELOCITY_TO_RPM = 600 / 2048f;
 
-        public static final double TOP_P = 0.025f;
-        public static final double TOP_I = 0.0001f;
+        public static final double TOP_P = 0.03f;
+        public static final double TOP_I = 0.0002f;
         public static final double TOP_D = 0f;
         public static final double TOP_F = ((0.5 * 1023) / 20000.0);
         public static final double BOTTOM_P = 0.025f;
-        public static final double BOTTOM_I = 0.0001f;
+        public static final double BOTTOM_I = 0.00015f;
         public static final double BOTTOM_D = 0f;
         public static final double BOTTOM_F = ((0.5 * 1023) / 20000.0);
     }

@@ -2,6 +2,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -17,79 +18,54 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class CameraSubsystem extends SubsystemBase {
 
-    private PhotonCamera camera;
-
-    private double distanceToGoal = 0;
-    private double angleToGoal = 0;
-    private boolean hasResult = false;
+    private final NetworkTableEntry distance, angle;
 
     private Socket lightSocket = null;
 
     public CameraSubsystem() {
         super();
-        camera = new PhotonCamera("goalvision");
+        distance = RobotContainer.cameraTable.getEntry("distance");
+        angle = RobotContainer.cameraTable.getEntry("angle");
 
         RobotContainer.cameraTab.addNumber("Angle", this::getAngleToGoalDegrees);
         RobotContainer.cameraTab.addNumber("Distance", this::getDistanceToGoal);
     }
 
-    @Override
-    public void periodic() {
-        PhotonPipelineResult result = camera.getLatestResult();
-        if (result.hasTargets()) {
-            angleToGoal = 0;
-            for (PhotonTrackedTarget target : result.getTargets()) {
-                angleToGoal += target.getYaw();
-            }
-            angleToGoal /= result.getTargets().size();
-
-            distanceToGoal =
-                    PhotonUtils.calculateDistanceToTargetMeters(
-                            Constants.Camera.CAMERA_HEIGHT_METERS,
-                            Constants.Camera.GOAL_HEIGHT_METERS,
-                            Constants.Camera.CAMERA_PITCH_RADIANS,
-                            Units.degreesToRadians(result.getBestTarget().getPitch()));
-
-            hasResult = true;
-        } else {
-            distanceToGoal = 0;
-            angleToGoal = 0;
-            hasResult = false;
-        }
-    }
 
     public double getDistanceToGoal() {
-        return distanceToGoal;
+    return distance.getDouble(0) - Units.feetToMeters(1);
     }
 
     public double getAngleToGoalDegrees() {
-        return angleToGoal;
+        return angle.getDouble(0);
     }
 
     public boolean hasResult() {
-        return hasResult;
+        return angle.getDouble(0) != 0;
     }
 
     public void initializeLight() throws UnknownHostException, IOException {
-        if (lightSocket != null) {
-            lightSocket = new Socket("photonvision", 4000);
-        }
+        System.out.println("connecting");
+        lightSocket = new Socket("raspberrypi", 4000);
     }
 
     public void turnOnLight() {
         try {
-            initializeLight();
-            lightSocket.getOutputStream().write('0');
+            lightSocket.getOutputStream().write('1');
             lightSocket.getOutputStream().flush();
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                initializeLight();
+            } catch (Exception e1) {
+                System.err.println("WARN: failed to init light");
+            }
             System.err.println("WARN: failed to turn off camera light");
         }
     }
 
     public void turnOffLight() {
         try {
-            initializeLight();
             lightSocket.getOutputStream().write('0');
             lightSocket.getOutputStream().flush();
         } catch (Exception e) {
