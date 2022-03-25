@@ -3,7 +3,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CameraSubsystem;
@@ -25,8 +24,9 @@ public class PointAtGoalCommand extends CommandBase {
         this.driveTrain = driveTrain;
         this.camera = camera;
 
-        pidController = new PIDController(0.0085, 0, 0.0004);
-        RobotContainer.cameraTab.add("Auto Aim PID", pidController).withWidget(BuiltInWidgets.kPIDController);
+        pidController = new PIDController(0.006, 0, 0.002);
+        //        RobotContainer.cameraTab.add("Auto Aim PID",
+        // pidController).withWidget(BuiltInWidgets.kPIDController);
 
         addRequirements(driveTrain, camera);
 
@@ -52,26 +52,27 @@ public class PointAtGoalCommand extends CommandBase {
         }
 
         if (!Double.isNaN(startingAngle)) {
-//            if(Math.abs(getEstimatedAngle() - camera.getAngleToGoalDegrees()) > 3) {
-//                startingAngle = camera.getAngleToGoalDegrees();
-//                startingGyroRotation = driveTrain.getPose().getRotation().getDegrees();
-//            }
             double turn = pidController.calculate(getEstimatedAngle(), 0) / 3;
             turn = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(turn)), turn);
             driveTrain.tankDrive(-turn, turn);
+            if(Math.abs(getEstimatedAngle()) > 1 && turn < 0.05) {
+                startingAngle = camera.getAngleToGoalDegrees();
+                startingGyroRotation = driveTrain.getPose().getRotation().getDegrees();
+            }
         }
     }
 
     public double getEstimatedAngle() {
-        return startingAngle + (driveTrain.getPose().getRotation().getDegrees() - startingGyroRotation);
+        return startingAngle
+                + (driveTrain.getPose().getRotation().getDegrees() - startingGyroRotation);
     }
 
     @Override
     public boolean isFinished() {
         if (!camera.hasResult()) return false;
-//         if (timer.hasElapsed(4)) {
-//             return true;
-//         }
+        if (timer.hasElapsed(4)) {
+         return true;
+        }
 
         return Math.abs(camera.getAngleToGoalDegrees()) < 3
                 && Math.abs(driveTrain.getWheelSpeeds().leftMetersPerSecond) < 0.001
