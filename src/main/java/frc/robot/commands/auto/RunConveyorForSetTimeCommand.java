@@ -1,10 +1,11 @@
+/* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSubsystem;
 
-public class RunConveyorForSetTime extends CommandBase {
+public class RunConveyorForSetTimeCommand extends CommandBase {
 
     private Timer timer;
     private final ConveyorSubsystem conveyor;
@@ -12,8 +13,11 @@ public class RunConveyorForSetTime extends CommandBase {
     private final double delay;
     private final double duration;
 
-
-    public RunConveyorForSetTime(ConveyorSubsystem conveyor, ConveyorSubsystem.Direction direction, double delay, double duration) {
+    public RunConveyorForSetTimeCommand(
+            ConveyorSubsystem conveyor,
+            ConveyorSubsystem.Direction direction,
+            double delay,
+            double duration) {
         this.conveyor = conveyor;
         this.direction = direction;
         this.delay = delay;
@@ -28,11 +32,10 @@ public class RunConveyorForSetTime extends CommandBase {
 
     @Override
     public void execute() {
-        if(timer.hasElapsed(delay)) {
+        if (timer.hasElapsed(delay)) {
             conveyor.run(direction);
         }
     }
-
 
     @Override
     public void end(boolean interrupted) {
@@ -41,6 +44,6 @@ public class RunConveyorForSetTime extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return(timer.hasElapsed(duration));
+        return (timer.hasElapsed(duration));
     }
 }

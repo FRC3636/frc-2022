@@ -15,12 +15,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.AutoAimShootCommand;
-import frc.robot.commands.auto.AutoShootCommand;
-import frc.robot.commands.auto.IntakePathFollowingCommand;
-import frc.robot.commands.shooter.RunShooterPresetCommand;
-import frc.robot.commands.shooter.RunShooterWithCameraCommand;
-import frc.robot.commands.shooter.RunShooterWithNetworkTablesCommand;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.shooter.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -35,7 +31,8 @@ public class RobotContainer {
     public static final ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     public static final ShuffleboardTab cameraTab = Shuffleboard.getTab("Camera");
-    public static final NetworkTable cameraTable = NetworkTableInstance.getDefault().getTable("Camera");
+    public static final NetworkTable cameraTable =
+            NetworkTableInstance.getDefault().getTable("Camera");
 
     private static final NetworkTableEntry bottomShooterSpeed =
             shooterTab.add("Bottom Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
@@ -43,8 +40,8 @@ public class RobotContainer {
             shooterTab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
 
     // Drive settings
-    public static final NetworkTableEntry controllerRumble = driveSettings.add("Rumble", true).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-
+    public static final NetworkTableEntry controllerRumble =
+            driveSettings.add("Rumble", true).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
     private static SendableChooser<String> autoModeChooser;
     private static SendableChooser<String> startingPositionChooser;
@@ -107,7 +104,10 @@ public class RobotContainer {
         new Button(() -> controller.getXButton())
                 .whileHeld(
                         new RunShooterWithNetworkTablesCommand(
-                                shooterSubsystem, bottomShooterSpeed, topShooterSpeed)); // high hub from fender
+                                shooterSubsystem, bottomShooterSpeed, topShooterSpeed)); // high
+        // hub
+        // from
+        // fender
 
         // Conveyor
         new Button(() -> joystickRight.getTrigger())
@@ -117,7 +117,8 @@ public class RobotContainer {
                 .whileHeld(
                         new RunConveyorCommand(
                                 conveyorSubsystem, ConveyorSubsystem.Direction.Down));
-        new Button(() -> joystickLeft.getRawButton(2)).whenPressed(conveyorSubsystem::toggleAutoIndex);
+        new Button(() -> joystickLeft.getRawButton(2))
+                .whenPressed(conveyorSubsystem::toggleAutoIndex);
 
         // Intake
         new Button(() -> controller.getRightBumper())
@@ -170,11 +171,8 @@ public class RobotContainer {
                 return new SequentialCommandGroup(
                         new IntakePathFollowingCommand(
                                 driveTrainSubsystem, intakeSubsystem, "radial"),
-                        new AutoShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem));
+                        new AutoShootFromDistanceCommand(
+                                shooterSubsystem, conveyorSubsystem, driveTrainSubsystem, 2.2));
 
             default:
                 return null;

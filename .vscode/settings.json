@@ -1,6 +1,7 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
+  "java.jdt.ls.java.home": "/nix/store/9qy13jgqaa67iyazn9lfpq6gkf17w7is-adoptopenjdk-openj9-bin-11.0.11",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

@@ -19,7 +19,8 @@ public class AutoAimShootCommand extends ParallelDeadlineGroup {
         super(
                 new SequentialCommandGroup(
                         new PointAtGoalCommand(driveTrain, camera),
-                        new RunConveyorForSetTime(conveyor, ConveyorSubsystem.Direction.Up, 1, 4)),
+                        new RunConveyorForSetTimeCommand(
+                                conveyor, ConveyorSubsystem.Direction.Up, 1, 4)),
                 new RunShooterWithCameraCommand(shooter, camera));
     }
 }
