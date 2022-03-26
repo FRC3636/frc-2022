@@ -46,7 +46,7 @@ public class CameraSubsystem extends SubsystemBase {
 
     public void initializeLight() throws UnknownHostException, IOException {
         System.out.println("connecting");
-        lightSocket = new Socket("raspberrypi", 4000);
+        lightSocket = new Socket("10.36.36.11", 4000);
     }
 
     public void turnOnLight() {

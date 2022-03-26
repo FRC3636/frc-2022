@@ -9,9 +9,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakePathFollowingCommand extends ParallelDeadlineGroup {
 
-    public IntakePathFollowingCommand(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, String pathname) {
+    public IntakePathFollowingCommand(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, String pathname,boolean resetOdometry) {
         super(
-                new FollowTrajectoryCommand(driveTrain, PathPlanner.loadPath(pathname, 4, 1)),
+                new FollowTrajectoryCommand(driveTrain, PathPlanner.loadPath(pathname, 4, 1), resetOdometry),
                 new IntakeCommand(intake, IntakeSubsystem.Direction.In)
         );
 

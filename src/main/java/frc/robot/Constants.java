@@ -51,8 +51,8 @@ public final class Constants {
         public static final int TOP = 9;
         public static final double VELOCITY_TO_RPM = 600 / 2048f;
 
-        public static final double TOP_P = 0.03f;
-        public static final double TOP_I = 0.0002f;
+        public static final double TOP_P = 0.0275f;
+        public static final double TOP_I = 0.00015f;
         public static final double TOP_D = 0f;
         public static final double TOP_F = ((0.5 * 1023) / 20000.0);
         public static final double BOTTOM_P = 0.025f;
@@ -66,8 +66,8 @@ public final class Constants {
         public static final int ACTUATION_MOTOR = 12;
 
         public static final int ACTUATION_LIMIT_SWITCH = 5;
-        public static final float ACTUATION_MOTOR_GEAR_RATIO = 9;
-        public static final double ACTUATION_DEGREES = 55;
+        public static final float ACTUATION_MOTOR_GEAR_RATIO = 49f / 2f;
+        public static final double ACTUATION_DEGREES = 56;
     }
 
     public static final class Conveyor {

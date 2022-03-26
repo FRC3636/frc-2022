@@ -4,20 +4,26 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.subsystems.*;
+
+import java.lang.reflect.Field;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,6 +51,7 @@ public class RobotContainer {
 
     private static SendableChooser<String> autoModeChooser;
     private static SendableChooser<String> startingPositionChooser;
+    private static NetworkTableEntry delay = autoTab.add("Delay", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
 
     public static Joystick joystickLeft;
     public static Joystick joystickRight;
@@ -78,9 +85,11 @@ public class RobotContainer {
         autoModeChooser = new SendableChooser<String>();
         autoModeChooser.addOption("One Ball", "one_ball");
         autoModeChooser.addOption("Two Balls", "two_ball");
+        autoModeChooser.addOption("Three Balls", "three_ball");
         autoModeChooser.addOption("Radial", "radial");
         autoModeChooser.setDefaultOption("Radial", "radial");
         autoTab.add("Mode", autoModeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+
     }
 
     /**
@@ -130,9 +139,17 @@ public class RobotContainer {
                         () ->
                                 controller.getPOV() >= 315
                                         || (controller.getPOV() <= 45 && controller.getPOV() >= 0))
-                .whileHeld(intakeSubsystem::setIntakeUp);
+                .whileHeld(() ->
+                {
+                    intakeSubsystem.setIntakeUp();
+                    intakeSubsystem.setIntakeLocked(false);
+                });
         new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135)
-                .whileHeld(intakeSubsystem::setIntakeDown);
+                .whileHeld(() ->
+                {
+                    intakeSubsystem.setIntakeDown();
+                    intakeSubsystem.setIntakeLocked(true);
+                });
 
         // Climb
         new Button(() -> controller.getYButton())
@@ -151,26 +168,53 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         switch (autoModeChooser.getSelected()) {
             case "one_ball":
-                return new AutoAimShootCommand(
-                        shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem);
+                return new SequentialCommandGroup(
+                        new WaitCommand(delay.getDouble(0)),
+                        new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem));
 
             case "two_ball":
                 return new SequentialCommandGroup(
+                        new WaitCommand(delay.getDouble(0)),
                         new IntakePathFollowingCommand(
                                 driveTrainSubsystem,
                                 intakeSubsystem,
                                 String.format(
-                                        "two_ball.%s", startingPositionChooser.getSelected())),
+                                        "two_ball.%s", startingPositionChooser.getSelected()), true),
                         new AutoAimShootCommand(
                                 shooterSubsystem,
                                 conveyorSubsystem,
                                 cameraSubsystem,
                                 driveTrainSubsystem));
+            case "three_ball":
+                return new SequentialCommandGroup(
+                        new WaitCommand(delay.getDouble(0)),
+                        new IntakePathFollowingCommand(
+                                driveTrainSubsystem,
+                                intakeSubsystem,
+                                String.format(
+                                        "two_ball.%s", startingPositionChooser.getSelected()), true),
+                        new AutoAimShootCommand(
+                                shooterSubsystem,
+                                conveyorSubsystem,
+                                cameraSubsystem,
+                                driveTrainSubsystem),
+                        new IntakePathFollowingCommand(
+                            driveTrainSubsystem,
+                            intakeSubsystem,
+                            String.format(
+                                    "three_ball.%s", startingPositionChooser.getSelected()), false),
+                        new AutoAimShootCommand(
+                                shooterSubsystem,
+                                conveyorSubsystem,
+                                cameraSubsystem,
+                                driveTrainSubsystem)
+                );
 
             case "radial":
                 return new SequentialCommandGroup(
+                        new WaitCommand(delay.getDouble(0)),
                         new IntakePathFollowingCommand(
-                                driveTrainSubsystem, intakeSubsystem, "radial"),
+                                driveTrainSubsystem, intakeSubsystem, "radial", true),
                         new AutoShootFromDistanceCommand(
                                 shooterSubsystem, conveyorSubsystem, driveTrainSubsystem, 2.2));
 

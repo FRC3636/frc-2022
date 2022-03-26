@@ -18,10 +18,12 @@ public class IntakeCommand extends CommandBase {
     @Override
     public void initialize() {
         intake.run(direction);
+        intake.setIntakeDown();
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.stop();
+        intake.setIntakeUp();
     }
 }

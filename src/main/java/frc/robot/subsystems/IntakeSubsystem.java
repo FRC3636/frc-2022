@@ -1,6 +1,7 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -13,6 +14,8 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
     private final TalonFX intakeMotor = new TalonFX(Constants.Intake.MOTOR);
+
+    private boolean intakeLocked;
 
     private final CANSparkMax actuationMotor =
             new CANSparkMax(
@@ -38,8 +41,9 @@ public class IntakeSubsystem extends SubsystemBase {
             if (!limitSwitch.get()) {
                 actuationMotor.getEncoder().setPosition(0);
                 actuationMotor.set(0);
+                position = Position.Done;
             } else {
-                actuationMotor.set(0.2);
+                actuationMotor.set(0.3);
             }
         } else if (position == Position.Down
                 && Math.abs(
@@ -50,16 +54,27 @@ public class IntakeSubsystem extends SubsystemBase {
             actuationMotor.set(-0.2);
         }
         else {
+            position = Position.Done;
             actuationMotor.set(0);
         }
     }
 
     public void setIntakeUp() {
-        position = Position.Up;
+        if(!intakeLocked) {
+            position = Position.Up;
+            intakeMotor.setNeutralMode(NeutralMode.Brake);
+        }
     }
 
     public void setIntakeDown() {
-        position = Position.Down;
+        if(!intakeLocked) {
+            intakeMotor.setNeutralMode(NeutralMode.Coast);
+            position = Position.Down;
+        }
+    }
+
+    public void setIntakeLocked(boolean intakeLocked) {
+        this.intakeLocked = intakeLocked;
     }
 
     public void stop() {
@@ -68,7 +83,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public enum Position {
         Up,
-        Down
+        Down,
+        Done
     }
 
     public enum Direction {

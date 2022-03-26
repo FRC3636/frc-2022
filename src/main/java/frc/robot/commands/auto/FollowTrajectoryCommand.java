@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +23,8 @@ public class FollowTrajectoryCommand extends RamseteCommand {
     private final DriveTrainSubsystem driveTrain;
     private final ArrayList<PositionedCommand<Command>> positionedCommands;
     private final Trajectory trajectory;
+
+    private boolean resetOdometry = true;
 
     public FollowTrajectoryCommand(
             DriveTrainSubsystem driveTrain,
@@ -51,8 +54,9 @@ public class FollowTrajectoryCommand extends RamseteCommand {
         this.positionedCommands = positionedCommands;
     }
 
-    public FollowTrajectoryCommand(DriveTrainSubsystem driveTrain, Trajectory trajectory) {
+    public FollowTrajectoryCommand(DriveTrainSubsystem driveTrain, Trajectory trajectory, boolean resetOdometry) {
         this(driveTrain, trajectory, new ArrayList<PositionedCommand<Command>>(0));
+        this.resetOdometry = resetOdometry;
     }
 
     public void addPositionedCommand(PositionedCommand<Command> positionedCommand) {
@@ -61,8 +65,11 @@ public class FollowTrajectoryCommand extends RamseteCommand {
 
     @Override
     public void initialize() {
-        driveTrain.resetOdometry(trajectory.getInitialPose());
+        if(resetOdometry) {
+            driveTrain.resetOdometry(trajectory.getInitialPose());
+        }
         super.initialize();
+
 
         try {
             Files.writeString(Paths.get("/home/lvuser/log.txt"), "", StandardOpenOption.CREATE);
