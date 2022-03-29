@@ -12,6 +12,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class DriveTrainSubsystem extends SubsystemBase {
     private final TalonFX leftMotor1, leftMotor2, rightMotor1, rightMotor2;
@@ -36,6 +38,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
         leftMotor2.setNeutralMode(NeutralMode.Coast);
         resetEncoders();
         resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+
+        RobotContainer.cameraTab.addNumber("Gyro", this::getRotation);
     }
 
     @Override
@@ -103,6 +107,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
         leftMotor2.set(ControlMode.PercentOutput, left);
         rightMotor1.set(ControlMode.PercentOutput, right);
         rightMotor2.set(ControlMode.PercentOutput, right);
+    }
+
+    public double getRotation() {
+        return ahrs.getRotation2d().getDegrees();
     }
 
 }
