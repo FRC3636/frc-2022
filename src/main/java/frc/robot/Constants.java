@@ -85,6 +85,8 @@ public final class Constants {
     }
 
     public static final class Camera {
+        public static final String CAMERA_ADDRESS = "10.36.36.11";
+
         public static final double LATENCY = 0.25;
         public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(29.3);
         public static final double GOAL_HEIGHT_METERS = 2.643;
