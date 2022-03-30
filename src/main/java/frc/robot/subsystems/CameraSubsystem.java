@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 public class CameraSubsystem extends SubsystemBase {
 
     private final NetworkTableEntry distance, angle;
@@ -41,7 +46,7 @@ public class CameraSubsystem extends SubsystemBase {
 
     public void initializeLight() throws UnknownHostException, IOException {
         System.out.println("connecting");
-        lightSocket = new Socket(Constants.Camera.CAMERA_ADDRESS, 4000);
+        lightSocket = new Socket("10.36.36.11", 4000);
     }
 
     public void turnOnLight() {
