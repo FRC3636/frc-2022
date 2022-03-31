@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 actuationMotor.set(0);
                 position = Position.Done;
             } else {
-                actuationMotor.set(0.3);
+                actuationMotor.set(0.25);
             }
         } else if (position == Position.Down
                 && Math.abs(

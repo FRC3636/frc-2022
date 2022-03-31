@@ -51,14 +51,14 @@ public final class Constants {
         public static final int TOP = 9;
         public static final double VELOCITY_TO_RPM = 600 / 2048f;
 
-        public static final double TOP_P = 0f;
-        public static final double TOP_I = 0f;
-        public static final double TOP_D = 0f;
-        public static final double TOP_F = ((0.5 * 1023) / 18000.0);
-        public static final double BOTTOM_P = 0.02f;
-        public static final double BOTTOM_I = 0f;
-        public static final double BOTTOM_D = 0f;
-        public static final double BOTTOM_F = ((0.5 * 1023) / 18000.0);
+        public static final double TOP_P = 0.01;
+        public static final double TOP_I = 0.00002;
+        public static final double TOP_D = 0.001;
+        public static final double TOP_F = ((0.5 * 1023) / 11000.0);
+        public static final double BOTTOM_P = 0.04;
+        public static final double BOTTOM_I = 0.00001;
+        public static final double BOTTOM_D = 0.001;
+        public static final double BOTTOM_F = ((0.5 * 1023) / 11000.0);
     }
 
     public static final class Intake {
@@ -66,7 +66,7 @@ public final class Constants {
         public static final int ACTUATION_MOTOR = 12;
 
         public static final int ACTUATION_LIMIT_SWITCH = 5;
-        public static final float ACTUATION_MOTOR_GEAR_RATIO = 49f / 2f;
+        public static final float ACTUATION_MOTOR_GEAR_RATIO = 245f / 11f;
         public static final double ACTUATION_DEGREES = 56;
     }
 

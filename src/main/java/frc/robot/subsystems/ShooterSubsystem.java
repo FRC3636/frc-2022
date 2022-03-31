@@ -15,19 +15,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private final TalonFX bottomMotor, topMotor;
 
-//    private final PIDController topOutput, bottomOutput;
+    private double topSetpoint, bottomSetpoint;
 
 
     public ShooterSubsystem() {
         bottomMotor = new TalonFX(Constants.Shooter.BOTTOM);
         topMotor = new TalonFX(Constants.Shooter.TOP);
         bottomMotor.setInverted(true);
-
-//        topOutput = new PIDController(0, 0, 0);
-//        bottomOutput = new PIDController(0, 0, 0);
-//
-//        RobotContainer.shooterTab.add("Bottom Shooter PID", topOutput).withWidget(BuiltInWidgets.kPIDController);
-//        RobotContainer.shooterTab.add("Top Shooter PID", bottomOutput).withWidget(BuiltInWidgets.kPIDController);
 
         bottomMotor.config_kP(0, Constants.Shooter.BOTTOM_P);
         bottomMotor.config_kI(0, Constants.Shooter.BOTTOM_I);
@@ -38,11 +32,17 @@ public class ShooterSubsystem extends SubsystemBase {
         topMotor.config_kD(0, Constants.Shooter.TOP_D);
         topMotor.config_kF(0, Constants.Shooter.TOP_F);
 
+        bottomMotor.enableVoltageCompensation(true);
+        topMotor.enableVoltageCompensation(true);
+
         bottomMotor.selectProfileSlot(0, 0);
         topMotor.selectProfileSlot(0, 0);
 
         RobotContainer.shooterTab.addNumber("Top Shooter Speed", this::getTopShooterSpeed);
         RobotContainer.shooterTab.addNumber("Bottom Shooter Speed", this::getBottomShooterSpeed);
+
+        RobotContainer.shooterTab.addNumber("Top Shooter Setpoint", this::getTopSetpoint);
+        RobotContainer.shooterTab.addNumber("Bottom Shooter Setpoint", this::getBottomSetpoint);
     }
 
     public void stop() {
@@ -51,14 +51,10 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void run(double bottomShooterSpeed, double topShooterSpeed) {
+        topSetpoint = topShooterSpeed;
+        bottomSetpoint = bottomShooterSpeed;
         bottomMotor.set(ControlMode.Velocity, bottomShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
         topMotor.set(ControlMode.Velocity, topShooterSpeed / Constants.Shooter.VELOCITY_TO_RPM);
-
-//        double topSpeed = topOutput.calculate(topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM, topShooterSpeed);
-//        double bottomSpeed = bottomOutput.calculate(bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM, bottomShooterSpeed);
-//
-//        topMotor.set(ControlMode.PercentOutput, topSpeed / RobotController.getBatteryVoltage());
-//        bottomMotor.set(ControlMode.PercentOutput, bottomSpeed / RobotController.getBatteryVoltage());
     }
 
     public double getBottomShooterSpeed() {
@@ -67,5 +63,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public double getTopShooterSpeed() {
         return topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM;
+    }
+
+    public double getTopSetpoint() {
+        return topSetpoint;
+    }
+
+    public double getBottomSetpoint() {
+        return bottomSetpoint;
     }
 }
