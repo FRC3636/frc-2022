@@ -33,7 +33,7 @@ public class CameraSubsystem extends SubsystemBase {
 
 
     public double getDistanceToGoal() {
-    return distance.getDouble(0) - Units.feetToMeters(3);
+    return distance.getDouble(0) - Units.feetToMeters(1);
     }
 
     public double getAngleToGoalDegrees() {

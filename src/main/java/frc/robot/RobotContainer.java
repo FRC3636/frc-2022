@@ -86,6 +86,7 @@ public class RobotContainer {
         autoModeChooser.addOption("One Ball", "one_ball");
         autoModeChooser.addOption("Two Balls", "two_ball");
         autoModeChooser.addOption("Three Balls", "three_ball");
+        autoModeChooser.addOption("Five Balls", "five_ball");
         autoModeChooser.addOption("Radial", "radial");
         autoModeChooser.setDefaultOption("Radial", "radial");
         autoTab.add("Mode", autoModeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -203,6 +204,41 @@ public class RobotContainer {
                             intakeSubsystem,
                             String.format(
                                     "three_ball.%s", startingPositionChooser.getSelected()), false),
+                        new AutoAimShootCommand(
+                                shooterSubsystem,
+                                conveyorSubsystem,
+                                cameraSubsystem,
+                                driveTrainSubsystem)
+                );
+
+            case "five_ball":
+                return new SequentialCommandGroup(
+                        new WaitCommand(delay.getDouble(0)),
+                        new IntakePathFollowingCommand(
+                                driveTrainSubsystem,
+                                intakeSubsystem,
+                                String.format(
+                                        "two_ball.%s", startingPositionChooser.getSelected()), true),
+                        new AutoAimShootCommand(
+                                shooterSubsystem,
+                                conveyorSubsystem,
+                                cameraSubsystem,
+                                driveTrainSubsystem),
+                        new IntakePathFollowingCommand(
+                                driveTrainSubsystem,
+                                intakeSubsystem,
+                                String.format(
+                                        "three_ball.%s", startingPositionChooser.getSelected()), false),
+                        new AutoAimShootCommand(
+                                shooterSubsystem,
+                                conveyorSubsystem,
+                                cameraSubsystem,
+                                driveTrainSubsystem),
+                        new IntakePathFollowingCommand(
+                                driveTrainSubsystem,
+                                intakeSubsystem,
+                                String.format(
+                                        "five_ball.%s", startingPositionChooser.getSelected()), false),
                         new AutoAimShootCommand(
                                 shooterSubsystem,
                                 conveyorSubsystem,
