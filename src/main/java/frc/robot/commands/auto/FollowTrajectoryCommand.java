@@ -70,6 +70,8 @@ public class FollowTrajectoryCommand extends RamseteCommand {
         }
         super.initialize();
 
+        RobotContainer.field.getRobotObject().setTrajectory(trajectory);
+
 
         try {
             Files.writeString(Paths.get("/home/lvuser/log.txt"), "", StandardOpenOption.CREATE);

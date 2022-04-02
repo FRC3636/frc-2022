@@ -11,6 +11,26 @@
     }
   },
   "Window": {
+    "###/Shuffleboard/Auto/Field": {
+      "Collapsed": "0",
+      "Pos": "243,469",
+      "Size": "653,416"
+    },
+    "###/Shuffleboard/Auto/Mode": {
+      "Collapsed": "0",
+      "Pos": "547,398",
+      "Size": "254,54"
+    },
+    "###/Shuffleboard/Auto/Starting Position": {
+      "Collapsed": "0",
+      "Pos": "248,402",
+      "Size": "254,54"
+    },
+    "###/Shuffleboard/Camera/Auto Aim PID": {
+      "Collapsed": "0",
+      "Pos": "1316,133",
+      "Size": "123,144"
+    },
     "###FMS": {
       "Collapsed": "0",
       "Pos": "5,540",
@@ -18,18 +38,28 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "250,465",
-      "Size": "796,217"
+      "Pos": "242,294",
+      "Size": "796,155"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "250,277",
-      "Size": "750,185"
+      "Pos": "173,27",
+      "Size": "750,227"
     },
     "###Other Devices": {
       "Collapsed": "0",
       "Pos": "926,20",
       "Size": "250,695"
+    },
+    "###Plot <0>": {
+      "Collapsed": "0",
+      "Pos": "1185,83",
+      "Size": "700,400"
+    },
+    "###RoboRIO": {
+      "Collapsed": "0",
+      "Pos": "18,740",
+      "Size": "193,238"
     },
     "###System Joysticks": {
       "Collapsed": "0",
@@ -38,8 +68,8 @@
     },
     "###Timing": {
       "Collapsed": "0",
-      "Pos": "5,150",
-      "Size": "135,127"
+      "Pos": "10,120",
+      "Size": "135,150"
     },
     "Debug##Default": {
       "Collapsed": "0",
@@ -48,7 +78,7 @@
     },
     "Robot State": {
       "Collapsed": "0",
-      "Pos": "5,20",
+      "Pos": "12,17",
       "Size": "92,99"
     }
   }
