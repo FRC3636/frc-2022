@@ -52,6 +52,7 @@ public class RobotContainer {
     private static SendableChooser<String> autoModeChooser;
     private static SendableChooser<String> startingPositionChooser;
     private static NetworkTableEntry delay = autoTab.add("Delay", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+    public static Field2d field = new Field2d();
 
     public static Joystick joystickLeft;
     public static Joystick joystickRight;
@@ -90,6 +91,8 @@ public class RobotContainer {
         autoModeChooser.addOption("Radial", "radial");
         autoModeChooser.setDefaultOption("Radial", "radial");
         autoTab.add("Mode", autoModeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+
+        autoTab.add("Field", field).withWidget(BuiltInWidgets.kField);
 
     }
 

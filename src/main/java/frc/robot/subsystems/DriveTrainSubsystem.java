@@ -50,6 +50,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
                         / Constants.Drivetrain.SENSOR_UNITS_PER_METER,
                 rightMotor1.getSelectedSensorPosition()
                         / Constants.Drivetrain.SENSOR_UNITS_PER_METER);
+
+        RobotContainer.field.setRobotPose(odometry.getPoseMeters());
     }
 
     public Pose2d getPose() {
@@ -110,7 +112,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public double getRotation() {
-        return ahrs.getRotation2d().getDegrees();
+        return -ahrs.getRotation2d().getDegrees();
     }
 
 }

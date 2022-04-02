@@ -85,10 +85,7 @@ public final class Constants {
     }
 
     public static final class Camera {
-        public static final double LATENCY = 0.25;
-        public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(29.3);
-        public static final double GOAL_HEIGHT_METERS = 2.643;
-        public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(45);
+        public static final double LATENCY = 0.05;
     }
 
     public static final class Autonomous {
