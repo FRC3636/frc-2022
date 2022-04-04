@@ -1,6 +1,7 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -13,10 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
@@ -87,6 +85,7 @@ public class RobotContainer {
         autoModeChooser.addOption("One Ball", "one_ball");
         autoModeChooser.addOption("Two Balls", "two_ball");
         autoModeChooser.addOption("Three Balls", "three_ball");
+        autoModeChooser.addOption("Four Balls", "four_ball");
         autoModeChooser.addOption("Five Balls", "five_ball");
         autoModeChooser.addOption("Radial", "radial");
         autoModeChooser.setDefaultOption("Radial", "radial");
@@ -162,6 +161,9 @@ public class RobotContainer {
         // Auto Aiming
         new Button(() -> joystickRight.getRawButton(2))
                 .whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));
+
+        new Button(() -> joystickRight.getRawButton(4))
+                .whileHeld(new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem));
     }
 
     /**
@@ -192,11 +194,6 @@ public class RobotContainer {
             case "three_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
-                        new IntakePathFollowingCommand(
-                                driveTrainSubsystem,
-                                intakeSubsystem,
-                                String.format(
-                                        "two_ball.%s", startingPositionChooser.getSelected()), true),
                         new AutoAimShootCommand(
                                 shooterSubsystem,
                                 conveyorSubsystem,
@@ -213,8 +210,7 @@ public class RobotContainer {
                                 cameraSubsystem,
                                 driveTrainSubsystem)
                 );
-
-            case "five_ball":
+            case "four_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new IntakePathFollowingCommand(
@@ -227,6 +223,25 @@ public class RobotContainer {
                                 conveyorSubsystem,
                                 cameraSubsystem,
                                 driveTrainSubsystem),
+                        new IntakePathFollowingCommand(
+                                driveTrainSubsystem,
+                                intakeSubsystem,
+                                String.format(
+                                        "four_ball.%s", startingPositionChooser.getSelected()), false),
+                        new AutoAimShootCommand(
+                                shooterSubsystem,
+                                conveyorSubsystem,
+                                cameraSubsystem,
+                                driveTrainSubsystem));
+            case "five_ball":
+                driveTrainSubsystem.resetOdometry(PathPlanner.loadPath(String.format(
+                        "three_ball.%s", startingPositionChooser.getSelected()), 2, 1).getInitialPose());
+                return new SequentialCommandGroup(
+                        new WaitCommand(delay.getDouble(0)),
+                        new AutoShootCommand(
+                                shooterSubsystem,
+                                conveyorSubsystem,
+                                cameraSubsystem),
                         new IntakePathFollowingCommand(
                                 driveTrainSubsystem,
                                 intakeSubsystem,

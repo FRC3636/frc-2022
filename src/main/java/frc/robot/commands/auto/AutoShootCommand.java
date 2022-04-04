@@ -12,10 +12,10 @@ public class AutoShootCommand extends ParallelDeadlineGroup {
     public AutoShootCommand(
             ShooterSubsystem shooter,
             ConveyorSubsystem conveyor,
-            CameraSubsystem camera,
-            DriveTrainSubsystem driveTrain) {
+            CameraSubsystem camera
+            ) {
         super(
-                new RunConveyorForSetTimeCommand(conveyor, ConveyorSubsystem.Direction.Up, 1, 4),
+                new RunConveyorForSetTimeCommand(conveyor, ConveyorSubsystem.Direction.Up, 1, 2.5),
                 new RunShooterWithCameraCommand(shooter, camera));
     }
 }

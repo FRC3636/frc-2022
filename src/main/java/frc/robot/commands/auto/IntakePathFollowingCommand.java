@@ -11,7 +11,7 @@ public class IntakePathFollowingCommand extends ParallelDeadlineGroup {
 
     public IntakePathFollowingCommand(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, String pathname,boolean resetOdometry) {
         super(
-                new FollowTrajectoryCommand(driveTrain, PathPlanner.loadPath(pathname, 5, 1.5), resetOdometry),
+                new FollowTrajectoryCommand(driveTrain, PathPlanner.loadPath(pathname, 5, 1), resetOdometry),
                 new IntakeCommand(intake, IntakeSubsystem.Direction.In)
         );
 

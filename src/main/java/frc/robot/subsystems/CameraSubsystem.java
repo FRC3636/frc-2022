@@ -28,12 +28,16 @@ public class CameraSubsystem extends SubsystemBase {
         angle = RobotContainer.cameraTable.getEntry("angle");
 
         RobotContainer.cameraTab.addNumber("Angle", this::getAngleToGoalDegrees);
-        RobotContainer.cameraTab.addNumber("Distance", this::getDistanceToGoal);
+        RobotContainer.cameraTab.addNumber("Distance", this::getDistanceToFeet);
     }
 
 
     public double getDistanceToGoal() {
-    return distance.getDouble(0) - Units.feetToMeters(1);
+        return distance.getDouble(0) - Units.feetToMeters(1);
+    }
+
+    public double getDistanceToFeet() {
+        return Units.metersToInches(distance.getDouble(0));
     }
 
     public double getAngleToGoalDegrees() {

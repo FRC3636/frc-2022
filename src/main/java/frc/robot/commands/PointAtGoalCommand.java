@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -20,7 +21,7 @@ public class PointAtGoalCommand extends CommandBase {
     private final CameraSubsystem camera;
     private final DriveTrainSubsystem driveTrain;
 
-    private final PIDController pidController = new PIDController(0.0155, 0.0005, 0.002);
+    private final PIDController pidController = new PIDController(0.0325, 0.001, 0.0055);
 
     private Timer timer;
 
@@ -36,6 +37,8 @@ public class PointAtGoalCommand extends CommandBase {
         this.camera = camera;
 
         addRequirements(driveTrain);
+
+        pidController.setTolerance(2);
 
         try {
             RobotContainer.cameraTab.add("Auto Aim PID",
@@ -58,10 +61,9 @@ public class PointAtGoalCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (Double.isNaN(startingAngle) && camera.hasResult()) {
+        if (Double.isNaN(startingAngle) && camera.hasResult() || Math.abs(getEstimatedAngle()) < 2 && !(Math.abs(camera.getAngleToGoalDegrees()) < 2)) {
             startingAngle = camera.getAngleToGoalDegrees();
             startingGyroRotation = driveTrain.getRotation();
-            System.out.println(startingGyroRotation);
         }
 
         if (!Double.isNaN(startingAngle)) {
@@ -84,8 +86,9 @@ public class PointAtGoalCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (!camera.hasResult()) return false;
-        if (DriverStation.isAutonomous()) {
-            return pidController.atSetpoint();
+        if(pidController.atSetpoint() && Math.abs(camera.getAngleToGoalDegrees()) < 2) {
+            driveTrain.stop();
+            return true;
         }
         return false;
     }

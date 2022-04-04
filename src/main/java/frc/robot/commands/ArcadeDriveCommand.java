@@ -1,9 +1,11 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -24,7 +26,13 @@ public class ArcadeDriveCommand extends CommandBase {
         double speedSensitivity = 1;
         double turnSensitivity = 2.9;
 
-        driveTrain.arcadeDrive(speed / speedSensitivity, turn / turnSensitivity);
+
+        if(RobotContainer.joystickLeft.getRawButton(3)) {
+            driveTrain.stop();
+        }
+        else {
+            driveTrain.arcadeDrive(speed / speedSensitivity, turn / turnSensitivity);
+        }
     }
 
     @Override
