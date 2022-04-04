@@ -32,7 +32,7 @@ public final class Constants {
         public static final double SENSOR_UNITS_PER_METER =
                 (SENSOR_UNITS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
 
-        public static final double DRIVE_VELOCITY_KP = 0.5;
+        public static final double DRIVE_VELOCITY_KP = 17.383;
 
         public static final double TRACK_WIDTH = 19 * 0.0254;
         public static final DifferentialDriveKinematics KINEMATICS =
@@ -89,8 +89,8 @@ public final class Constants {
     }
 
     public static final class Autonomous {
-        public static final double TURN_KP = 0;
-        public static final double TURN_KI = 0;
-        public static final double TURN_KD = 0;
+        public static final double TURN_KP = 0.0325;
+        public static final double TURN_KI = 0.001;
+        public static final double TURN_KD = 0.0055;
     }
 }

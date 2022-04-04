@@ -3,29 +3,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.Robot;
+import static frc.robot.Constants.*;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
-
-import java.util.Arrays;
 
 public class PointAtGoalCommand extends CommandBase {
 
     private final CameraSubsystem camera;
     private final DriveTrainSubsystem driveTrain;
 
-    private final PIDController pidController = new PIDController(0.0325, 0.001, 0.0055);
+    private final PIDController pidController = new PIDController(Autonomous.TURN_KP, Autonomous.TURN_KP, Autonomous.TURN_KP);
 
     private Timer timer;
 
-    private final int velocitySize = (int) (50 * Constants.Camera.LATENCY);
+    private final int velocitySize = (int) (50 * Camera.LATENCY);
 
     private static NetworkTableEntry setTurn = RobotContainer.cameraTab.add("Turn Distance", 0).withWidget(BuiltInWidgets.kTextView).getEntry();;
 

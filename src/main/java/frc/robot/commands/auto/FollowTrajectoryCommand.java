@@ -10,7 +10,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.Constants;
+import static frc.robot.Constants.*;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import java.io.IOException;
@@ -34,15 +34,15 @@ public class FollowTrajectoryCommand extends RamseteCommand {
                 trajectory,
                 driveTrain::getPose,
                 new RamseteController(
-                        Constants.Drivetrain.RAMSETE_B, Constants.Drivetrain.RAMSETE_ZETA),
+                        Drivetrain.RAMSETE_B, Drivetrain.RAMSETE_ZETA),
                 new SimpleMotorFeedforward(
-                        Constants.Drivetrain.FEED_FORWARD_KS,
-                        Constants.Drivetrain.FEED_FORWARD_KV,
-                        Constants.Drivetrain.FEED_FORWARD_KA),
-                Constants.Drivetrain.KINEMATICS,
+                        Drivetrain.FEED_FORWARD_KS,
+                        Drivetrain.FEED_FORWARD_KV,
+                        Drivetrain.FEED_FORWARD_KA),
+                Drivetrain.KINEMATICS,
                 driveTrain::getWheelSpeeds,
-                new PIDController(Constants.Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
-                new PIDController(Constants.Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
+                new PIDController(Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
+                new PIDController(Drivetrain.DRIVE_VELOCITY_KP, 0, 0),
                 driveTrain::tankDriveVolts,
                 driveTrain);
 

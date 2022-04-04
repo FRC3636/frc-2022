@@ -13,12 +13,12 @@
   "Window": {
     "###Analyzer": {
       "Collapsed": "0",
-      "Pos": "925,47",
-      "Size": "360,550"
+      "Pos": "849,40",
+      "Size": "438,550"
     },
     "###Generator": {
       "Collapsed": "0",
-      "Pos": "5,25",
+      "Pos": "4,26",
       "Size": "395,666"
     },
     "###Logger": {
@@ -28,7 +28,7 @@
     },
     "###Program Log": {
       "Collapsed": "0",
-      "Pos": "926,606",
+      "Pos": "516,668",
       "Size": "366,288"
     },
     "About": {
@@ -48,7 +48,7 @@
     },
     "Diagnostic Plots": {
       "Collapsed": "0",
-      "Pos": "1317,52",
+      "Pos": "1305,48",
       "Size": "590,690"
     },
     "Exception Caught!": {
