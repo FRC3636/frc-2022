@@ -9,7 +9,7 @@ import frc.robot.Constants;
 
 public class ConveyorSubsystem extends SubsystemBase {
     private final CANSparkMax conveyorMotor;
-
+    public double goal;
     DigitalInput beamBreak = new DigitalInput(1);
 
     private AutoIndex autoIndex = AutoIndex.Enabled;
@@ -21,15 +21,21 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public void run(Direction direction) {
-        conveyorMotor.set(direction == Direction.Up ? 1 : -1);
+        //conveyorMotor.set(direction == Direction.Up ? 1 : -1);
+        goal = (direction == Direction.Up ? 1 : -1);
     }
-
     public void stop() {
         conveyorMotor.set(0);
     }
 
     @Override
     public void periodic() {
+        if(conveyorMotor.get() < goal){
+            conveyorMotor.set(conveyorMotor.get()+.01);
+        }
+        if(conveyorMotor.get() > goal){
+            conveyorMotor.set(conveyorMotor.get()-.01);
+        }
         if (this.autoIndex == AutoIndex.Enabled) {
             if(!beamBreak.get()) {
                 run(ConveyorSubsystem.Direction.Up);
