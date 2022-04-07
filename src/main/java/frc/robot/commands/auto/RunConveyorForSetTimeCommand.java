@@ -28,6 +28,7 @@ public class RunConveyorForSetTimeCommand extends CommandBase {
     public void initialize() {
         timer = new Timer();
         timer.start();
+        conveyor.disableAutoIndex();
     }
 
     @Override
@@ -40,6 +41,7 @@ public class RunConveyorForSetTimeCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         conveyor.stop();
+        conveyor.enableAutoIndex();
     }
 
     @Override

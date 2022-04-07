@@ -16,7 +16,7 @@ public class PointAtGoalCommand extends CommandBase {
     private final CameraSubsystem camera;
     private final DriveTrainSubsystem driveTrain;
 
-    private final PIDController pidController = new PIDController(Autonomous.TURN_KP, Autonomous.TURN_KP, Autonomous.TURN_KP);
+    private final PIDController pidController = new PIDController(Autonomous.TURN_KP, Autonomous.TURN_KI, Autonomous.TURN_KD);
 
     private Timer timer;
 
@@ -81,7 +81,7 @@ public class PointAtGoalCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (!camera.hasResult()) return false;
-        if(pidController.atSetpoint() && Math.abs(camera.getAngleToGoalDegrees()) < 2) {
+        if(pidController.atSetpoint() && Math.abs(camera.getAngleToGoalDegrees()) < 2 && camera.hasResult()) {
             driveTrain.stop();
             return true;
         }

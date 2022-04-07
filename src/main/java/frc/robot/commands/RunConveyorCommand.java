@@ -7,8 +7,8 @@ import frc.robot.subsystems.ConveyorSubsystem;
 
 public class RunConveyorCommand extends CommandBase {
 
-    private final ConveyorSubsystem conveyor;
-    private final ConveyorSubsystem.Direction direction;
+    protected final ConveyorSubsystem conveyor;
+    protected final ConveyorSubsystem.Direction direction;
 
     public RunConveyorCommand(ConveyorSubsystem conveyor, ConveyorSubsystem.Direction direction) {
         this.conveyor = conveyor;

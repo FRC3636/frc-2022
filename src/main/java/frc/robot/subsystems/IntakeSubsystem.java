@@ -42,6 +42,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 actuationMotor.getEncoder().setPosition(0);
                 actuationMotor.set(0);
                 position = Position.Done;
+                actuationMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
             } else {
                 actuationMotor.set(0.25);
             }
@@ -62,13 +63,13 @@ public class IntakeSubsystem extends SubsystemBase {
     public void setIntakeUp() {
         if(!intakeLocked) {
             position = Position.Up;
-            intakeMotor.setNeutralMode(NeutralMode.Brake);
+            actuationMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         }
     }
 
     public void setIntakeDown() {
         if(!intakeLocked) {
-            intakeMotor.setNeutralMode(NeutralMode.Coast);
+            actuationMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
             position = Position.Down;
         }
     }

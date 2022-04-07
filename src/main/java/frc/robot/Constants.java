@@ -66,7 +66,7 @@ public final class Constants {
         public static final int ACTUATION_MOTOR = 12;
 
         public static final int ACTUATION_LIMIT_SWITCH = 5;
-        public static final float ACTUATION_MOTOR_GEAR_RATIO = 245f / 11f;
+        public static final float ACTUATION_MOTOR_GEAR_RATIO = 9f * (35f / 22f) * (28f / 19f);
         public static final double ACTUATION_DEGREES = 56;
     }
 
@@ -91,6 +91,6 @@ public final class Constants {
     public static final class Autonomous {
         public static final double TURN_KP = 0.0325;
         public static final double TURN_KI = 0.001;
-        public static final double TURN_KD = 0.0055;
+        public static final double TURN_KD = 0.0045;
     }
 }

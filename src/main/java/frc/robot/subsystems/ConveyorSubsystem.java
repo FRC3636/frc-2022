@@ -21,8 +21,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public void run(Direction direction) {
-        //conveyorMotor.set(direction == Direction.Up ? 1 : -1);
-        goal = (direction == Direction.Up ? 1 : -1);
+        conveyorMotor.set(direction == Direction.Up ? 1 : -1);
     }
     public void stop() {
         conveyorMotor.set(0);
@@ -30,12 +29,6 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(conveyorMotor.get() < goal){
-            conveyorMotor.set(conveyorMotor.get()+.01);
-        }
-        if(conveyorMotor.get() > goal){
-            conveyorMotor.set(conveyorMotor.get()-.01);
-        }
         if (this.autoIndex == AutoIndex.Enabled) {
             if(!beamBreak.get()) {
                 run(ConveyorSubsystem.Direction.Up);

@@ -72,4 +72,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public double getBottomSetpoint() {
         return bottomSetpoint;
     }
+
+    public boolean atSetSpeed() {
+        return Math.abs(topSetpoint - topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM) < 50
+                && Math.abs(bottomSetpoint - bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM) < 50;
+    }
 }
