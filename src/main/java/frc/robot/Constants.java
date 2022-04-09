@@ -32,7 +32,7 @@ public final class Constants {
         public static final double SENSOR_UNITS_PER_METER =
                 (SENSOR_UNITS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
 
-        public static final double DRIVE_VELOCITY_KP = 3;
+        public static final double DRIVE_VELOCITY_KP = 5;
 
         public static final double TRACK_WIDTH = 19 * 0.0254;
         public static final DifferentialDriveKinematics KINEMATICS =
@@ -72,6 +72,8 @@ public final class Constants {
 
     public static final class Conveyor {
         public static final int MOTOR = 13;
+        public static final double CURRENT_THRESHOLD = 5
+                ;
     }
 
     public static final class Climb {

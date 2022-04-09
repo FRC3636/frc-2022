@@ -83,4 +83,8 @@ public class CameraSubsystem extends SubsystemBase {
             System.err.println("WARN: failed to turn off camera light");
         }
     }
+
+    public boolean underThreshold() {
+        return Math.abs(getAngleToGoalDegrees()) < 2;
+    }
 }

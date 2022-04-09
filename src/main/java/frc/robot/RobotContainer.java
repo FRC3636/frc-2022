@@ -6,7 +6,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -21,8 +20,6 @@ import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.subsystems.*;
-
-import java.lang.reflect.Field;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -165,6 +162,9 @@ public class RobotContainer {
 
         new Button(() -> joystickRight.getRawButton(4))
                 .whileHeld(new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem));
+
+        new Button(() -> joystickLeft.getRawButton(4))
+                .whenPressed(new UnloadConveyorCommand(conveyorSubsystem, shooterSubsystem, cameraSubsystem));
     }
 
     /**
@@ -182,9 +182,11 @@ public class RobotContainer {
             case "two_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
-                        new IntakePathFollowingCommand(
+                        new AutoPathFollowing(
                                 driveTrainSubsystem,
                                 intakeSubsystem,
+                                shooterSubsystem,
+                                cameraSubsystem,
                                 String.format(
                                         "two_ball.%s", startingPositionChooser.getSelected()), true),
                         new AutoAimShootCommand(
@@ -200,9 +202,11 @@ public class RobotContainer {
                                 conveyorSubsystem,
                                 cameraSubsystem,
                                 driveTrainSubsystem),
-                        new IntakePathFollowingCommand(
+                        new AutoPathFollowing(
                             driveTrainSubsystem,
                             intakeSubsystem,
+                            shooterSubsystem,
+                            cameraSubsystem,
                             String.format(
                                     "three_ball.%s", startingPositionChooser.getSelected()), false),
                         new AutoAimShootCommand(
@@ -214,9 +218,11 @@ public class RobotContainer {
             case "four_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
-                        new IntakePathFollowingCommand(
+                        new AutoPathFollowing(
                                 driveTrainSubsystem,
                                 intakeSubsystem,
+                                shooterSubsystem,
+                                cameraSubsystem,
                                 String.format(
                                         "two_ball.%s", startingPositionChooser.getSelected()), true),
                         new AutoAimShootCommand(
@@ -224,9 +230,11 @@ public class RobotContainer {
                                 conveyorSubsystem,
                                 cameraSubsystem,
                                 driveTrainSubsystem),
-                        new IntakePathFollowingCommand(
+                        new AutoPathFollowing(
                                 driveTrainSubsystem,
                                 intakeSubsystem,
+                                shooterSubsystem,
+                                cameraSubsystem,
                                 String.format(
                                         "four_ball.%s", startingPositionChooser.getSelected()), false),
                         new AutoAimShootCommand(
@@ -244,9 +252,11 @@ public class RobotContainer {
                                 conveyorSubsystem,
                                 cameraSubsystem,
                                 driveTrainSubsystem),
-                        new IntakePathFollowingCommand(
+                        new AutoPathFollowing(
                                 driveTrainSubsystem,
                                 intakeSubsystem,
+                                shooterSubsystem,
+                                cameraSubsystem,
                                 String.format(
                                         "three_ball.%s", startingPositionChooser.getSelected()), false),
                         new AutoAimShootCommand(
@@ -254,9 +264,11 @@ public class RobotContainer {
                                 conveyorSubsystem,
                                 cameraSubsystem,
                                 driveTrainSubsystem),
-                        new IntakePathFollowingCommand(
+                        new AutoPathFollowing(
                                 driveTrainSubsystem,
                                 intakeSubsystem,
+                                shooterSubsystem,
+                                cameraSubsystem,
                                 String.format(
                                         "five_ball.%s", startingPositionChooser.getSelected()), false),
                         new ParallelCommandGroup(
@@ -272,8 +284,10 @@ public class RobotContainer {
             case "radial":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
-                        new IntakePathFollowingCommand(
-                                driveTrainSubsystem, intakeSubsystem, "radial", true),
+                        new AutoPathFollowing(
+                                driveTrainSubsystem, intakeSubsystem, shooterSubsystem,
+                                cameraSubsystem,"" +
+                                "radial", true),
                         new AutoShootFromDistanceCommand(
                                 shooterSubsystem, conveyorSubsystem, driveTrainSubsystem, 2.2));
 
