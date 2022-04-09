@@ -2,14 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.IntakeSubsystem.Direction;
 
 public class IntakeCommand extends CommandBase {
 
     IntakeSubsystem intake;
-    Direction direction;
+    double direction;
 
-    public IntakeCommand(IntakeSubsystem intake, Direction direction) {
+    public IntakeCommand(IntakeSubsystem intake, double direction) {
         this.intake = intake;
         this.direction = direction;
         addRequirements(intake);
