@@ -134,9 +134,9 @@ public class RobotContainer {
 
         // Intake
         new Button(() -> controller.getRightBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In));
+                .whileHeld(new IntakeCommand(intakeSubsystem, 1));
         new Button(() -> controller.getLeftBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out));
+                .whileHeld(new IntakeCommand(intakeSubsystem, -1));
         // Intake Actuation
         new Button(
                         () ->
@@ -279,7 +279,7 @@ public class RobotContainer {
                                         conveyorSubsystem,
                                         cameraSubsystem,
                                         driveTrainSubsystem),
-                                new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In)
+                                new IntakeCommand(intakeSubsystem, 1)
                                 )
                 );
         
@@ -294,7 +294,7 @@ public class RobotContainer {
                                 cameraSubsystem,
                                 String.format(
                                         "defensive.%s", startingPositionChooser.getSelected()), false),
-                        new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out)
+                        new IntakeCommand(intakeSubsystem, -0.5)
                 );
 
             case "radial":

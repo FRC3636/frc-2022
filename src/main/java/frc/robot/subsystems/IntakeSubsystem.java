@@ -30,8 +30,8 @@ public class IntakeSubsystem extends SubsystemBase {
         super.initSendable(builder);
     }
 
-    public void run(Direction direction) {
-        intakeMotor.set(TalonFXControlMode.PercentOutput, direction == Direction.In ? 1 : -1);
+    public void run(double direction) {
+        intakeMotor.set(TalonFXControlMode.PercentOutput, direction);
     }
 
     @Override
@@ -94,10 +94,5 @@ public class IntakeSubsystem extends SubsystemBase {
         Down,
         Coast,
         HoldUp
-    }
-
-    public enum Direction {
-        In,
-        Out
     }
 }
