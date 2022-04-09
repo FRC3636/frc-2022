@@ -73,9 +73,10 @@ public class RobotContainer {
 
         // Auto choices
         startingPositionChooser = new SendableChooser<String>();
+        startingPositionChooser.addOption("Left Edge", "left_edge");
         startingPositionChooser.addOption("Left", "left");
-        startingPositionChooser.addOption("Middle", "middle");
         startingPositionChooser.addOption("Right", "right");
+        startingPositionChooser.addOption("Right Edge", "right_edge");
         autoTab.add("Starting Position", startingPositionChooser)
                 .withWidget(BuiltInWidgets.kComboBoxChooser);
 
@@ -85,6 +86,7 @@ public class RobotContainer {
         autoModeChooser.addOption("Three Balls", "three_ball");
         autoModeChooser.addOption("Four Balls", "four_ball");
         autoModeChooser.addOption("Five Balls", "five_ball");
+        autoModeChooser.addOption("Defensive", "defensive");
         autoModeChooser.addOption("Radial", "radial");
         autoModeChooser.setDefaultOption("Radial", "radial");
         autoTab.add("Mode", autoModeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -279,6 +281,20 @@ public class RobotContainer {
                                         driveTrainSubsystem),
                                 new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In)
                                 )
+                );
+        
+            case "defensive":
+                return new SequentialCommandGroup(
+                        new WaitCommand(delay.getDouble(0)),
+                        new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem),
+                        new AutoPathFollowing(
+                                driveTrainSubsystem,
+                                intakeSubsystem,
+                                shooterSubsystem,
+                                cameraSubsystem,
+                                String.format(
+                                        "defensive.%s", startingPositionChooser.getSelected()), false),
+                        new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.Out)
                 );
 
             case "radial":
