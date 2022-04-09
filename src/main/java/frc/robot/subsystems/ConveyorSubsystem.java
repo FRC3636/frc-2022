@@ -21,7 +21,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public void run(Direction direction) {
-        conveyorMotor.set(direction == Direction.Up ? 1 : -1);
+        conveyorMotor.set(direction == Direction.Up ? 0.75 : -0.75);
     }
     public void stop() {
         conveyorMotor.set(0);

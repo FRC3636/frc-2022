@@ -1,7 +1,6 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -41,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
             if (!limitSwitch.get()) {
                 actuationMotor.getEncoder().setPosition(0);
                 actuationMotor.set(0);
-                position = Position.Done;
+                position = Position.HoldUp;
                 actuationMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
             } else {
                 actuationMotor.set(0.25);
@@ -54,8 +53,16 @@ public class IntakeSubsystem extends SubsystemBase {
                         < Constants.Intake.ACTUATION_DEGREES) {
             actuationMotor.set(-0.2);
         }
+        else if (position == Position.HoldUp) {
+            if (!limitSwitch.get()) {
+                actuationMotor.getEncoder().setPosition(0);
+                actuationMotor.set(0);
+            } else {
+                actuationMotor.set(0.1);
+            }
+        }
         else {
-            position = Position.Done;
+            position = Position.Coast;
             actuationMotor.set(0);
         }
     }
@@ -85,7 +92,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public enum Position {
         Up,
         Down,
-        Done
+        Coast,
+        HoldUp
     }
 
     public enum Direction {

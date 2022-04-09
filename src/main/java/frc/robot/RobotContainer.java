@@ -2,6 +2,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -115,8 +116,8 @@ public class RobotContainer {
                                 shooterSubsystem, 1700, 700)); // low hub from fender
         new Button(() -> controller.getXButton())
                 .whileHeld(
-                        new RunShooterWithNetworkTablesCommand(
-                                shooterSubsystem, bottomShooterSpeed, topShooterSpeed)); // high
+                        new RunShooterWithDistanceCommand(
+                                shooterSubsystem, Units.feetToMeters(8))); // high
         // hub
         // from
         // fender
@@ -238,10 +239,11 @@ public class RobotContainer {
                         "three_ball.%s", startingPositionChooser.getSelected()), 2, 1).getInitialPose());
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
-                        new AutoShootCommand(
+                        new AutoAimShootCommand(
                                 shooterSubsystem,
                                 conveyorSubsystem,
-                                cameraSubsystem),
+                                cameraSubsystem,
+                                driveTrainSubsystem),
                         new IntakePathFollowingCommand(
                                 driveTrainSubsystem,
                                 intakeSubsystem,
@@ -257,11 +259,14 @@ public class RobotContainer {
                                 intakeSubsystem,
                                 String.format(
                                         "five_ball.%s", startingPositionChooser.getSelected()), false),
-                        new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem)
+                        new ParallelCommandGroup(
+                                new AutoAimShootCommand(
+                                        shooterSubsystem,
+                                        conveyorSubsystem,
+                                        cameraSubsystem,
+                                        driveTrainSubsystem),
+                                new IntakeCommand(intakeSubsystem, IntakeSubsystem.Direction.In)
+                                )
                 );
 
             case "radial":

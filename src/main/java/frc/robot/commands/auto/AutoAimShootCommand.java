@@ -2,7 +2,6 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.PointAtGoalCommand;
 import frc.robot.commands.shooter.RunShooterWithCameraCommand;
 import frc.robot.subsystems.CameraSubsystem;

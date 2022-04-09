@@ -2,8 +2,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.*;
@@ -22,7 +24,8 @@ public class PointAtGoalCommand extends CommandBase {
 
     private final int velocitySize = (int) (50 * Camera.LATENCY);
 
-    private static NetworkTableEntry setTurn = RobotContainer.cameraTab.add("Turn Distance", 0).withWidget(BuiltInWidgets.kTextView).getEntry();;
+    private static NetworkTableEntry setTurn = RobotContainer.cameraTab.add("Turn Distance", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+//    private static NetworkTableEntry maxOutput = RobotContainer.cameraTab.add("Max Output", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
 
     private double startingAngle = Float.NaN;
     private double startingGyroRotation = Float.NaN;
@@ -33,13 +36,12 @@ public class PointAtGoalCommand extends CommandBase {
 
         addRequirements(driveTrain);
 
-        pidController.setTolerance(2);
+        pidController.setTolerance(2, 0.5);
 
         try {
             RobotContainer.cameraTab.add("Auto Aim PID",
                     pidController).withWidget(BuiltInWidgets.kPIDController);
             RobotContainer.cameraTab.addNumber("Estimated Angle", this::getEstimatedAngle);
-            RobotContainer.cameraTab.addNumber("Angle Offset", this::getAngleOffset);
         } catch (Exception ignored) {}
     }
 
@@ -52,20 +54,26 @@ public class PointAtGoalCommand extends CommandBase {
         startingGyroRotation = Float.NaN;
     }
 
-    private static final double MAX_OUTPUT = 0.2;
+    private static final double MAX_OUTPUT = 1.5;
 
     @Override
     public void execute() {
-        if (Double.isNaN(startingAngle) && camera.hasResult() || Math.abs(getEstimatedAngle()) < 2 && !(Math.abs(camera.getAngleToGoalDegrees()) < 2)) {
-            startingAngle = camera.getAngleToGoalDegrees();
-            startingGyroRotation = driveTrain.getRotation();
+        if(!(Math.abs(camera.getAngleToGoalDegrees()) < 2)) {
+            double turn = pidController.calculate(camera.getAngleToGoalDegrees(), 0);
+            turn = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(turn)), turn);
+
+            driveTrain.tankDriveVolts(-turn, turn);
+        }
+        else {
+            driveTrain.stop();
         }
 
-        if (!Double.isNaN(startingAngle)) {
-            double turn = pidController.calculate(getEstimatedAngle(), 0);
-            turn = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(turn)), turn);
-            driveTrain.tankDrive(-turn, turn);
-        }
+    }
+
+    public void resetStartingAngle() {
+        startingAngle = camera.getAngleToGoalDegrees();
+        startingGyroRotation = driveTrain.getRotation();
+        System.out.println("reset");
     }
 
     public double getEstimatedAngle() {
@@ -80,11 +88,10 @@ public class PointAtGoalCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (!camera.hasResult()) return false;
-        if(pidController.atSetpoint() && Math.abs(camera.getAngleToGoalDegrees()) < 2 && camera.hasResult()) {
-            driveTrain.stop();
-            return true;
-        }
+//        if(pidController.atSetpoint() && camera.hasResult()) {
+//            return false;
+//
+//        }
         return false;
     }
 }

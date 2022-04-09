@@ -43,6 +43,6 @@ public class AutoRunConveyorCommand extends RunConveyorCommand {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(2);
+        return timer.hasElapsed(1);
     }
 }
