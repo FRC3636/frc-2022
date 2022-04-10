@@ -12,11 +12,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class AutoPathFollowing extends ParallelDeadlineGroup {
 
     public AutoPathFollowing(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, ShooterSubsystem shooter, CameraSubsystem camera, String pathname, boolean resetOdometry) {
+        this(driveTrain, intake, shooter, camera, pathname, resetOdometry, 5,1.4);
+    }
+
+    public AutoPathFollowing(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, ShooterSubsystem shooter, CameraSubsystem camera, String pathname, boolean resetOdometry, double maxVel, double maxAccel) {
         super(
-                new FollowTrajectoryCommand(driveTrain, PathPlanner.loadPath(pathname, 5, 1.4), resetOdometry),
+                new FollowTrajectoryCommand(driveTrain, PathPlanner.loadPath(pathname, maxVel, maxAccel), resetOdometry),
                 new IntakeCommand(intake, 1),
                 new RunShooterWithCameraCommand(shooter, camera)
         );
-
     }
 }

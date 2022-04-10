@@ -26,13 +26,13 @@ public final class Constants {
         public static final int MOTOR_LEFT_2 = 4;
 
         public static final double SENSOR_UNITS_PER_REV = 2048;
-        public static final double WHEEL_DIAMETER = 6;
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(6);
         public static final double GEAR_RATIO = 10.71;
-        public static final double WHEEL_CIRCUMFERENCE = (Math.PI * WHEEL_DIAMETER * 0.0254);
+        public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
         public static final double SENSOR_UNITS_PER_METER =
                 (SENSOR_UNITS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
 
-        public static final double DRIVE_VELOCITY_KP = 5;
+        public static final double DRIVE_VELOCITY_KP = 3;
 
         public static final double TRACK_WIDTH = 19 * 0.0254;
         public static final DifferentialDriveKinematics KINEMATICS =

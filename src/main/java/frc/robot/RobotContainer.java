@@ -284,6 +284,8 @@ public class RobotContainer {
                 );
         
             case "defensive":
+                driveTrainSubsystem.resetOdometry(PathPlanner.loadPath(String.format(
+                        "defensive.%s", startingPositionChooser.getSelected()), 2, 1).getInitialPose());
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem),
@@ -293,8 +295,11 @@ public class RobotContainer {
                                 shooterSubsystem,
                                 cameraSubsystem,
                                 String.format(
-                                        "defensive.%s", startingPositionChooser.getSelected()), false),
-                        new IntakeCommand(intakeSubsystem, -0.5)
+                                        "defensive.%s", startingPositionChooser.getSelected()), false, 2, 1),
+                        new ParallelCommandGroup(
+                            new IntakeCommand(intakeSubsystem, -0.5),
+                                new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down)
+                        )
                 );
 
             case "radial":
@@ -303,7 +308,7 @@ public class RobotContainer {
                         new AutoPathFollowing(
                                 driveTrainSubsystem, intakeSubsystem, shooterSubsystem,
                                 cameraSubsystem,"" +
-                                "radial", true),
+                                "radial", true, 3, 1),
                         new AutoShootFromDistanceCommand(
                                 shooterSubsystem, conveyorSubsystem, driveTrainSubsystem, 2.2));
 
