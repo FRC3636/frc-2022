@@ -1,19 +1,15 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrain;
 
-public class ArcadeDriveCommand extends CommandBase {
+public class ArcadeDrive extends CommandBase {
 
-    private final DriveTrainSubsystem driveTrain;
+    private final DriveTrain driveTrain;
 
-    public ArcadeDriveCommand(DriveTrainSubsystem driveTrain) {
+    public ArcadeDrive(DriveTrain driveTrain) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
     }

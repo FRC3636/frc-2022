@@ -1,21 +1,21 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.Conveyor;
 
-public class RunConveyorForSetTimeCommand extends CommandBase {
+public class RunConveyorForSetTime extends CommandBase {
 
     private Timer timer;
-    private final ConveyorSubsystem conveyor;
-    private final ConveyorSubsystem.Direction direction;
+    private final Conveyor conveyor;
+    private final Conveyor.Direction direction;
     private final double delay;
     private final double duration;
 
-    public RunConveyorForSetTimeCommand(
-            ConveyorSubsystem conveyor,
-            ConveyorSubsystem.Direction direction,
+    public RunConveyorForSetTime(
+            Conveyor conveyor,
+            Conveyor.Direction direction,
             double delay,
             double duration) {
         this.conveyor = conveyor;

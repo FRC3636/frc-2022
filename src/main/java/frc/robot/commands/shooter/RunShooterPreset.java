@@ -1,17 +1,14 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Shooter;
 
-public class RunShooterPresetCommand extends RunShooterCommand {
+public class RunShooterPreset extends RunShooter {
 
     protected double topShooterSpeed, bottomShooterSpeed;
 
-    public RunShooterPresetCommand(
-            ShooterSubsystem shooter, int bottomShooterSpeed, int topShooterSpeed) {
+    public RunShooterPreset(
+            Shooter shooter, int bottomShooterSpeed, int topShooterSpeed) {
         super(shooter);
         this.bottomShooterSpeed = bottomShooterSpeed;
         this.topShooterSpeed = topShooterSpeed;

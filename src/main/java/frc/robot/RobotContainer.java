@@ -16,9 +16,16 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.*;
-import frc.robot.commands.auto.*;
-import frc.robot.commands.shooter.*;
+import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoIndex;
+import frc.robot.commands.PointAtGoal;
+import frc.robot.commands.UnloadConveyor;
+import frc.robot.commands.auto.AutoAimShootCommand;
+import frc.robot.commands.auto.AutoPathFollowing;
+import frc.robot.commands.auto.AutoShootFromDistanceCommand;
+import frc.robot.commands.shooter.RunShooterPreset;
+import frc.robot.commands.shooter.RunShooterWithCamera;
+import frc.robot.commands.shooter.RunShooterWithDistance;
 import frc.robot.subsystems.*;
 
 /**
@@ -54,22 +61,23 @@ public class RobotContainer {
     public static Joystick joystickRight;
     public static XboxController controller;
 
-    private static final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-    private static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-    private static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private static final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
-    private static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-    private static final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+    private static final DriveTrain driveTrain = new DriveTrain();
+    private static final Shooter shooter = new Shooter();
+    private static final Intake intake = new Intake();
+    private static final Conveyor conveyor = new Conveyor();
+    private static final Climb climb = new Climb();
+    private static final Camera camera = new Camera();
 
-    private static final ArcadeDriveCommand arcadeDriveCommand =
-            new ArcadeDriveCommand(driveTrainSubsystem);
+    private static final ArcadeDrive ARCADE_DRIVE =
+            new ArcadeDrive(driveTrain);
 
     /** The container for the robot. Contains subsystems, I/O devices, and commands. */
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
 
-        driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+        driveTrain.setDefaultCommand(ARCADE_DRIVE);
+        conveyor.setDefaultCommand(new AutoIndex(conveyor));
 
         // Auto choices
         startingPositionChooser = new SendableChooser<String>();
@@ -108,15 +116,15 @@ public class RobotContainer {
 
         // Shooter
         new Button(() -> controller.getAButton())
-                .whileHeld(new RunShooterWithCameraCommand(shooterSubsystem, cameraSubsystem));
+                .whileHeld(new RunShooterWithCamera(shooter, camera));
         new Button(() -> controller.getBButton())
                 .whileHeld(
-                        new RunShooterPresetCommand(
-                                shooterSubsystem, 1700, 700)); // low hub from fender
+                        new RunShooterPreset(
+                                shooter, 1700, 700)); // low hub from fender
         new Button(() -> controller.getXButton())
                 .whileHeld(
-                        new RunShooterWithDistanceCommand(
-                                shooterSubsystem, Units.feetToMeters(8))); // high
+                        new RunShooterWithDistance(
+                                shooter, Units.feetToMeters(8))); // high
         // hub
         // from
         // fender
@@ -124,19 +132,21 @@ public class RobotContainer {
         // Conveyor
         new Button(() -> joystickRight.getTrigger())
                 .whileHeld(
-                        new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Up));
+                        new RunCommand(() -> conveyor.run(Conveyor.Direction.Up), conveyor));
         new Button(() -> joystickLeft.getTrigger())
                 .whileHeld(
-                        new RunConveyorCommand(
-                                conveyorSubsystem, ConveyorSubsystem.Direction.Down));
+                        new RunCommand(() -> conveyor.run(Conveyor.Direction.Down), conveyor));
+
         new Button(() -> joystickLeft.getRawButton(2))
-                .whenPressed(conveyorSubsystem::toggleAutoIndex);
+                .whenPressed(() -> conveyor.setDefaultCommand(null)).whenReleased(() -> conveyor.setDefaultCommand(new AutoIndex(conveyor)));
 
         // Intake
         new Button(() -> controller.getRightBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, 1));
+                .whileHeld(new RunCommand(() -> intake.run(1), intake));
         new Button(() -> controller.getLeftBumper())
-                .whileHeld(new IntakeCommand(intakeSubsystem, -1));
+                .whileHeld(new RunCommand(() -> intake.run(-1), intake));
+
+
         // Intake Actuation
         new Button(
                         () ->
@@ -144,29 +154,29 @@ public class RobotContainer {
                                         || (controller.getPOV() <= 45 && controller.getPOV() >= 0))
                 .whileHeld(() ->
                 {
-                    intakeSubsystem.setIntakeUp();
-                    intakeSubsystem.setIntakeLocked(false);
+                    intake.setIntakeUp();
+                    intake.setIntakeLocked(false);
                 });
         new Button(() -> controller.getPOV() <= 225 && controller.getPOV() >= 135)
                 .whileHeld(() ->
                 {
-                    intakeSubsystem.setIntakeDown();
-                    intakeSubsystem.setIntakeLocked(true);
+                    intake.setIntakeDown();
+                    intake.setIntakeLocked(true);
                 });
 
         // Climb
         new Button(() -> controller.getYButton())
-                .toggleWhenPressed(new ClimbCommand(climbSubsystem));
+                .toggleWhenPressed(new RunCommand(() -> climb.runClimb(RobotContainer.controller.getLeftY(), RobotContainer.controller.getRightX()), climb));
 
         // Auto Aiming
         new Button(() -> joystickRight.getRawButton(2))
-                .whileHeld(new PointAtGoalCommand(driveTrainSubsystem, cameraSubsystem));
+                .whileHeld(new PointAtGoal(driveTrain, camera));
 
         new Button(() -> joystickRight.getRawButton(4))
-                .whileHeld(new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem));
+                .whileHeld(new AutoAimShootCommand(shooter, conveyor, camera, driveTrain));
 
         new Button(() -> joystickLeft.getRawButton(4))
-                .whenPressed(new UnloadConveyorCommand(conveyorSubsystem, shooterSubsystem, cameraSubsystem));
+                .whenPressed(new UnloadConveyor(conveyor, shooter, camera));
     }
 
     /**
@@ -179,126 +189,126 @@ public class RobotContainer {
             case "one_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
-                        new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem));
+                        new AutoAimShootCommand(shooter, conveyor, camera, driveTrain));
 
             case "two_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new AutoPathFollowing(
-                                driveTrainSubsystem,
-                                intakeSubsystem,
-                                shooterSubsystem,
-                                cameraSubsystem,
+                                driveTrain,
+                                intake,
+                                shooter,
+                                camera,
                                 String.format(
                                         "two_ball.%s", startingPositionChooser.getSelected()), true),
                         new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem));
+                                shooter,
+                                conveyor,
+                                camera,
+                                driveTrain));
             case "three_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem),
+                                shooter,
+                                conveyor,
+                                camera,
+                                driveTrain),
                         new AutoPathFollowing(
-                            driveTrainSubsystem,
-                            intakeSubsystem,
-                            shooterSubsystem,
-                            cameraSubsystem,
+                                driveTrain,
+                                intake,
+                                shooter,
+                                camera,
                             String.format(
                                     "three_ball.%s", startingPositionChooser.getSelected()), false),
                         new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem)
+                                shooter,
+                                conveyor,
+                                camera,
+                                driveTrain)
                 );
             case "four_ball":
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new AutoPathFollowing(
-                                driveTrainSubsystem,
-                                intakeSubsystem,
-                                shooterSubsystem,
-                                cameraSubsystem,
+                                driveTrain,
+                                intake,
+                                shooter,
+                                camera,
                                 String.format(
                                         "two_ball.%s", startingPositionChooser.getSelected()), true),
                         new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem),
+                                shooter,
+                                conveyor,
+                                camera,
+                                driveTrain),
                         new AutoPathFollowing(
-                                driveTrainSubsystem,
-                                intakeSubsystem,
-                                shooterSubsystem,
-                                cameraSubsystem,
+                                driveTrain,
+                                intake,
+                                shooter,
+                                camera,
                                 String.format(
                                         "four_ball.%s", startingPositionChooser.getSelected()), false),
                         new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem));
+                                shooter,
+                                conveyor,
+                                camera,
+                                driveTrain));
             case "five_ball":
-                driveTrainSubsystem.resetOdometry(PathPlanner.loadPath(String.format(
+                driveTrain.resetOdometry(PathPlanner.loadPath(String.format(
                         "three_ball.%s", startingPositionChooser.getSelected()), 2, 1).getInitialPose());
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem),
+                                shooter,
+                                conveyor,
+                                camera,
+                                driveTrain),
                         new AutoPathFollowing(
-                                driveTrainSubsystem,
-                                intakeSubsystem,
-                                shooterSubsystem,
-                                cameraSubsystem,
+                                driveTrain,
+                                intake,
+                                shooter,
+                                camera,
                                 String.format(
                                         "three_ball.%s", startingPositionChooser.getSelected()), false),
                         new AutoAimShootCommand(
-                                shooterSubsystem,
-                                conveyorSubsystem,
-                                cameraSubsystem,
-                                driveTrainSubsystem),
+                                shooter,
+                                conveyor,
+                                camera,
+                                driveTrain),
                         new AutoPathFollowing(
-                                driveTrainSubsystem,
-                                intakeSubsystem,
-                                shooterSubsystem,
-                                cameraSubsystem,
+                                driveTrain,
+                                intake,
+                                shooter,
+                                camera,
                                 String.format(
                                         "five_ball.%s", startingPositionChooser.getSelected()), false),
                         new ParallelCommandGroup(
                                 new AutoAimShootCommand(
-                                        shooterSubsystem,
-                                        conveyorSubsystem,
-                                        cameraSubsystem,
-                                        driveTrainSubsystem),
-                                new IntakeCommand(intakeSubsystem, 1)
+                                        shooter,
+                                        conveyor,
+                                        camera,
+                                        driveTrain),
+                                new RunCommand(() -> intake.run( -0.5), intake)
                                 )
                 );
         
             case "defensive":
-                driveTrainSubsystem.resetOdometry(PathPlanner.loadPath(String.format(
+                driveTrain.resetOdometry(PathPlanner.loadPath(String.format(
                         "defensive.%s", startingPositionChooser.getSelected()), 2, 1).getInitialPose());
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
-                        new AutoAimShootCommand(shooterSubsystem, conveyorSubsystem, cameraSubsystem, driveTrainSubsystem),
+                        new AutoAimShootCommand(shooter, conveyor, camera, driveTrain),
                         new AutoPathFollowing(
-                                driveTrainSubsystem,
-                                intakeSubsystem,
-                                shooterSubsystem,
-                                cameraSubsystem,
+                                driveTrain,
+                                intake,
+                                shooter,
+                                camera,
                                 String.format(
                                         "defensive.%s", startingPositionChooser.getSelected()), false, 2, 1),
                         new ParallelCommandGroup(
-                            new IntakeCommand(intakeSubsystem, -0.5),
-                                new RunConveyorCommand(conveyorSubsystem, ConveyorSubsystem.Direction.Down)
+                                new RunCommand(() -> intake.run( -0.5), intake),
+                                new RunCommand(() -> conveyor.run(Conveyor.Direction.Down), intake)
                         )
                 );
 
@@ -306,11 +316,11 @@ public class RobotContainer {
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new AutoPathFollowing(
-                                driveTrainSubsystem, intakeSubsystem, shooterSubsystem,
-                                cameraSubsystem,"" +
+                                driveTrain, intake, shooter,
+                                camera,"" +
                                 "radial", true, 3, 1),
                         new AutoShootFromDistanceCommand(
-                                shooterSubsystem, conveyorSubsystem, driveTrainSubsystem, 2.2));
+                                shooter, conveyor, 2.2));
 
             default:
                 return null;

@@ -6,14 +6,11 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
-public class ClimbSubsystem extends SubsystemBase {
+public class Climb extends SubsystemBase {
 
     private final TalonFX rightTelescopingMotor = new TalonFX(Constants.Climb.RIGHT_TELESCOPING_MOTOR);
     private final TalonFX leftTelescopingMotor = new TalonFX(Constants.Climb.LEFT_TELESCOPING_MOTOR);
@@ -23,7 +20,7 @@ public class ClimbSubsystem extends SubsystemBase {
     private final DigitalInput pivotLimitSwitchOut = new DigitalInput(Constants.Climb.PIVOT_LIMIT_SWITCH_OUT);
     private final DigitalInput pivotLimitSwitchIn = new DigitalInput(Constants.Climb.PIVOT_LIMIT_SWITCH_IN);
 
-    public ClimbSubsystem() {
+    public Climb() {
         rightTelescopingMotor.setNeutralMode(NeutralMode.Brake);
         leftTelescopingMotor.setNeutralMode(NeutralMode.Brake);
 

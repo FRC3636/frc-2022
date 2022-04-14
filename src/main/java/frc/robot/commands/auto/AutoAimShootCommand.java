@@ -2,22 +2,23 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc.robot.commands.PointAtGoalCommand;
-import frc.robot.commands.shooter.RunShooterWithCameraCommand;
-import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.PointAtGoal;
+import frc.robot.commands.UnloadConveyor;
+import frc.robot.commands.shooter.RunShooterWithCamera;
+import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 
 public class AutoAimShootCommand extends ParallelDeadlineGroup {
     public AutoAimShootCommand(
-            ShooterSubsystem shooter,
-            ConveyorSubsystem conveyor,
-            CameraSubsystem camera,
-            DriveTrainSubsystem driveTrain) {
+            Shooter shooter,
+            Conveyor conveyor,
+            Camera camera,
+            DriveTrain driveTrain) {
         super(
-                new UnloadConveyorCommand(conveyor, shooter, camera),
-                new PointAtGoalCommand(driveTrain, camera),
-                new RunShooterWithCameraCommand(shooter, camera));
+                new UnloadConveyor(conveyor, shooter, camera),
+                new PointAtGoal(driveTrain, camera),
+                new RunShooterWithCamera(shooter, camera));
     }
 }

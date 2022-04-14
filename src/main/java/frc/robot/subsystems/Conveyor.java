@@ -6,20 +6,16 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
-public class ConveyorSubsystem extends SubsystemBase {
+public class Conveyor extends SubsystemBase {
     private final CANSparkMax conveyorMotor;
-    public double goal;
-    DigitalInput beamBreak = new DigitalInput(1);
+    private final DigitalInput beamBreak = new DigitalInput(Constants.Conveyor.BEAM_BREAK);
 
     private AutoIndex autoIndex = AutoIndex.Enabled;
 
-    public ConveyorSubsystem() {
+    public Conveyor() {
         conveyorMotor = new CANSparkMax(Constants.Conveyor.MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
         conveyorMotor.setSmartCurrentLimit(20);
-
-        RobotContainer.driveSettings.addNumber("Conveyor Current", this::getCurrent);
     }
 
     public void run(Direction direction) {
@@ -33,7 +29,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     public void periodic() {
         if (this.autoIndex == AutoIndex.Enabled) {
             if(!beamBreak.get()) {
-                run(ConveyorSubsystem.Direction.Up);
+                run(Conveyor.Direction.Up);
             }
             else {
                 stop();
@@ -67,6 +63,10 @@ public class ConveyorSubsystem extends SubsystemBase {
         Enabled,
         Disabled,
         Stopped
+    }
+
+    public boolean getBeamBreak() {
+        return beamBreak.get();
     }
 
     public double getCurrent() {

@@ -1,13 +1,13 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.shooter;
 
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Shooter;
 
-public class RunShooterWithDistanceCommand extends RunShooterCommand {
+public class RunShooterWithDistance extends RunShooter {
 
     protected double distance;
 
-    public RunShooterWithDistanceCommand(ShooterSubsystem shooter, double distance) {
+    public RunShooterWithDistance(Shooter shooter, double distance) {
         super(shooter);
         this.distance = distance;
         addRequirements(shooter);

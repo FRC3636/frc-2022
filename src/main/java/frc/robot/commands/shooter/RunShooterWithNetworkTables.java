@@ -1,14 +1,14 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Shooter;
 
-public class RunShooterWithNetworkTablesCommand extends RunShooterPresetCommand{
+public class RunShooterWithNetworkTables extends RunShooterPreset {
 
     public NetworkTableEntry bottomShooterSpeedEntry, topShooterSpeedEntry;
 
-    public RunShooterWithNetworkTablesCommand(
-            ShooterSubsystem shooter, NetworkTableEntry bottomShooterSpeedEntry, NetworkTableEntry topShooterSpeedEntry) {
+    public RunShooterWithNetworkTables(
+            Shooter shooter, NetworkTableEntry bottomShooterSpeedEntry, NetworkTableEntry topShooterSpeedEntry) {
         super(shooter, 0, 0);
         this.bottomShooterSpeedEntry = bottomShooterSpeedEntry;
         this.topShooterSpeedEntry = topShooterSpeedEntry;

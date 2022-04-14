@@ -1,6 +1,7 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.auto;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -10,24 +11,26 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import static frc.robot.Constants.*;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrain;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
+import static frc.robot.Constants.Drivetrain;
+
 public class FollowTrajectoryCommand extends RamseteCommand {
-    private final DriveTrainSubsystem driveTrain;
+    private final DriveTrain driveTrain;
     private final ArrayList<PositionedCommand<Command>> positionedCommands;
     private final Trajectory trajectory;
 
     private boolean resetOdometry = true;
 
     public FollowTrajectoryCommand(
-            DriveTrainSubsystem driveTrain,
+            DriveTrain driveTrain,
             Trajectory trajectory,
             ArrayList<PositionedCommand<Command>> positionedCommands) {
         super(
@@ -54,9 +57,11 @@ public class FollowTrajectoryCommand extends RamseteCommand {
         this.positionedCommands = positionedCommands;
     }
 
-    public FollowTrajectoryCommand(DriveTrainSubsystem driveTrain, Trajectory trajectory, boolean resetOdometry) {
+    public FollowTrajectoryCommand(DriveTrain driveTrain, Trajectory trajectory, boolean resetOdometry) {
         this(driveTrain, trajectory, new ArrayList<PositionedCommand<Command>>(0));
         this.resetOdometry = resetOdometry;
+
+        driveTrain.setNeutralMode(NeutralMode.Brake);
     }
 
     public void addPositionedCommand(PositionedCommand<Command> positionedCommand) {
@@ -94,6 +99,7 @@ public class FollowTrajectoryCommand extends RamseteCommand {
     @Override
     public void end(boolean interrupted) {
         driveTrain.stop();
+        driveTrain.setNeutralMode(NeutralMode.Coast);
         super.end(interrupted);
     }
 

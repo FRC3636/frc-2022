@@ -2,24 +2,24 @@ package frc.robot.commands.auto;
 
 import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.shooter.RunShooterWithCameraCommand;
-import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.shooter.RunShooterWithCamera;
+import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 public class AutoPathFollowing extends ParallelDeadlineGroup {
 
-    public AutoPathFollowing(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, ShooterSubsystem shooter, CameraSubsystem camera, String pathname, boolean resetOdometry) {
+    public AutoPathFollowing(DriveTrain driveTrain, Intake intake, Shooter shooter, Camera camera, String pathname, boolean resetOdometry) {
         this(driveTrain, intake, shooter, camera, pathname, resetOdometry, 5,1.4);
     }
 
-    public AutoPathFollowing(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, ShooterSubsystem shooter, CameraSubsystem camera, String pathname, boolean resetOdometry, double maxVel, double maxAccel) {
+    public AutoPathFollowing(DriveTrain driveTrain, Intake intake, Shooter shooter, Camera camera, String pathname, boolean resetOdometry, double maxVel, double maxAccel) {
         super(
                 new FollowTrajectoryCommand(driveTrain, PathPlanner.loadPath(pathname, maxVel, maxAccel), resetOdometry),
-                new IntakeCommand(intake, 1),
-                new RunShooterWithCameraCommand(shooter, camera)
+                new RunCommand(() -> intake.run(1), intake),
+                new RunShooterWithCamera(shooter, camera)
         );
     }
 }

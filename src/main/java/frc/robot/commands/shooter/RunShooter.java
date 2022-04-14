@@ -1,16 +1,14 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Shooter;
 
-public class RunShooterCommand extends CommandBase {
+public class RunShooter extends CommandBase {
 
-    protected final ShooterSubsystem shooter;
+    protected final Shooter shooter;
 
-    public RunShooterCommand(ShooterSubsystem shooter) {
+    public RunShooter(Shooter shooter) {
         this.shooter = shooter;
         addRequirements(shooter);
     }

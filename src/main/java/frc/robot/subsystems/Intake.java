@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class Intake extends SubsystemBase {
 
     private final TalonFX intakeMotor = new TalonFX(Constants.Intake.MOTOR);
 
@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 position = Position.HoldUp;
                 actuationMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
             } else {
-                actuationMotor.set(0.25);
+                actuationMotor.set(0.3);
             }
         } else if (position == Position.Down
                 && Math.abs(

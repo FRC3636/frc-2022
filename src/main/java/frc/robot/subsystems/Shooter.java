@@ -3,22 +3,18 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class Shooter extends SubsystemBase {
 
     private final TalonFX bottomMotor, topMotor;
 
     private double topSetpoint, bottomSetpoint;
 
 
-    public ShooterSubsystem() {
+    public Shooter() {
         bottomMotor = new TalonFX(Constants.Shooter.BOTTOM);
         topMotor = new TalonFX(Constants.Shooter.TOP);
         bottomMotor.setInverted(true);

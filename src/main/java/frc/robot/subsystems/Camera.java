@@ -4,25 +4,19 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
-public class CameraSubsystem extends SubsystemBase {
+public class Camera extends SubsystemBase {
 
     private final NetworkTableEntry distance, angle;
 
     private Socket lightSocket = null;
 
-    public CameraSubsystem() {
+    public Camera() {
         super();
         distance = RobotContainer.cameraTable.getEntry("distance");
         angle = RobotContainer.cameraTable.getEntry("angle");

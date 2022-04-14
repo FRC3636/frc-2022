@@ -1,14 +1,14 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.shooter;
 
-import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.Shooter;
 
-public class RunShooterWithCameraCommand extends RunShooterWithDistanceCommand {
+public class RunShooterWithCamera extends RunShooterWithDistance {
 
-    private final CameraSubsystem camera;
+    private final Camera camera;
 
-    public RunShooterWithCameraCommand(ShooterSubsystem shooter, CameraSubsystem camera) {
+    public RunShooterWithCamera(Shooter shooter, Camera camera) {
         super(shooter, 0);
         this.camera = camera;
         addRequirements(camera);
