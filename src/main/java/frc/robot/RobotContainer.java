@@ -16,10 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.AutoIndex;
-import frc.robot.commands.PointAtGoal;
-import frc.robot.commands.UnloadConveyor;
+import frc.robot.commands.*;
 import frc.robot.commands.auto.AutoAimShootCommand;
 import frc.robot.commands.auto.AutoPathFollowing;
 import frc.robot.commands.auto.AutoShootFromDistanceCommand;
@@ -125,9 +122,6 @@ public class RobotContainer {
                 .whileHeld(
                         new RunShooterWithDistance(
                                 shooter, Units.feetToMeters(8))); // high
-        // hub
-        // from
-        // fender
 
         // Conveyor
         new Button(() -> joystickRight.getTrigger())
@@ -138,13 +132,12 @@ public class RobotContainer {
                         new RunCommand(() -> conveyor.run(Conveyor.Direction.Down), conveyor));
 
         new Button(() -> joystickLeft.getRawButton(2))
-                .whenPressed(() -> conveyor.setDefaultCommand(null)).whenReleased(() -> conveyor.setDefaultCommand(new AutoIndex(conveyor)));
-
+                .toggleWhenPressed(new RunCommand(() -> {}, conveyor));
         // Intake
         new Button(() -> controller.getRightBumper())
-                .whileHeld(new RunCommand(() -> intake.run(1), intake));
+                .whileHeld(new RunIntakeCommand(intake, 1));
         new Button(() -> controller.getLeftBumper())
-                .whileHeld(new RunCommand(() -> intake.run(-1), intake));
+                .whileHeld(new RunIntakeCommand(intake, -1));
 
 
         // Intake Actuation
@@ -289,7 +282,7 @@ public class RobotContainer {
                                         conveyor,
                                         camera,
                                         driveTrain),
-                                new RunCommand(() -> intake.run( -0.5), intake)
+                                new RunIntakeCommand(intake, -0.5 )
                                 )
                 );
         

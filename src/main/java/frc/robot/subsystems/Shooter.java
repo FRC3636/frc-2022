@@ -39,6 +39,8 @@ public class Shooter extends SubsystemBase {
 
         RobotContainer.shooterTab.addNumber("Top Shooter Setpoint", this::getTopSetpoint);
         RobotContainer.shooterTab.addNumber("Bottom Shooter Setpoint", this::getBottomSetpoint);
+
+        RobotContainer.driveSettings.addBoolean("Shooter Revved", this::atSetpoint);
     }
 
     public void stop() {
@@ -69,7 +71,7 @@ public class Shooter extends SubsystemBase {
         return bottomSetpoint;
     }
 
-    public boolean atSetSpeed() {
+    public boolean atSetpoint() {
         return Math.abs(topSetpoint - topMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM) < 50
                 && Math.abs(bottomSetpoint - bottomMotor.getSelectedSensorVelocity() * Constants.Shooter.VELOCITY_TO_RPM) < 50;
     }

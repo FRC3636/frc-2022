@@ -51,8 +51,6 @@ public class FollowTrajectoryCommand extends RamseteCommand {
 
         this.trajectory = trajectory;
 
-        //        driveTrain.resetOdometry(trajectory.getInitialPose());
-
         this.driveTrain = driveTrain;
         this.positionedCommands = positionedCommands;
     }
@@ -74,9 +72,6 @@ public class FollowTrajectoryCommand extends RamseteCommand {
             driveTrain.resetOdometry(trajectory.getInitialPose());
         }
         super.initialize();
-
-        RobotContainer.field.getRobotObject().setTrajectory(trajectory);
-
 
         try {
             Files.writeString(Paths.get("/home/lvuser/log.txt"), "", StandardOpenOption.CREATE);

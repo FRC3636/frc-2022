@@ -6,16 +6,20 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
+import java.util.ArrayList;
 
 public class Conveyor extends SubsystemBase {
     private final CANSparkMax conveyorMotor;
     private final DigitalInput beamBreak = new DigitalInput(Constants.Conveyor.BEAM_BREAK);
-
-    private AutoIndex autoIndex = AutoIndex.Enabled;
+    private final ArrayList<Double> conveyorCurrentHistory = new ArrayList<>();
 
     public Conveyor() {
         conveyorMotor = new CANSparkMax(Constants.Conveyor.MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
         conveyorMotor.setSmartCurrentLimit(20);
+
+        RobotContainer.driveSettings.addNumber("Conveyor Current", () -> getCurrentRollingAvg(Constants.Conveyor.CURRENT_SMA_PERIOD));
     }
 
     public void run(Direction direction) {
@@ -27,42 +31,14 @@ public class Conveyor extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (this.autoIndex == AutoIndex.Enabled) {
-            if(!beamBreak.get()) {
-                run(Conveyor.Direction.Up);
-            }
-            else {
-                stop();
-            }
-        }
-    }
+        conveyorCurrentHistory.add(getCurrent());
 
-    public void enableAutoIndex() {
-        if(autoIndex == AutoIndex.Disabled) {
-            this.autoIndex = AutoIndex.Enabled;
-        }
-    }
 
-    public void disableAutoIndex() {
-        if(autoIndex == AutoIndex.Enabled) {
-            this.autoIndex = AutoIndex.Disabled;
-        }
     }
-
-    public void toggleAutoIndex() {
-        this.autoIndex = autoIndex == AutoIndex.Enabled ? AutoIndex.Stopped : AutoIndex.Enabled;
-    }
-
 
     public enum Direction {
         Up,
         Down
-    }
-
-    public enum AutoIndex {
-        Enabled,
-        Disabled,
-        Stopped
     }
 
     public boolean getBeamBreak() {
@@ -71,5 +47,13 @@ public class Conveyor extends SubsystemBase {
 
     public double getCurrent() {
         return conveyorMotor.getOutputCurrent();
+    }
+
+    public double getCurrentRollingAvg(int period) {
+        if (period > conveyorCurrentHistory.size()) {
+            return 0;
+        }
+
+        return conveyorCurrentHistory.subList(conveyorCurrentHistory.size() - period, conveyorCurrentHistory.size()).stream().reduce(0.0, Double::sum) / period;
     }
 }

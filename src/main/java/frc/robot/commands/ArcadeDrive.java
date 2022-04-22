@@ -1,6 +1,7 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
@@ -12,6 +13,11 @@ public class ArcadeDrive extends CommandBase {
     public ArcadeDrive(DriveTrain driveTrain) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
+    }
+
+    @Override
+    public void initialize() {
+        driveTrain.setNeutralMode(NeutralMode.Coast);
     }
 
     @Override

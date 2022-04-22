@@ -33,10 +33,10 @@ public class DriveTrain extends SubsystemBase {
         rightMotor2.setInverted(true);
         leftMotor1.setInverted(false);
         leftMotor2.setInverted(false);
-        rightMotor1.enableVoltageCompensation(true);
-        rightMotor2.enableVoltageCompensation(true);
-        leftMotor1.enableVoltageCompensation(true);
-        leftMotor2.enableVoltageCompensation(true);
+//        rightMotor1.enableVoltageCompensation(true);
+//        rightMotor2.enableVoltageCompensation(true);
+//        leftMotor1.enableVoltageCompensation(true);
+//        leftMotor2.enableVoltageCompensation(true);
 
         setNeutralMode(NeutralMode.Coast);
 

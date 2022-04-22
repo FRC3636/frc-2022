@@ -13,6 +13,13 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final class Camera {
+        public static final double CAMERA_HEIGHT_METERS = 0.635;
+        public static final double GOAL_HEIGHT_METERS = 2.643;
+        public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(40);
+
+    }
+
     public static final class Controls {
         public static final int JOYSTICK_LEFT = 0;
         public static final int JOYSTICK_RIGHT = 1;
@@ -72,7 +79,8 @@ public final class Constants {
 
     public static final class Conveyor {
         public static final int MOTOR = 13;
-        public static final double CURRENT_THRESHOLD = 5;
+        public static final double CURRENT_THRESHOLD = 4.5;
+        public static final int CURRENT_SMA_PERIOD = 5;
         public static final int BEAM_BREAK = 1;
     }
 
@@ -84,10 +92,6 @@ public final class Constants {
 
         public static final int PIVOT_LIMIT_SWITCH_OUT = 3;
         public static final int PIVOT_LIMIT_SWITCH_IN = 4;
-    }
-
-    public static final class Camera {
-        public static final double LATENCY = 0.05;
     }
 
     public static final class Autonomous {
