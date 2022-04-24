@@ -4,7 +4,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -12,17 +16,16 @@ import java.net.UnknownHostException;
 
 public class Camera extends SubsystemBase {
 
-    private final NetworkTableEntry distance, angle;
+    private final PhotonCamera camera = new PhotonCamera("goalvision");
+
+    private double distanceToGoal = 0;
+    private double angleToGoal = 0;
 
     private Socket lightSocket = null;
 
     public Camera() {
-        super();
-        distance = RobotContainer.cameraTable.getEntry("distance");
-        angle = RobotContainer.cameraTable.getEntry("angle");
-
         RobotContainer.cameraTab.addNumber("Angle", this::getAngleToGoalDegrees);
-        RobotContainer.cameraTab.addNumber("Distance", this::getDistanceToFeet);
+        RobotContainer.cameraTab.addNumber("Distance", this::getDistanceToGoalInches);
 
         try {
             initializeLight();
@@ -32,20 +35,39 @@ public class Camera extends SubsystemBase {
     }
 
 
-    public double getDistanceToGoal() {
-        return distance.getDouble(0) * 1.1;
+    @Override
+    public void periodic() {
+        PhotonPipelineResult result = camera.getLatestResult();
+        if (result.hasTargets()) {
+            distanceToGoal = PhotonUtils.calculateDistanceToTargetMeters(
+                    Constants.Camera.CAMERA_HEIGHT_METERS,
+                    Constants.Camera.GOAL_HEIGHT_METERS,
+                    Constants.Camera.CAMERA_PITCH_RADIANS,
+                    Units.degreesToRadians(result.getBestTarget().getPitch())
+            );
+
+            angleToGoal = result.getBestTarget().getYaw();
+        }
+        else {
+            distanceToGoal = 0;
+            angleToGoal = 0;
+        }
     }
 
-    public double getDistanceToFeet() {
-        return Units.metersToInches(distance.getDouble(0));
+    public double getDistanceToGoal() {
+        return distanceToGoal;
+    }
+
+    public double getDistanceToGoalInches() {
+        return Units.metersToInches(getDistanceToGoal());
     }
 
     public double getAngleToGoalDegrees() {
-        return angle.getDouble(0);
+        return angleToGoal;
     }
 
-    public boolean hasResult() {
-        return angle.getDouble(0) != 0;
+    public boolean hasTarget() {
+        return camera.getLatestResult().hasTargets();
     }
 
     public void initializeLight() throws UnknownHostException, IOException {
@@ -61,6 +83,8 @@ public class Camera extends SubsystemBase {
             e.printStackTrace();
             try {
                 initializeLight();
+                lightSocket.getOutputStream().write('1');
+                lightSocket.getOutputStream().flush();
             } catch (Exception e1) {
                 System.err.println("WARN: failed to init light");
             }

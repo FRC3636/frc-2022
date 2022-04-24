@@ -17,7 +17,7 @@ public class AutoAimShootCommand extends ParallelDeadlineGroup {
             Camera camera,
             DriveTrain driveTrain) {
         super(
-                new UnloadConveyor(conveyor, shooter, camera),
+                new UnloadConveyor(conveyor, shooter, camera).asProxy(),
                 new PointAtGoal(driveTrain, camera),
                 new RunShooterWithCamera(shooter, camera));
     }

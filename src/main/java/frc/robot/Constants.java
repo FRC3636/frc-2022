@@ -79,7 +79,7 @@ public final class Constants {
 
     public static final class Conveyor {
         public static final int MOTOR = 13;
-        public static final double CURRENT_THRESHOLD = 4.5;
+        public static final double CURRENT_THRESHOLD = 4.4;
         public static final int CURRENT_SMA_PERIOD = 5;
         public static final int BEAM_BREAK = 1;
     }
