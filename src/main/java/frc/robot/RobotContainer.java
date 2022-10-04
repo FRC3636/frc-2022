@@ -121,7 +121,7 @@ public class RobotContainer {
         new Button(() -> controller.getXButton())
                 .whileHeld(
                         new RunShooterWithDistance(
-                                shooter, Units.feetToMeters(8))); // high
+                                shooter, Units.feetToMeters(30))); // high
 
         // Conveyor
         new Button(() -> joystickRight.getTrigger())

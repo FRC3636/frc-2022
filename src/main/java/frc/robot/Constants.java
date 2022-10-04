@@ -95,7 +95,7 @@ public final class Constants {
     }
 
     public static final class Autonomous {
-        public static final double TURN_KP = 0.3;
+        public static final double TURN_KP = 0.4;
         public static final double TURN_KI = 0;
         public static final double TURN_KD = 0.01;
     }
