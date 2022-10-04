@@ -4,7 +4,7 @@ pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
-        String frcYear = '2021'
+        String frcYear = '2022'
         File frcHome
         if (OperatingSystem.current().isWindows()) {
             String publicFolder = System.getenv('PUBLIC')
@@ -15,7 +15,7 @@ pluginManagement {
             frcHome = new File(homeRoot, frcYear)
         } else {
             def userFolder = System.getProperty("user.home")
-            def homeRoot = new File(userFolder, ".wpilib")
+            def homeRoot = new File(userFolder, "wpilib")
             frcHome = new File(homeRoot, frcYear)
         }
         def frcHomeMaven = new File(frcHome, 'maven')

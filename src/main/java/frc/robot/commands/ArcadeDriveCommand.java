@@ -3,12 +3,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
-
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.networktables.NetworkTable;
 
 public class ArcadeDriveCommand extends CommandBase {
 
     private final DriveTrainSubsystem driveTrain;
-
+    double turnSensitivity = 1;
+    double speedSensitivity = 1;
+    
     public ArcadeDriveCommand(DriveTrainSubsystem driveTrain) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
@@ -16,7 +19,8 @@ public class ArcadeDriveCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        RobotContainer.sensitivityTab.add("turn sensitivity", turnSensitivity).withWidget(BuiltInWidgets.kNumberBar);
+        RobotContainer.sensitivityTab.add("speed sensitivity", speedSensitivity).withWidget(BuiltInWidgets.kNumberBar);
     }
 
     @Override
@@ -24,15 +28,19 @@ public class ArcadeDriveCommand extends CommandBase {
         double speed = RobotContainer.joystickLeft.getY();
         double turn = RobotContainer.joystickRight.getX();
 
-        double speedSensitivity = RobotContainer.joystickLeft.getZ() + 2;
-        double turnSensitivity = RobotContainer.joystickRight.getZ() + 2;
+        System.out.println(speedSensitivity);
+        
 
-        driveTrain.arcadeDrive(speed / speedSensitivity, turn / turnSensitivity);
+        //double speedSensitivity = RobotContainer.joystickLeft.getZ() + RobotContainer.speedSensitivity.getDouble(0) + 2;
+        //double turnSensitivity = RobotContainer.joystickRight.getZ() + RobotContainer.turnSensitivity.getDouble(0) + 2;
+
+       
+
+        driveTrain.arcadeDrive(speed * speedSensitivity, turn * turnSensitivity);
     }
 
     @Override
     public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
         return false;
     }
 
