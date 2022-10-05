@@ -7,17 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.commands.TankDrive;
+import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 import java.util.Set;
 
@@ -32,20 +27,14 @@ public class RobotContainer {
   public static final ShuffleboardTab sensitivityTab = Shuffleboard.getTab("LiveWindow");
   public static Joystick joystickLeft;
   public static Joystick joystickRight;
-  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-  
-  
-  
-
-
-  private final ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
+  private final DriveTrain driveTrain = new DriveTrain();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
-    driveTrainSubsystem.setDefaultCommand(arcadeDriveCommand);
+    driveTrain.setDefaultCommand(new TankDrive(driveTrain));
   }
 
   /**
