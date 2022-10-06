@@ -19,13 +19,13 @@ public class ArcadeDrive extends CommandBase {
     @Override
     public void initialize() {
         turnSensitivity = RobotContainer.sensitivityTab.add("turn sensitivity", 1).withWidget(BuiltInWidgets.kNumberBar).getEntry();
-        turnSensitivity = RobotContainer.sensitivityTab.add("speed sensitivity", 1).withWidget(BuiltInWidgets.kNumberBar).getEntry();
+        speedSensitivity = RobotContainer.sensitivityTab.add("speed sensitivity", 1).withWidget(BuiltInWidgets.kNumberBar).getEntry();
     }
 
     @Override
     public void execute() {
         double speed = RobotContainer.joystickLeft.getY();
-        double turn = RobotContainer.joystickRight.getX();
+        double turn = RobotContainer.joystickRight.getX()*-1;
 
         System.out.println(speedSensitivity);
 

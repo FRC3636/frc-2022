@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -34,7 +35,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    driveTrain.setDefaultCommand(new TankDrive(driveTrain));
+    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
   }
 
   /**
