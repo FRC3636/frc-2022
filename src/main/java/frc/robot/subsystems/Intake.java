@@ -20,8 +20,10 @@ public class Intake extends SubsystemBase {
             new CANSparkMax(
                     Constants.Intake.ACTUATION_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    private final DigitalInput limitSwitch =
-            new DigitalInput(Constants.Intake.ACTUATION_LIMIT_SWITCH);
+    private final DigitalInput limitSwitch1 =
+            new DigitalInput(Constants.Intake.ACTUATION_LIMIT_SWITCH_1);
+    private final DigitalInput limitSwitch2 =
+            new DigitalInput(Constants.Intake.ACTUATION_LIMIT_SWITCH_2);
 
     private Position position = Position.Up;
 
@@ -37,13 +39,13 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         if (position == Position.Up) {
-            if (!limitSwitch.get()) {
+            if (!limitSwitch1.get() || !limitSwitch2.get()) {
                 actuationMotor.getEncoder().setPosition(0);
                 actuationMotor.set(0);
                 position = Position.HoldUp;
                 actuationMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
             } else {
-                actuationMotor.set(0.3);
+                actuationMotor.set(0.27);
             }
         } else if (position == Position.Down
                 && Math.abs(
@@ -54,10 +56,11 @@ public class Intake extends SubsystemBase {
             actuationMotor.set(-0.2);
         }
         else if (position == Position.HoldUp) {
-            if (!limitSwitch.get()) {
+            if (!limitSwitch1.get() || !limitSwitch2.get()) {
                 actuationMotor.getEncoder().setPosition(0);
                 actuationMotor.set(0);
             } else {
+                System.out.println("false");
                 actuationMotor.set(0.1);
             }
         }

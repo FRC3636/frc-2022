@@ -13,7 +13,7 @@ import frc.robot.subsystems.Shooter;
 public class AutoPathFollowing extends ParallelDeadlineGroup {
 
     public AutoPathFollowing(DriveTrain driveTrain, Intake intake, Shooter shooter, Camera camera, String pathname, boolean resetOdometry) {
-        this(driveTrain, intake, shooter, camera, pathname, resetOdometry, 5,1.4);
+        this(driveTrain, intake, shooter, camera, pathname, resetOdometry, 5,1);
     }
 
     public AutoPathFollowing(DriveTrain driveTrain, Intake intake, Shooter shooter, Camera camera, String pathname, boolean resetOdometry, double maxVel, double maxAccel) {

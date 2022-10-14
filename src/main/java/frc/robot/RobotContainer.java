@@ -200,6 +200,8 @@ public class RobotContainer {
                                 camera,
                                 driveTrain));
             case "three_ball":
+                driveTrain.resetOdometry(PathPlanner.loadPath(String.format(
+                        "three_ball.%s", startingPositionChooser.getSelected()), 2, 1).getInitialPose());
                 return new SequentialCommandGroup(
                         new WaitCommand(delay.getDouble(0)),
                         new AutoAimShootCommand(

@@ -13,27 +13,29 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.SQLOutput;
 
 public class Camera extends SubsystemBase {
 
-    private final PhotonCamera camera = new PhotonCamera("goalvision");
-
+    private final PhotonCamera camera;
     private double distanceToGoal = 0;
     private double angleToGoal = 0;
 
     private Socket lightSocket = null;
 
     public Camera() {
-        RobotContainer.cameraTab.addNumber("Angle", this::getAngleToGoalDegrees);
-        RobotContainer.cameraTab.addNumber("Distance", this::getDistanceToGoalInches);
+        RobotContainer.cameraTab.addNumber("Angle (deg)", this::getAngleToGoalDegrees);
+        RobotContainer.cameraTab.addNumber("Distance (in)", this::getDistanceToGoalInches);
 
         try {
             initializeLight();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
+        camera = new PhotonCamera("goalvision");
+        camera.setDriverMode(false);
+    }
 
     @Override
     public void periodic() {
