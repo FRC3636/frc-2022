@@ -1,19 +1,19 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "1038",
+      "height": "1048",
       "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "945",
-      "xpos": "965",
-      "ypos": "10"
+      "width": "1920",
+      "xpos": "0",
+      "ypos": "0"
     }
   },
   "Window": {
     "###/Shuffleboard/Auto/Field": {
       "Collapsed": "0",
-      "Pos": "243,469",
+      "Pos": "248,479",
       "Size": "653,416"
     },
     "###/Shuffleboard/Auto/Mode": {
@@ -38,7 +38,7 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "242,294",
+      "Pos": "926,720",
       "Size": "796,155"
     },
     "###NetworkTables": {
