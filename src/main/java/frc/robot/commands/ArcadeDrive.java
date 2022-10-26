@@ -3,6 +3,7 @@ package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.DriveConfig;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
@@ -22,18 +23,16 @@ public class ArcadeDrive extends CommandBase {
 
     @Override
     public void execute() {
+        DriveConfig config = DriveConfig.getCurrent();
+
         double speed = RobotContainer.joystickLeft.getY();
         double turn = RobotContainer.joystickRight.getX();
-
-        double speedSensitivity = 1;
-        double turnSensitivity = 2.9;
-
 
         if(RobotContainer.joystickLeft.getRawButton(3)) {
             driveTrain.stop();
         }
         else {
-            driveTrain.arcadeDrive(speed / speedSensitivity, turn / turnSensitivity);
+            driveTrain.arcadeDrive(speed / config.getSpeedSensitivity(), turn / config.getTurnSensitivity());
         }
     }
 

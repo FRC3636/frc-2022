@@ -34,6 +34,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     // Shuffleboard tabs
     public static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
+    public static SendableChooser<String> drivePresetsChooser;
     public static final ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     public static final ShuffleboardTab cameraTab = Shuffleboard.getTab("Camera");
@@ -75,6 +76,12 @@ public class RobotContainer {
 
         driveTrain.setDefaultCommand(ARCADE_DRIVE);
         conveyor.setDefaultCommand(new AutoIndex(conveyor));
+
+        drivePresetsChooser = new SendableChooser<String>();
+        drivePresetsChooser.addOption("Jude", "jude");
+        drivePresetsChooser.addOption("Person 2", "person_2");
+        driveSettings.add("Drive Presets", drivePresetsChooser)
+                .withWidget(BuiltInWidgets.kComboBoxChooser);
 
         // Auto choices
         startingPositionChooser = new SendableChooser<String>();
