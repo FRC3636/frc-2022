@@ -54,8 +54,8 @@ public final class Constants {
     }
 
     public static final class Shooter {
-        public static final int BOTTOM = 8;
-        public static final int TOP = 9;
+        public static final int BOTTOM = 9;
+        public static final int TOP = 5;
         public static final double VELOCITY_TO_RPM = 600 / 2048f;
 
         public static final double TOP_P = 0.01;
@@ -69,8 +69,8 @@ public final class Constants {
     }
 
     public static final class Intake {
-        public static final int MOTOR = 10;
-        public static final int ACTUATION_MOTOR = 12;
+        public static final int MOTOR = 6;
+        public static final int ACTUATION_MOTOR = 21;
 
         public static final int ACTUATION_LIMIT_SWITCH_1 = 2;
         public static final int ACTUATION_LIMIT_SWITCH_2 = 5;
@@ -79,7 +79,7 @@ public final class Constants {
     }
 
     public static final class Conveyor {
-        public static final int MOTOR = 13;
+        public static final int MOTOR = 22;
         public static final double CURRENT_THRESHOLD = 4.4;
         public static final int CURRENT_SMA_PERIOD = 5;
         public static final int BEAM_BREAK = 1;
