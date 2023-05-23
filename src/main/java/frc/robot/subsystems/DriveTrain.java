@@ -17,7 +17,7 @@ public class DriveTrain extends SubsystemBase {
     private final WPI_TalonFX leftMotor1, leftMotor2, rightMotor1, rightMotor2;
 
     private final DifferentialDriveOdometry odometry =
-            new DifferentialDriveOdometry(new Rotation2d(), new Pose2d());
+            new DifferentialDriveOdometry(new Rotation2d(), 0, 0);
     private final AHRS navX = new AHRS();
 
     public DriveTrain() {
@@ -79,7 +79,7 @@ public class DriveTrain extends SubsystemBase {
 
     public void resetOdometry(Pose2d pose) {
         resetEncoders();
-        odometry.resetPosition(pose, navX.getRotation2d());
+        odometry.resetPosition(navX.getRotation2d(), leftMotor1.getSelectedSensorPosition(), rightMotor1.getSelectedSensorPosition(), pose);
     }
 
     public void tankDriveVolts(double left, double right) {

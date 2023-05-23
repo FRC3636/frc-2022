@@ -3,6 +3,7 @@ package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -41,18 +42,18 @@ public class RobotContainer {
     public static final NetworkTable cameraTable =
             NetworkTableInstance.getDefault().getTable("Camera");
 
-    private static final NetworkTableEntry bottomShooterSpeed =
+    private static final GenericEntry bottomShooterSpeed =
             shooterTab.add("Bottom Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    private static final NetworkTableEntry topShooterSpeed =
+    private static final GenericEntry topShooterSpeed =
             shooterTab.add("Top Shooter", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
 
     // Drive settings
-    public static final NetworkTableEntry controllerRumble =
+    public static final GenericEntry controllerRumble =
             driveSettings.add("Rumble", true).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
     private static SendableChooser<String> autoModeChooser;
     private static SendableChooser<String> startingPositionChooser;
-    private static NetworkTableEntry delay = autoTab.add("Delay", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+    private static GenericEntry delay = autoTab.add("Delay", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
     public static Field2d field = new Field2d();
 
     public static Joystick joystickLeft;

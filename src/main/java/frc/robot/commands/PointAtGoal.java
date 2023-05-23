@@ -2,6 +2,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -18,7 +19,7 @@ public class PointAtGoal extends CommandBase {
 
     private final PIDController pidController = new PIDController(Autonomous.TURN_KP, Autonomous.TURN_KI, Autonomous.TURN_KD);
 
-    private static NetworkTableEntry setTurn = RobotContainer.cameraTab.add("Turn Distance", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+    private static GenericEntry setTurn = RobotContainer.cameraTab.add("Turn Distance", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
 //    private static NetworkTableEntry maxOutput = RobotContainer.cameraTab.add("Max Output", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
 
     public PointAtGoal(DriveTrain driveTrain, Camera camera) {
