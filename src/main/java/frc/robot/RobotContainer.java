@@ -126,10 +126,10 @@ public class RobotContainer {
                 .whileHeld(
                         new RunShooterPreset(
                                 shooter, 1700, 700)); // low hub from fender
-        // new Button(() -> controller.getXButton())
-        //         .whileHeld(
-        //                 new RunShooterWithDistance(
-        //                         shooter, Units.feetToMeters(30))); // high
+        new Button(() -> controller.getXButton())
+                .whileHeld(
+                        new RunShooterWithDistance(
+                                shooter, Units.feetToMeters(10))); // high
 
         // Conveyor
         new Button(() -> joystickRight.getTrigger())

@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void run(double direction) {
-        intakeMotor.set(TalonFXControlMode.PercentOutput, direction);
+        intakeMotor.set(TalonFXControlMode.PercentOutput, direction * 0.5);
     }
 
     @Override
