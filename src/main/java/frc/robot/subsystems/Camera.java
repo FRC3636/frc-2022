@@ -57,7 +57,7 @@ public class Camera extends SubsystemBase {
     }
 
     public double getDistanceToGoal() {
-        return distanceToGoal;
+        return 0;
     }
 
     public double getDistanceToGoalInches() {

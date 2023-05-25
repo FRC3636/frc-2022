@@ -126,10 +126,10 @@ public class RobotContainer {
                 .whileHeld(
                         new RunShooterPreset(
                                 shooter, 1700, 700)); // low hub from fender
-        new Button(() -> controller.getXButton())
-                .whileHeld(
-                        new RunShooterWithDistance(
-                                shooter, Units.feetToMeters(30))); // high
+        // new Button(() -> controller.getXButton())
+        //         .whileHeld(
+        //                 new RunShooterWithDistance(
+        //                         shooter, Units.feetToMeters(30))); // high
 
         // Conveyor
         new Button(() -> joystickRight.getTrigger())
@@ -164,23 +164,25 @@ public class RobotContainer {
                     intake.setIntakeDown();
                     intake.setIntakeLocked(true);
                 });
+        
 
         // Climb
-        new Button(() -> controller.getYButton())
-                .toggleWhenPressed(new RunCommand(() -> climb.runClimb(RobotContainer.controller.getLeftY(), RobotContainer.controller.getRightX()), climb));
+        // new Button(() -> controller.getYButton())
+        //         .toggleWhenPressed(new RunCommand(() -> climb.runClimb(RobotContainer.controller.getLeftY(), RobotContainer.controller.getRightX()), climb));
 
-        // Auto Aiming
-        new Button(() -> joystickRight.getRawButton(2))
-                .whileHeld(new PointAtGoal(driveTrain, camera));
+        // // Auto Aiming
+        // new Button(() -> joystickRight.getRawButton(2))
+        //         .whileHeld(new PointAtGoal(driveTrain, camera));
 
-        new Button(() -> joystickRight.getRawButton(4))
-                .whileHeld(new AutoAimShootCommand(shooter, conveyor, camera, driveTrain));
+        // new Button(() -> joystickRight.getRawButton(4))
+        //         .whileHeld(new AutoAimShootCommand(shooter, conveyor, camera, driveTrain));
 
-        new Button(() -> joystickLeft.getRawButton(4))
-                .whenPressed(new UnloadConveyor(conveyor, shooter, camera));
+        // new Button(() -> joystickLeft.getRawButton(4))
+        //         .whenPressed(new UnloadConveyor(conveyor, shooter, camera));
     }
 
     /**
+     * +
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
