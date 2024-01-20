@@ -4,7 +4,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.util.CircularBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Camera;
@@ -12,7 +12,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Shooter;
 
 
-public class UnloadConveyor extends CommandBase {
+public class UnloadConveyor extends Command {
 
     private final Shooter shooter;
     private final Camera camera;

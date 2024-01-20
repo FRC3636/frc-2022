@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Conveyor;
 
-public class AutoIndex extends CommandBase {
+public class AutoIndex extends Command {
 
     Conveyor conveyor;
 

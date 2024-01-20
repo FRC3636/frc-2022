@@ -2,10 +2,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Conveyor;
 
-public class RunConveyorForSetTime extends CommandBase {
+public class RunConveyorForSetTime extends Command {
 
     private Timer timer;
     private final Conveyor conveyor;

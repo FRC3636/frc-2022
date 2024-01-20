@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 
-public class RunIntakeCommand extends CommandBase {
+public class RunIntakeCommand extends Command {
 
     Intake intake;
     double direction;

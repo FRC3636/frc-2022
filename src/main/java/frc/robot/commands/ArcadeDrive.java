@@ -2,12 +2,12 @@
 package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DriveConfig;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
-public class ArcadeDrive extends CommandBase {
+public class ArcadeDrive extends Command {
 
     private final DriveTrain driveTrain;
 

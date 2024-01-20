@@ -5,14 +5,14 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveTrain;
 
 import static frc.robot.Constants.Autonomous;
 
-public class PointAtGoal extends CommandBase {
+public class PointAtGoal extends Command {
 
     private final Camera camera;
     private final DriveTrain driveTrain;

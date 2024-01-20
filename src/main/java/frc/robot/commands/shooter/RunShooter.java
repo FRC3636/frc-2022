@@ -1,10 +1,10 @@
 /* (C)2022 Max Niederman, Silas Gagnon, and contributors */
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
-public class RunShooter extends CommandBase {
+public class RunShooter extends Command {
 
     protected final Shooter shooter;
 
