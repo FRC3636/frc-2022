@@ -9,6 +9,7 @@ public class DriveConfig {
     static {
         PRESETS.put("jude", new DriveConfig(1, 2.9));
         PRESETS.put("person_2", new DriveConfig(0.7, 2));
+        PRESETS.put("mid_sch", new DriveConfig(2, 3));
     }
 
     public static DriveConfig getPreset(String string) {

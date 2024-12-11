@@ -82,6 +82,7 @@ public class RobotContainer {
         drivePresetsChooser = new SendableChooser<String>();
         drivePresetsChooser.addOption("Jude", "jude");
         drivePresetsChooser.addOption("Person 2", "person_2");
+        drivePresetsChooser.addOption("Middle Schooler Friendly", "mid_sch");
         driveSettings.add("Drive Presets", drivePresetsChooser)
                 .withWidget(BuiltInWidgets.kComboBoxChooser);
 
